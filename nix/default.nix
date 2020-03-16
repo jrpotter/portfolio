@@ -1,4 +1,6 @@
-{ reflex-platform ? import ./reflex-platform.nix {} }:
+{ bootstrap ? import <nixpkgs> {}
+, reflex-platform ? import ./reflex-platform.nix {}
+}:
 reflex-platform.project ({ pkgs, ... }: {
   packages = {
     common = ../common;

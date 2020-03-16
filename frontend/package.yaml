@@ -5,6 +5,7 @@ default-extensions:     NoImplicitPrelude
 dependencies:
   - base
   - common
+  - postlude
   - reflex-dom
 
 executables:
