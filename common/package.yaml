@@ -4,7 +4,6 @@ default-extensions:     NoImplicitPrelude
 
 dependencies:
   - base
-  - common
 
 library:
   source-dirs: src
