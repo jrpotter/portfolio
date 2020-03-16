@@ -1,0 +1,12 @@
+name:                   frontend
+version:                0.1.0.0
+default-extensions:     NoImplicitPrelude
+
+dependencies:
+  - base
+  - common
+  - reflex-dom
+
+executables:
+  frontend:
+    main: Main.hs

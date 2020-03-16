@@ -1,0 +1,11 @@
+name:                   backend
+version:                0.1.0.0
+default-extensions:     NoImplicitPrelude
+
+dependencies:
+  - base
+  - common
+
+executables:
+  backend:
+    main: Main.hs
