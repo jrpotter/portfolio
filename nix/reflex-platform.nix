@@ -6,10 +6,5 @@ let
     rev = "156ebb7c391ec909d19e794e591f107462862543";
     sha256 = "0rvbaimcvcica80538i6vxckv8si1gbd1ynvgxv7zr5jd1gk6vi5";
   };
-  postlude = self: super: {
-    postlude = super.haskell.packages.ghc865.callPackage ./postlude.nix {};
-  };
 in
-  import reflex-platform {
-    nixpkgsOverlays = [ postlude ];
-  }
+  import reflex-platform {}
