@@ -1,46 +1,51 @@
 # Portfolio
 
-This is a reflex-frp application used for my personal portfolio.
+Functional programming as a general programming paradigm is very powerful and
+should be a tool more people are willing to grab. Unfortunately, despite what
+people may claim to the contrary, it is often unwieldy and confusing. I find
+myself coming back to Haskell in particular every couple of years out of
+curiousity and the desire for a better tool in my general day-to-day work, but
+find that I've forgotten a lot of what I had learned in the interim.
 
-## Organization
+This project is meant to serve as an excuse for me to keep coming back and
+learning more in the functional ecosystem over time, as opposed to in sharp
+bursts when other work that has occupied my time slows. A blog seems
+like a fitting project for this purpose since I imagine what capabilities I want
+my backend/frontend to exhibit depend on what I'm interested in posting about,
+forcing myself to continue learning.
 
-Our project uses GHCJS and as such is organized in three subprojects. First, we
-have the `backend`, which we use traditional GHC to build. Second, we have the
-`frontend`, which has the GHCJS code we want to convert into javascript. Lastly
-we have the `common` project which we use to share code between the `backend`
-and `frontend`.
+This is not my first time trying to start up a portfolio site and by no means do
+I have enough confidence to say this time it'll stick. I'd like it to though, so
+here goes nothing.
 
-We use `nix` to perform our builds and `cabal` for incremental building (since
-`nix` does not support such a notion).
+# Organization
 
-## Nix
+The `backend` subproject uses [servant](https://www.servant.dev/) to serve
+content. The `frontend` project uses [reflex-frp](https://reflex-frp.org/) (and
+GHCJS under the hood) to compile Haskell to Javascript for SPA purposes. The
+`common` subproject will include code I look to share between the backend and
+frontend. Note the organization here is inline with the recommendations included
+in the `reflex-frp/reflex-platform`
+[instructions](https://github.com/reflex-frp/reflex-platform/blob/develop/docs/project-development.md).
 
-Before building, you should examine the `nix` subdirectory. Here you'll see the
-`default.nix` file and `reflex-platform.nix` file. The latter is a nixification
-of the `reflex-platform` project, with
-[instructions](https://github.com/reflex-frp/reflex-platform/blob/develop/docs/project-development.md)
-we mostly followed to bootstrap this project.
+We use nix for package management but cabal within a `nix-shell` for incremental
+building. Fortunately, `reflex-frp` includes a helpful template for using `nix`
+in `reflex` projects. Further details are included in the `nix/default.nix`
+file.
 
-## Building
-
-Because `nix` does not support incremental building, we use the `shells` field
-to setup `nix-shell` sandboxes that `cabal` can use to build the projects. The
-`cabal.project` files are used to configure how `cabal` builds our local
-project.
-
-To build with GHC, we run:
+To develop locally, run the following:
 
 ```
 nix-shell nix/default.nix -A shells.ghc
 cabal build
 ```
 
-and likewise, to run with GHCJS, we run
+To build for deployment, we leave the `nix-shell` and `nix-build` directly:
 
 ```
-nix-shell nix/default.nix -A shells.ghcjs
-cabal \
-  --project-file=cabal-ghcjs.project \
-  --builddir=dist-ghcjs \
-  build
+nix-build nix/default.nix -o dist-backend -A ghc.backend
+nix-build nix/default.nix -o dist-frontend -A ghcjs.frontend
 ```
+
+This compiles a standard Haskell binary in the case of the backend and a full
+GHC-runtime compiled into Javascript in the case of the frontend.
