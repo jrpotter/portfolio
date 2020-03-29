@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 84cff0278292ba27330119d8abd12cf9f30a3aa8776eeedfd2a5a2aba7d69207
+-- hash: 5dc941f2a45ee18225ac39834b366c25f5861f27d78f5b5c155ee3c4f911295c
 
 name:                frontend
 version:             0.1.0.0
@@ -14,10 +14,14 @@ executable frontend
   main-is: Main.hs
   other-modules:
       Paths_frontend
+  hs-source-dirs:
+      app
   default-extensions: NoImplicitPrelude
   build-depends:
       base
     , common
+    , containers
     , postlude
     , reflex-dom
+    , text
   default-language: Haskell2010

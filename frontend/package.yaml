@@ -5,9 +5,13 @@ default-extensions:     NoImplicitPrelude
 dependencies:
   - base
   - common
+  - containers
   - postlude
   - reflex-dom
+  - text
 
 executables:
   frontend:
     main: Main.hs
+    source-dirs:
+      - app
