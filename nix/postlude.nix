@@ -5,9 +5,9 @@ mkDerivation {
   pname = "postlude";
   version = "0.1.2.0";
   src = fetchgit {
-    url = "https://github.com/jrpotter/postlude.git";
-    sha256 = "1xw3jwlc0alby3cvldmhz04irjdb0s04c93nndsfcrx1vcppl0i2";
-    rev = "55221d4ebee4692a0e283c10bbd6560b84eee8ad";
+    url = "https://www.github.com/jrpotter/postlude.git";
+    sha256 = "1nvxkcqlwy8cqcgdlxj5gwlk0wbhnl32k690ynrzp6apnna6pw78";
+    rev = "2ad6b67069dcf1d0e1624a505278eef0626e966e";
     fetchSubmodules = true;
   };
   libraryHaskellDepends = [
