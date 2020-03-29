@@ -1,0 +1,9 @@
+name:                   common
+version:                0.1.0.0
+default-extensions:     NoImplicitPrelude
+
+dependencies:
+  - base
+
+library:
+  source-dirs: src
