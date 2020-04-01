@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 1270e16f1c1c1ad5f1e050b3496a0095bf6ea2f21ae09510a0ee2ec70766d479
+-- hash: a8cf0f7592d5a3797ca938dea8d7e4b0e223609ebbf8e7c62c2dce269fe71ce2
 
 name:                backend
 version:             0.1.0.0
@@ -13,9 +13,20 @@ build-type:          Simple
 executable backend
   main-is: Main.hs
   other-modules:
+      Portfolio.Prerender
+      Portfolio.Static
       Paths_backend
+  hs-source-dirs:
+      app
+      src
   default-extensions: NoImplicitPrelude
   build-depends:
       base
     , common
+    , lucid
+    , postlude
+    , servant-lucid
+    , servant-server
+    , text
+    , warp
   default-language: Haskell2010

@@ -5,7 +5,16 @@ default-extensions:     NoImplicitPrelude
 dependencies:
   - base
   - common
+  - lucid
+  - postlude
+  - servant-lucid
+  - servant-server
+  - text
+  - warp
 
 executables:
   backend:
     main: Main.hs
+    source-dirs:
+      - app
+      - src
