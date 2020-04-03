@@ -1,0 +1,1 @@
+../../dist-frontend/bin/frontend.jsexe/out.js

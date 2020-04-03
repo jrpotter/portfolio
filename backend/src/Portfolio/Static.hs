@@ -20,8 +20,8 @@ import Servant ((:>))
 import qualified Servant
 --------------------------------------------------------------------------------
 
-type StaticAPI = "dist" :> Servant.Raw
+type StaticAPI = "static" :> Servant.Raw
 
 staticServer :: Servant.Server StaticAPI
 staticServer = Servant.serveDirectoryWebApp
-  "/home/jrpotter/Documents/portfolio/backend/dist/"
+  "/home/jrpotter/Documents/portfolio/backend/static/"

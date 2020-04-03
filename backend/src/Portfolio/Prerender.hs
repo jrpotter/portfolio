@@ -33,7 +33,7 @@ prerenderServer :: Servant.Server PrerenderAPI
 prerenderServer = return $ doctypehtml_ $ do
   head_ $ do
     title_ "FuzzyKayak"
-    script_ [src_ "dist/rts.js"] ("" :: Text.Text)
-    script_ [src_ "dist/lib.js"] ("" :: Text.Text)
-    script_ [src_ "dist/out.js"] ("" :: Text.Text)
+    script_ [src_ "static/rts.js"] ("" :: Text.Text)
+    script_ [src_ "static/lib.js"] ("" :: Text.Text)
+    script_ [src_ "static/out.js"] ("" :: Text.Text)
   body_ ""
