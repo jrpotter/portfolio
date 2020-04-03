@@ -36,4 +36,4 @@ prerenderServer = return $ doctypehtml_ $ do
     script_ [src_ "static/rts.js"] ("" :: Text.Text)
     script_ [src_ "static/lib.js"] ("" :: Text.Text)
     script_ [src_ "static/out.js"] ("" :: Text.Text)
-  body_ ""
+  body_ $ script_ "h$main(h$mainZCMainzimain);"
