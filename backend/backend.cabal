@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: a8cf0f7592d5a3797ca938dea8d7e4b0e223609ebbf8e7c62c2dce269fe71ce2
+-- hash: 9693bf1eb232d4d7bfa5b63e392b7d6f899fa6810e01e32a9e78ca1ed7ace353
 
 name:                backend
 version:             0.1.0.0
@@ -13,8 +13,9 @@ build-type:          Simple
 executable backend
   main-is: Main.hs
   other-modules:
-      Portfolio.Prerender
-      Portfolio.Static
+      Portfolio.Model.Post
+      Portfolio.Site.Prerender
+      Portfolio.Site.Static
       Paths_backend
   hs-source-dirs:
       app
@@ -24,9 +25,12 @@ executable backend
       base
     , common
     , lucid
+    , opaleye
     , postlude
+    , product-profunctors
     , servant-lucid
     , servant-server
     , text
+    , time
     , warp
   default-language: Haskell2010

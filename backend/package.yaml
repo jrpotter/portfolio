@@ -6,10 +6,13 @@ dependencies:
   - base
   - common
   - lucid
+  - opaleye
   - postlude
+  - product-profunctors
   - servant-lucid
   - servant-server
   - text
+  - time
   - warp
 
 executables:

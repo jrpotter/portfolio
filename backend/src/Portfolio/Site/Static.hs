@@ -8,7 +8,7 @@ Servant API meant to serve static files.
 
 -}
 
-module Portfolio.Static
+module Portfolio.Site.Static
 ( StaticAPI (..)
 , staticServer
 ) where

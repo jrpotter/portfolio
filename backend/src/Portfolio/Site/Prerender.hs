@@ -12,7 +12,7 @@ and processed.
 
 -}
 
-module Portfolio.Prerender
+module Portfolio.Site.Prerender
 ( PrerenderAPI (..)
 , prerenderServer
 ) where

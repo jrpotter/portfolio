@@ -6,8 +6,8 @@ module Main where
 
 --------------------------------------------------------------------------------
 import Postlude
-import Portfolio.Prerender
-import Portfolio.Static
+import Portfolio.Site.Prerender
+import Portfolio.Site.Static
 import Servant ((:<|>))
 
 import qualified Network.Wai.Handler.Warp as Warp
