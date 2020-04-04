@@ -3,10 +3,12 @@ version:                0.1.0.0
 default-extensions:     NoImplicitPrelude
 
 dependencies:
+  - aeson
   - base
   - common
   - lucid
   - opaleye
+  - postgresql-simple
   - postlude
   - product-profunctors
   - servant-lucid

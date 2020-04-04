@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 9693bf1eb232d4d7bfa5b63e392b7d6f899fa6810e01e32a9e78ca1ed7ace353
+-- hash: 0566345c77fd0053e6abc6adb50ef79c159d585e4697046813ef5f8deb00a031
 
 name:                backend
 version:             0.1.0.0
@@ -13,7 +13,9 @@ build-type:          Simple
 executable backend
   main-is: Main.hs
   other-modules:
+      Portfolio.Config
       Portfolio.Model.Post
+      Portfolio.Site.Post
       Portfolio.Site.Prerender
       Portfolio.Site.Static
       Paths_backend
@@ -22,10 +24,12 @@ executable backend
       src
   default-extensions: NoImplicitPrelude
   build-depends:
-      base
+      aeson
+    , base
     , common
     , lucid
     , opaleye
+    , postgresql-simple
     , postlude
     , product-profunctors
     , servant-lucid

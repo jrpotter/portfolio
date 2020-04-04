@@ -20,6 +20,7 @@ module Portfolio.Site.Prerender
 --------------------------------------------------------------------------------
 import Lucid
 import Lucid.Html5
+import Portfolio.Config
 import Postlude
 
 import qualified Data.Text as Text
@@ -29,8 +30,8 @@ import qualified Servant.HTML.Lucid as Lucid
 
 type PrerenderAPI = Servant.Get '[Lucid.HTML] (Html ())
 
-prerenderServer :: Servant.Server PrerenderAPI
-prerenderServer = return $ doctypehtml_ $ do
+prerenderServer :: ReaderT Config IO (Servant.Server PrerenderAPI)
+prerenderServer = return $ return $ doctypehtml_ $ do
   head_ $ do
     title_ "FuzzyKayak"
     script_ [src_ "static/rts.js"] ("" :: Text.Text)

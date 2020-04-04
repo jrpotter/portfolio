@@ -1,18 +1,40 @@
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE RecordWildCards #-}
 {-# LANGUAGE TemplateHaskell #-}
 
+{-
+ 
+Represents the `Post` instance that exists within the database.
+
+Contains methods used to query these posts.
+
+TODO(jrpotter): Order fields by publish date. This doesn't really matter
+currently since we currently have just one post.
+
+TODO(jrpotter): Break this up so we can appropriately paginate. Again doesn't
+matter currently since we have just the one post.
+
+-}
+
 module Portfolio.Model.Post
-( postTable
+( Post (..)
+, Post' (..)
+, getPosts
+, postTable
 ) where
 
 --------------------------------------------------------------------------------
+import Data.Aeson ((.=))
 import Postlude
 
-import qualified Data.Profunctor.Product.TH as TH
+import qualified Data.Aeson as Aeson
 import qualified Data.Profunctor.Product as Product
+import qualified Data.Profunctor.Product.TH as TH
 import qualified Data.Text as Text
 import qualified Data.Time.Clock as Clock
+import qualified Database.PostgreSQL.Simple as Simple
 import qualified Opaleye
 --------------------------------------------------------------------------------
 
@@ -70,3 +92,21 @@ postTable = Opaleye.table "post" $ pPost Post
   , _postUpdatedAt = Opaleye.tableField "updated_at"
   , _postSnippet = Opaleye.tableField "snippet"
   }
+
+-- | A plain query used to pull out all of our posts.
+postQuery :: Opaleye.Select PostField
+postQuery = Opaleye.selectTable postTable
+
+-- | Shortcut for retrieving all of the posts from the database.
+getPosts :: Simple.Connection -> IO [Post]
+getPosts conn = Opaleye.runSelect conn postQuery
+
+-- | Set `ToJSON` instance for deserialization purposes.
+instance Aeson.ToJSON Post where
+  toJSON Post {..} = Aeson.object
+    [ "title" .= _postTitle
+    , "slug" .= _postSlug
+    , "published_at" .= _postPublishedAt
+    , "updated_at" .= _postUpdatedAt
+    , "snippet" .= _postSnippet
+    ]

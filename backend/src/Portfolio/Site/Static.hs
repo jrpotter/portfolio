@@ -14,6 +14,7 @@ module Portfolio.Site.Static
 ) where
 
 --------------------------------------------------------------------------------
+import Portfolio.Config
 import Postlude
 import Servant ((:>))
 
@@ -22,6 +23,6 @@ import qualified Servant
 
 type StaticAPI = "static" :> Servant.Raw
 
-staticServer :: Servant.Server StaticAPI
-staticServer = Servant.serveDirectoryWebApp
+staticServer :: ReaderT Config IO (Servant.Server StaticAPI)
+staticServer = return $ Servant.serveDirectoryWebApp
   "/home/jrpotter/Documents/portfolio/backend/static/"
