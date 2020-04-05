@@ -6,7 +6,7 @@
 Convenience methods for generating SVG from Reflex.
 
 By default, Reflex does not provide any functionality. In addition, these
-elements must be dfeined relative to the SVG namespace.
+elements must be defined relative to the SVG namespace.
 
 This code was slightly adapted from:
 https://github.com/reflex-frp/reflex-dom-contrib/blob/master/src/Reflex/Dom/Contrib/Widgets/Svg.hs

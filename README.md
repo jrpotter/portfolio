@@ -4,7 +4,7 @@ Functional programming as a general programming paradigm is very powerful and
 should be a tool more people are willing to grab. Unfortunately, despite what
 people may claim to the contrary, it is often unwieldy and confusing. I find
 myself coming back to Haskell in particular every couple of years out of
-curiousity and the desire for a better tool in my general day-to-day work, but
+curiosity and the desire for a better tool in my general day-to-day work, but
 find that I've forgotten a lot of what I had learned in the interim.
 
 This project is meant to serve as an excuse for me to keep coming back and
