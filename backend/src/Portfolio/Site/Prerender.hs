@@ -1,7 +1,7 @@
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-{-
+{-|
 
 Servant API meant to serve our HTML landing page.
 

@@ -4,7 +4,7 @@
 {-# LANGUAGE RecordWildCards #-}
 {-# LANGUAGE TemplateHaskell #-}
 
-{-
+{-|
  
 Represents the `Post` instance that exists within the database.
 
