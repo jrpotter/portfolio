@@ -70,6 +70,5 @@ To build and load locally, run the following:
 ```
 nix-build nix/docker.nix
 docker load < result
+docker run --network=host -e PGHOST=127.0.0.1 -e ... <image>
 ```
-
-Afterwards we can run the `docker` image like we would any other.
