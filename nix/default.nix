@@ -21,7 +21,7 @@ reflex-platform.project ({ pkgs, ... }: {
   # 
   # A function for overriding Haskell packages. You can use `callHackage` and
   # `callCabal2nix` to bump package versions or # build them from GitHub.
-  overrides = self: supser: {
+  overrides = self: super: {
     postlude = self.callPackage ./postlude.nix {};
   };
 

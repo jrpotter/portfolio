@@ -49,3 +49,27 @@ nix-build nix/default.nix -o dist-frontend -A ghcjs.frontend
 
 This compiles a standard Haskell binary in the case of the backend and a full
 GHC-runtime compiled into Javascript in the case of the frontend.
+
+# Docker
+
+When we actually aim to deploy everything out, we use `nix`'s `dockerTools`
+method to build our `docker` images. We use `nix` to build our images for a
+couple of reasons:
+
+1. Only one layer exists in the resulting image. `nix` builds everything from
+   scratch and requires no layering to get something working.
+1. Only required dependencies exist in the resulting image. While disk usage
+   isn't so big a deal in today's times, it's still nice to prune this down as
+   much as possible.
+1. This methodology is truly reproducible. We've pinned all versions, can pin
+   our version of `nix`, and can ensure that this build will always produce the
+   exact same image.
+
+To build and load locally, run the following:
+
+```
+nix-build nix/docker.nix
+docker load < result
+```
+
+Afterwards we can run the `docker` image like we would any other.
