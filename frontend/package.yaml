@@ -6,6 +6,7 @@ dependencies:
   - base
   - common
   - containers
+  - filepath
   - postlude
   - reflex-dom
   - text

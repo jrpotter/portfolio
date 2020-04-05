@@ -5,7 +5,7 @@
 module Main where
 
 --------------------------------------------------------------------------------
-import Portfolio.Config
+import Portfolio.Env
 import Portfolio.Site.Post
 import Portfolio.Site.Prerender
 import Portfolio.Site.Static
@@ -14,6 +14,7 @@ import Servant ((:<|>))
 
 import qualified Database.PostgreSQL.Simple as Simple
 import qualified Network.Wai.Handler.Warp as Warp
+import qualified Network.Wai.Middleware.Cors as Cors
 import qualified Servant
 import qualified System.IO as IO
 --------------------------------------------------------------------------------
@@ -23,14 +24,14 @@ type API = PrerenderAPI :<|> PostAPI :<|> StaticAPI
 api :: Servant.Proxy API
 api = Servant.Proxy
 
-server :: ReaderT Config IO (Servant.Server API)
+server :: ReaderT Env IO (Servant.Server API)
 server = do
   prerender <- prerenderServer
   post <- postServer
   static <- staticServer
   return $ prerender Servant.:<|> post Servant.:<|> static
 
-init :: IO Config
+init :: IO Env
 init = do
   connection <- Simple.connectPostgreSQL ""
   Simple.execute_ connection "           \
@@ -41,12 +42,12 @@ init = do
   \ , updated_at TIMESTAMPTZ NOT NULL      \
   \ , snippet TEXT NOT NULL              \
   \ );"
-  return Config { _configConnection = connection
-                , _configStaticDir = "/app/static/"
-                }
+  return Env { _envConnection = connection
+             , _envStaticDir = "/app/static/"
+             }
 
 main :: IO ()
 main = do
   config <- init
   server <- runReaderT server config
-  Warp.run 8080 $ Servant.serve api server
+  Warp.run 8080 $ Cors.simpleCors $ Servant.serve api server

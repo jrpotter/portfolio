@@ -1,5 +1,5 @@
-module Portfolio.Config
-( Config (..)
+module Portfolio.Env
+( Env (..)
 ) where
 
 --------------------------------------------------------------------------------
@@ -9,9 +9,9 @@ import qualified Data.Text as Text
 import qualified Database.PostgreSQL.Simple as Simple
 --------------------------------------------------------------------------------
 
-data Config = Config
+data Env = Env
   { -- | Connection to our PostgreSQL database.
-    _configConnection :: Simple.Connection
+    _envConnection :: Simple.Connection
   , -- | The location of our static files.
-    _configStaticDir :: Text.Text
+    _envStaticDir :: Text.Text
   }

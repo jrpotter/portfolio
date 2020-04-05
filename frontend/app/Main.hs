@@ -1,5 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE RecursiveDo #-}
+{-# LANGUAGE TypeFamilies #-}
 
 {-|
 
@@ -10,44 +11,39 @@ Primary entrypoint for our GHCJS frontend.
 module Main where
 
 --------------------------------------------------------------------------------
+import Portfolio.Env
 import Portfolio.SVG
 import Postlude
-import Reflex.Dom ((=:))
 
 import qualified Control.Monad.Fix as Fix
 import qualified Data.Map as Map
+import qualified Data.Maybe as Maybe
 import qualified Data.Text as Text
 import qualified Reflex.Dom as Dom
+import qualified System.FilePath as FilePath
 import qualified System.IO as IO
 --------------------------------------------------------------------------------
 
+body :: Dom.MonadWidget t m => ReaderT Env m ()
+body = Dom.el "div" $ do
+  Dom.el "h1" $ Dom.text "Portfolio"
+  -- Retrieve our posts from the backend. `getPostBuild` is an event triggered
+  -- after the HTML page has been created.
+  request <- postRequest
+  postBuild <- Dom.getPostBuild
+  raw <- Dom.performRequestAsync $ Dom.tag (Dom.constant request) postBuild
+  -- Can display the output of our results
+  let evResult = (Maybe.fromMaybe "" . Dom._xhrResponse_responseText) <$> raw
+  Dom.dynText =<< Dom.holdDyn "" evResult
+
+postRequest :: (Dom.MonadWidget t m) => ReaderT Env m (Dom.XhrRequest ())
+postRequest = do
+  env <- ask
+  let url = _envServerURL env
+  let path = Text.pack $ FilePath.joinPath $ map Text.unpack [url, "posts"]
+  return $ Dom.XhrRequest "GET" path Dom.def
+
 main :: IO ()
-main = Dom.mainWidget sample
-
-sample :: ( MonadFix m
-          , Dom.MonadHold t m
-          , Dom.DomBuilder t m
-          , Dom.PostBuild t m
-          )
-       => m ()
-sample = do
-  rec
-    dynBool <- Dom.toggle False evClick
-    let dynAttrs = attrs <$> dynBool
-    svgDynAttr "svg" parent $ svgDynAttr "circle" dynAttrs Dom.blank
-    evClick <- Dom.button "Change color"
-  return ()
-  where
-    parent = Dom.constDyn $ "width" =: "100" <> "height" =: "100"
-
-attrs :: Bool -> Map.Map Text.Text Text.Text
-attrs b = (  "cx" =: "50"
-          <> "cy" =: "50"
-          <> "r" =: color b
-          <> "stroke" =: "black"
-          <> "stroke-width" =: "3"
-          <> "fill" =: "red"
-          )
-  where
-    color True = "50"
-    color _ = "40"
+main = do
+  let env = Env { _envServerURL = "http://127.0.0.1:8080" }
+  Dom.mainWidget $ runReaderT body env

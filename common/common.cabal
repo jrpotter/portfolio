@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 2f3db20ba56dcf658e556b8e31a060cee79a1bf0ae9fc7e63e71a91c131544cd
+-- hash: 2ee58e2afbe2751f5d575ecf8b8fc06071b47f45d2f81ef5321351834046157a
 
 name:                common
 version:             0.1.0.0
@@ -12,11 +12,15 @@ build-type:          Simple
 
 library
   exposed-modules:
-      Common
+      Portfolio.Model.Post
   other-modules:
       Paths_common
   build-depends:
-      base
+      aeson
+    , base
+    , postlude
+    , text
+    , time
   hs-source-dirs:
       src
   default-extensions: NoImplicitPrelude

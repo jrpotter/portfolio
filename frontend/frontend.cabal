@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 005c1496451d03a5fc21bb194bb7b4eee538f33ac79b5d169f2ee2e23350de20
+-- hash: b75e459d5a7075fd7cddbc76d2ec55158727e46a245e016fa20724a6d37513d7
 
 name:                frontend
 version:             0.1.0.0
@@ -13,6 +13,7 @@ build-type:          Simple
 executable frontend
   main-is: Main.hs
   other-modules:
+      Portfolio.Env
       Portfolio.SVG
       Paths_frontend
   hs-source-dirs:
@@ -23,6 +24,7 @@ executable frontend
       base
     , common
     , containers
+    , filepath
     , postlude
     , reflex-dom
     , text

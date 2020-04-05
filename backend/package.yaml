@@ -3,7 +3,6 @@ version:                0.1.0.0
 default-extensions:     NoImplicitPrelude
 
 dependencies:
-  - aeson
   - base
   - common
   - lucid
@@ -14,7 +13,7 @@ dependencies:
   - servant-lucid
   - servant-server
   - text
-  - time
+  - wai-cors
   - warp
 
 executables:

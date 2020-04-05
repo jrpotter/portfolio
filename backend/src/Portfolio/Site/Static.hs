@@ -14,7 +14,7 @@ module Portfolio.Site.Static
 ) where
 
 --------------------------------------------------------------------------------
-import Portfolio.Config
+import Portfolio.Env
 import Postlude
 import Servant ((:>))
 
@@ -24,8 +24,8 @@ import qualified Servant
 
 type StaticAPI = "static" :> Servant.Raw
 
-staticServer :: ReaderT Config IO (Servant.Server StaticAPI)
+staticServer :: ReaderT Env IO (Servant.Server StaticAPI)
 staticServer = do
-  conf <- ask
-  let dir = Text.unpack $ _configStaticDir conf
+  env <- ask
+  let dir = Text.unpack $ _envStaticDir env
   return $ Servant.serveDirectoryWebApp dir
