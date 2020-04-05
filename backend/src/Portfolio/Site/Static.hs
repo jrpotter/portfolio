@@ -18,11 +18,14 @@ import Portfolio.Config
 import Postlude
 import Servant ((:>))
 
+import qualified Data.Text as Text
 import qualified Servant
 --------------------------------------------------------------------------------
 
 type StaticAPI = "static" :> Servant.Raw
 
 staticServer :: ReaderT Config IO (Servant.Server StaticAPI)
-staticServer = return $ Servant.serveDirectoryWebApp
-  "/home/jrpotter/Documents/portfolio/backend/static/"
+staticServer = do
+  conf <- ask
+  let dir = Text.unpack $ _configStaticDir conf
+  return $ Servant.serveDirectoryWebApp dir

@@ -4,6 +4,7 @@ let
   # Note this matches how we would run `nix-build` manually. Refer to the
   # README.md for more details.
   backend = (import ./default.nix {}).ghc.backend;
+  frontend = (import ./default.nix {}).ghcjs.frontend;
   # Invoke the runtime built by the `backend`. When testing this image locally,
   # we usually run docker in host mode and set environment variables according
   # to https://www.postgresql.org/docs/9.5/libpq-envars.html.
@@ -24,12 +25,15 @@ in
       # exists within our `backend` package can look up local user ids when
       # establishing database connections.
       ${dockerTools.shadowSetup}
+      # Copy over the javascript we need to serve from the backend.
+      mkdir -p /app/static
+      cp ${frontend}/bin/frontend.jsexe/* /app/static/
     '';
-    contents = [ backend ];
     config = {
       Entrypoint = [ entrypoint ];
       ExposedPorts = {
         "8080/tcp" = {};
       };
+      WorkingDir = "/app";
     };
   }

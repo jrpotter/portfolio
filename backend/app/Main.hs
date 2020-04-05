@@ -30,17 +30,23 @@ server = do
   static <- staticServer
   return $ prerender Servant.:<|> post Servant.:<|> static
 
-main :: IO ()
-main = do
+init :: IO Config
+init = do
   connection <- Simple.connectPostgreSQL ""
   Simple.execute_ connection "           \
   \ CREATE TABLE IF NOT EXISTS Post      \
   \ ( title VARCHAR(255) NOT NULL        \
   \ , slug VARCHAR(255) UNIQUE NOT NULL  \
-  \ , published_at TIMESTAMP NOT NULL    \
-  \ , updated_at TIMESTAMP NOT NULL      \
+  \ , published_at TIMESTAMPTZ NOT NULL    \
+  \ , updated_at TIMESTAMPTZ NOT NULL      \
   \ , snippet TEXT NOT NULL              \
   \ );"
-  let config = Config { _configConnection = connection }
+  return Config { _configConnection = connection
+                , _configStaticDir = "/app/static/"
+                }
+
+main :: IO ()
+main = do
+  config <- init
   server <- runReaderT server config
   Warp.run 8080 $ Servant.serve api server

@@ -1,1 +1,0 @@
-../../dist-frontend/bin/frontend.jsexe/lib.js
