@@ -8,7 +8,7 @@ module Portfolio.Model.Post
 ) where
 
 --------------------------------------------------------------------------------
-import Data.Aeson ((.=))
+import Data.Aeson ((.:), (.=))
 import Postlude
 
 import qualified Data.Aeson as Aeson
@@ -43,7 +43,10 @@ data Post' a b c d e = Post
 -- | A concrete implementation of the above record type compatible with Opaleye.
 type Post = Post' Text.Text Text.Text Clock.UTCTime Clock.UTCTime Text.Text
 
--- | Set `ToJSON` instance for deserialization purposes.
+--------------------------------------------------------------------------------
+-- JSON Handling
+--------------------------------------------------------------------------------
+
 instance Aeson.ToJSON Post where
   toJSON Post {..} = Aeson.object
     [ "title" .= _postTitle
@@ -52,3 +55,11 @@ instance Aeson.ToJSON Post where
     , "updated_at" .= _postUpdatedAt
     , "snippet" .= _postSnippet
     ]
+
+instance Aeson.FromJSON Post where
+  parseJSON = Aeson.withObject "Post" $ \v -> Post
+    <$> v .: "title"
+    <*> v .: "slug"
+    <*> v .: "published_at"
+    <*> v .: "updated_at"
+    <*> v .: "snippet"

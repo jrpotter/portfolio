@@ -3,7 +3,9 @@ version:                0.1.0.0
 default-extensions:     NoImplicitPrelude
 
 dependencies:
+  - aeson
   - base
+  - bytestring
   - common
   - containers
   - filepath

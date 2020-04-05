@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: b75e459d5a7075fd7cddbc76d2ec55158727e46a245e016fa20724a6d37513d7
+-- hash: c83745f42654eda335828117ebb2861f8cf8336eb61c890ccb6d18f942ab1a8d
 
 name:                frontend
 version:             0.1.0.0
@@ -21,7 +21,9 @@ executable frontend
       src
   default-extensions: NoImplicitPrelude
   build-depends:
-      base
+      aeson
+    , base
+    , bytestring
     , common
     , containers
     , filepath
