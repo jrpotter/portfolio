@@ -12,6 +12,7 @@ dependencies:
   - postlude
   - reflex-dom
   - text
+  - time
 
 executables:
   frontend:
