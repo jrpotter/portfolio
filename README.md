@@ -33,23 +33,6 @@ building. Fortunately, `reflex-frp` includes a helpful template for using `nix`
 in `reflex` projects. Further details are included in the `nix/default.nix`
 file.
 
-To develop locally, run the following:
-
-```
-nix-shell nix/default.nix -A shells.ghc
-cabal build
-```
-
-To build for deployment, we leave the `nix-shell` and `nix-build` directly:
-
-```
-nix-build nix/default.nix -o dist-backend -A ghc.backend
-nix-build nix/default.nix -o dist-frontend -A ghcjs.frontend
-```
-
-This compiles a standard Haskell binary in the case of the backend and a full
-GHC-runtime compiled into Javascript in the case of the frontend.
-
 # Docker
 
 When we actually aim to deploy everything out, we use `nix`'s `dockerTools`
@@ -72,3 +55,45 @@ nix-build nix/docker.nix
 docker load < result
 docker run --network=host -e PGHOST=127.0.0.1 -e ... <image>
 ```
+
+This essentially runs:
+
+```
+nix-build nix/default.nix -o dist-backend -A ghc.backend
+nix-build nix/default.nix -o dist-frontend -A ghcjs.frontend
+```
+
+A standard Haskell binary is compiled in the case of the backend and a full
+GHC-runtime compiled into Javascript in the case of the frontend.
+
+# Development
+
+Before beginning, it is *crucial* to install
+[cachix](https://github.com/cachix/cachix). This is a service that hosts nix
+binary caches for signficantly faster nix package installations. For example,
+installing the [HIE](https://github.com/haskell/haskell-ide-engine) takes far
+too long without it.
+
+Once installed, run
+
+```
+cachix use all-hies
+```
+
+to indicate we want to use the binary cache when we choose to install this.
+My preference at this point is to use Visual Studio Code for development since
+it has a nice integration with HIE. Once installed, you can launch by running
+
+```
+nix-shell nix/shell.nix --run "code ."
+```
+
+in the root directory of this project. Of course, the above can be adapted to
+match your environment of choice. For Hoogle support, please run:
+
+```
+hoogle generate --database=hoogle/portfolio.foo
+```
+
+We point to this local directory to avoid any possible permission errors that
+may arise.

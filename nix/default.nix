@@ -1,7 +1,4 @@
-{ bootstrap ? import <nixpkgs> {}
-, reflex-platform ? import ./reflex-platform.nix {}
-}:
-
+{ reflex-platform ? import ./reflex-platform.nix {} , withHoogle ? false }:
 # Additional documentation exists at:
 # https://github.com/reflex-frp/reflex-platform/blob/5c8c380cd8978f21b6e199d6ee2f79fc4191346c/project/default.nix
 reflex-platform.project ({ pkgs, ... }: {
@@ -35,6 +32,10 @@ reflex-platform.project ({ pkgs, ... }: {
   # Haskell project. Note, JSaddle is a set of libraries that allow reflex to
   # swap out its JavaScript backend easily.
   useWarp = true;
+
+  # Set to false to disable building the hoogle database when entering the
+  # nix-shell.
+  withHoogle = withHoogle;
 
   # :: { <platform name> :: [PackageName] }
   #
