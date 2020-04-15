@@ -1,4 +1,6 @@
-{ reflex-platform ? import ./reflex-platform.nix {} , withHoogle ? false }:
+{ reflex-platform ? import ./reflex-platform.nix {}
+, withHoogle ? false
+}:
 # Additional documentation exists at:
 # https://github.com/reflex-frp/reflex-platform/blob/5c8c380cd8978f21b6e199d6ee2f79fc4191346c/project/default.nix
 reflex-platform.project ({ pkgs, ... }: {

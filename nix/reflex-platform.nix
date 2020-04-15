@@ -7,4 +7,4 @@ let
     sha256 = "0rvbaimcvcica80538i6vxckv8si1gbd1ynvgxv7zr5jd1gk6vi5";
   };
 in
-  import reflex-platform {}
+  import reflex-platform { hieSupport = false; }
