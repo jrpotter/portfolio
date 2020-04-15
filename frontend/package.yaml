@@ -3,16 +3,10 @@ version:                0.1.0.0
 default-extensions:     NoImplicitPrelude
 
 dependencies:
-  - aeson
   - base
-  - bytestring
   - common
-  - containers
-  - filepath
   - postlude
-  - reflex-dom
   - text
-  - time
 
 executables:
   frontend:
@@ -20,3 +14,5 @@ executables:
     source-dirs:
       - app
       - src
+    ghcjs-options:
+      - dedupe

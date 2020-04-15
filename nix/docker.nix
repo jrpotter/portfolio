@@ -1,16 +1,14 @@
-{ pkgs ? import <nixpkgs> {} }:
-with pkgs;
+{ miso ? import ./miso.nix, compiler ? "ghc865" }:
+with miso.pkgs;
 let
-  # Note this matches how we would run `nix-build` manually. Refer to the
-  # README.md for more details.
-  backend = (import ./default.nix {}).ghc.backend;
-  frontend = (import ./default.nix {}).ghcjs.frontend;
+  # Reference to our library instances we may want to shell into.
+  backend = (import ./default.nix { inherit miso compiler; }).backend.env;
+  frontend = (import ./default.nix { inherit miso compiler; }).frontend.env;
   # Invoke the runtime built by the `backend`. When testing this image locally,
   # we usually run docker in host mode and set environment variables according
   # to https://www.postgresql.org/docs/9.5/libpq-envars.html.
   entrypoint = writeScript "entrypoint.sh" (''
     #!${stdenv.shell}
-    ${backend}/bin/backend
   '');
 in
   dockerTools.buildImage {
@@ -25,9 +23,6 @@ in
       # exists within our `backend` package can look up local user ids when
       # establishing database connections.
       ${dockerTools.shadowSetup}
-      # Copy over the javascript we need to serve from the backend.
-      mkdir -p /app/static
-      cp ${frontend}/bin/frontend.jsexe/* /app/static/
     '';
     config = {
       Entrypoint = [ entrypoint ];

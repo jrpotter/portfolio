@@ -1,34 +1,28 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.32.0.
+-- This file has been generated from package.yaml by hpack version 0.31.2.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 3cbecd33daca0950d75f428e29f16ba305f2a5e0408bce4927a3810225f2bc2c
+-- hash: 20a07e542f0a1f59801b9e02d7ddb3d023572233fc6fd64e2da6a6cc74e991fc
 
-name:                frontend
-version:             0.1.0.0
-build-type:          Simple
+name:           frontend
+version:        0.1.0.0
+build-type:     Simple
 
 executable frontend
   main-is: Main.hs
   other-modules:
       Portfolio.Env
-      Portfolio.SVG
       Paths_frontend
   hs-source-dirs:
       app
       src
   default-extensions: NoImplicitPrelude
+  ghcjs-options: dedupe
   build-depends:
-      aeson
-    , base
-    , bytestring
+      base
     , common
-    , containers
-    , filepath
     , postlude
-    , reflex-dom
     , text
-    , time
   default-language: Haskell2010

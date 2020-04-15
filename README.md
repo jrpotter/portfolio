@@ -21,17 +21,12 @@ here goes nothing.
 # Organization
 
 The `backend` subproject uses [servant](https://www.servant.dev/) to serve
-content. The `frontend` project uses [reflex-frp](https://reflex-frp.org/) (and
+content. The `frontend` project uses [miso](https://github.com/dmjio/miso) (and
 GHCJS under the hood) to compile Haskell to Javascript for SPA purposes. The
 `common` subproject will include code I look to share between the backend and
 frontend. Note the organization here is inline with the recommendations included
 in the `reflex-frp/reflex-platform`
 [instructions](https://github.com/reflex-frp/reflex-platform/blob/develop/docs/project-development.md).
-
-We use nix for package management but cabal within a `nix-shell` for incremental
-building. Fortunately, `reflex-frp` includes a helpful template for using `nix`
-in `reflex` projects. Further details are included in the `nix/default.nix`
-file.
 
 # Docker
 
@@ -59,8 +54,8 @@ docker run --network=host -e PGHOST=127.0.0.1 -e ... <image>
 This essentially runs:
 
 ```
-nix-build nix/default.nix -o dist-backend -A ghc.backend
-nix-build nix/default.nix -o dist-frontend -A ghcjs.frontend
+nix-build nix/default.nix -o dist-backend -A backend
+nix-build nix/default.nix -o dist-frontend -A frontend
 ```
 
 A standard Haskell binary is compiled in the case of the backend and a full
@@ -71,21 +66,21 @@ GHC-runtime compiled into Javascript in the case of the frontend.
 Before beginning, it is *crucial* to install
 [cachix](https://github.com/cachix/cachix). This is a service that hosts nix
 binary caches for signficantly faster nix package installations. For example,
-installing the [HIE](https://github.com/haskell/haskell-ide-engine) takes far
-too long without it.
+installing [ghcide](https://github.com/cachix/ghcide-nix) takes far too long
+without it (order of hours).
 
 Once installed, run
 
 ```
-cachix use all-hies
+cachix use ghcide-nix
 ```
 
 to indicate we want to use the binary cache when we choose to install this.
 My preference at this point is to use Visual Studio Code for development since
-it has a nice integration with HIE. Once installed, you can launch by running
+it has nice integration with ghcide. Once installed, you can launch by running
 
 ```
-nix-shell nix/shell.nix --run "code ."
+nix-shell nix/shell.nix --run "code [backend|frontend]"
 ```
 
 in the root directory of this project. Of course, the above can be adapted to
