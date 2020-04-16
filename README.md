@@ -46,7 +46,7 @@ couple of reasons:
 To build and load locally, run the following:
 
 ```
-nix-build nix/docker.nix
+nix-build -A server
 docker load < result
 docker run --network=host -e PGHOST=127.0.0.1 -e ... <image>
 ```
@@ -54,8 +54,8 @@ docker run --network=host -e PGHOST=127.0.0.1 -e ... <image>
 This essentially runs:
 
 ```
-nix-build nix/default.nix -o dist-backend -A backend
-nix-build nix/default.nix -o dist-frontend -A frontend
+nix-build default.nix -o dist-backend -A backend
+nix-build default.nix -o dist-frontend -A frontend
 ```
 
 A standard Haskell binary is compiled in the case of the backend and a full
@@ -80,7 +80,7 @@ My preference at this point is to use Visual Studio Code for development since
 it has nice integration with ghcide. Once installed, you can launch by running
 
 ```
-nix-shell nix/shell.nix --run "code [backend|frontend]"
+nix-shell -A [backend|frontend] --run "code [backend|frontend]"
 ```
 
 in the root directory of this project. Of course, the above can be adapted to

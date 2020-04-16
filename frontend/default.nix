@@ -2,7 +2,7 @@
 mkDerivation {
   pname = "frontend";
   version = "0.1.0.0";
-  src = ../frontend;
+  src = ./.;
   isLibrary = false;
   isExecutable = true;
   libraryToolDepends = [ hpack ];

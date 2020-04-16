@@ -2,7 +2,7 @@
 mkDerivation {
   pname = "common";
   version = "0.1.0.0";
-  src = ../common;
+  src = ./.;
   libraryHaskellDepends = [ aeson base postlude text time ];
   libraryToolDepends = [ hpack ];
   prePatch = "hpack";
