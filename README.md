@@ -84,11 +84,21 @@ nix-shell -A [backend|frontend] --run "code [backend|frontend]"
 ```
 
 in the root directory of this project. Of course, the above can be adapted to
-match your environment of choice. For Hoogle support, please run:
+match your environment of choice.
+
+## Hoogle
+
+For Hoogle support, just run:
 
 ```
 hoogle generate --database=hoogle/portfolio.foo
 ```
 
 We point to this local directory to avoid any possible permission errors that
-may arise.
+may arise within our nix build.
+
+## Hot Reloading
+
+We use ghcid and a script adapted from miso's `sample-app-jsaddle` to provide
+hot reloading. A `reload` script will exist in the `PATH` of the backend and
+frontend once we enter the shell to invoke hot reloads.

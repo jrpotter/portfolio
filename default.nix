@@ -2,9 +2,14 @@
 with miso.pkgs;
 let
   callPackage = haskell.packages.${compiler}.callPackage;
-  # Common user-defined packages used across our backend and frontend.
+  callCabal2nix = haskell.packages.${compiler}.callCabal2nix;
+  # Reference to our Postlude library, containing an alternative to the base
+  # Prelude provided out of the box. This was generated using the `cabal2nix`
+  # CLI tool as opposed to through `callCabal2nix` like our other packages.
   postlude = callPackage ./postlude {};
-  common = callPackage ./common { inherit postlude; };
+  # Reference to common methods and data types to be shared between the backend
+  # and frontend.
+  common = callCabal2nix "common" ./common { inherit postlude; };
   # Invoke the runtime built by the `backend`. When testing this image locally,
   # we usually run docker in host mode and set environment variables according
   # to https://www.postgresql.org/docs/9.5/libpq-envars.html.
@@ -15,11 +20,13 @@ in
   rec {
     # Reference to our servant backend used to serve the initial HTML pages and
     # return any XHR responses requested by the frontend.
-    backend = callPackage ./backend { inherit common postlude; };
-    # Our GHCJS project. During development we stick with testing vis JSaddle.
-    # During production we are expected to compile our Haskell into Javascript
-    # and pass said files into the backend for serving.
-    frontend = callPackage ./frontend { inherit common postlude; };
+    backend = callCabal2nix "backend" ./backend { inherit common postlude; };
+    # Reference to our miso frontend used for generating dynamic webpages in an
+    # Elm like fashion.
+    frontend = callCabal2nix "frontend" ./frontend {
+      inherit common postlude;
+      miso = miso.miso-jsaddle;
+    };
     # A reference to the docker image containing our server (the backend API and
     # the compiled javascript files).
     server = dockerTools.buildImage {

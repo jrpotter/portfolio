@@ -3,10 +3,23 @@ version:                0.1.0.0
 default-extensions:     NoImplicitPrelude
 
 dependencies:
+  - aeson
   - base
   - common
+  - containers
+  - miso
   - postlude
   - text
+
+when:
+  - condition: "!impl(ghcjs)"
+    dependencies:
+      - jsaddle
+      - jsaddle-dom
+      - jsaddle-warp
+      - transformers
+      - warp
+      - websockets
 
 executables:
   frontend:

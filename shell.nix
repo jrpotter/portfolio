@@ -1,6 +1,7 @@
 { miso ? import ./miso, compiler ? "ghc865" }:
+with miso.pkgs;
 let
-  def = (import ./default.nix {});
+  shells = (import ./default.nix { inherit miso compiler; });
   # Reference to a version of ghcide that matches our compiler. Note the
   # latest version will have issues with mismatched GLIBC versions.
   rev = "0ae8d9869ace81c4efaa279379c5a716280cb2b7";
@@ -18,6 +19,6 @@ let
   });
 in
   {
-    backend = wrapper def.backend.env;
-    frontend = wrapper def.frontend.env;
+    backend = wrapper shells.backend.env;
+    frontend = wrapper shells.frontend.env;
   }

@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 20a07e542f0a1f59801b9e02d7ddb3d023572233fc6fd64e2da6a6cc74e991fc
+-- hash: 2b0ea39a18560144a4b47c428b5dc0ce216666e167589a9d61bd01037158b301
 
 name:           frontend
 version:        0.1.0.0
@@ -21,8 +21,19 @@ executable frontend
   default-extensions: NoImplicitPrelude
   ghcjs-options: dedupe
   build-depends:
-      base
+      aeson
+    , base
     , common
+    , containers
+    , miso
     , postlude
     , text
+  if !impl(ghcjs)
+    build-depends:
+        jsaddle
+      , jsaddle-dom
+      , jsaddle-warp
+      , transformers
+      , warp
+      , websockets
   default-language: Haskell2010
