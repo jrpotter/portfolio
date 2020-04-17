@@ -1,5 +1,4 @@
 {-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE RecordWildCards #-}
 {-# LANGUAGE CPP #-}
 
 module Main where
@@ -23,7 +22,7 @@ import qualified Network.WebSockets as WebSockets
 #ifndef __GHCJS__
 runApp :: Miso.JSM () -> IO ()
 runApp f = do
-  let settings = Warp.setTimeout 3600 Warp.defaultSettings
+  let settings = Warp.setPort 8080 $ Warp.setTimeout 3600 Warp.defaultSettings
   let options = WebSockets.defaultConnectionOptions
   conn <- JSaddle.jsaddleOr options (f >> Miso.syncPoint) JSaddle.jsaddleApp
   Warp.runSettings settings conn
@@ -34,15 +33,15 @@ runApp app = app
 
 -- | Entry point for a miso application
 main :: IO ()
-main = runApp $ Miso.startApp Miso.App {..}
-  where
-    initialAction = SayHelloWorld -- initial action to be executed on application load
-    model  = 0                    -- initial model
-    update = updateModel          -- update function
-    view   = viewModel            -- view function
-    events = Miso.defaultEvents        -- default delegated events
-    subs   = []                   -- empty subscription list
-    mountPoint = Nothing          -- mount point for application (Nothing defaults to 'body')
+main = runApp $ Miso.startApp Miso.App
+  { Miso.initialAction = SayHelloWorld
+  , Miso.model = 0
+  , Miso.update = updateModel
+  , Miso.view = viewModel
+  , Miso.events = Miso.defaultEvents
+  , Miso.subs = []
+  , Miso.mountPoint = Nothing
+  }
 
 --------------------------------------------------------------------------------
 
