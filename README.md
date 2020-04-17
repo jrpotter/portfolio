@@ -24,9 +24,7 @@ The `backend` subproject uses [servant](https://www.servant.dev/) to serve
 content. The `frontend` project uses [miso](https://github.com/dmjio/miso) (and
 GHCJS under the hood) to compile Haskell to Javascript for SPA purposes. The
 `common` subproject will include code I look to share between the backend and
-frontend. Note the organization here is inline with the recommendations included
-in the `reflex-frp/reflex-platform`
-[instructions](https://github.com/reflex-frp/reflex-platform/blob/develop/docs/project-development.md).
+frontend.
 
 # Docker
 
@@ -72,7 +70,7 @@ without it (order of hours).
 Once installed, run
 
 ```
-cachix use ghcide-nix
+cachix use ghcide-nix haskell-miso
 ```
 
 to indicate we want to use the binary cache when we choose to install this.
@@ -96,9 +94,3 @@ hoogle generate --database=hoogle/portfolio.foo
 
 We point to this local directory to avoid any possible permission errors that
 may arise within our nix build.
-
-## Hot Reloading
-
-We use ghcid and a script adapted from miso's `sample-app-jsaddle` to provide
-hot reloading. A `reload` script will exist in the `PATH` of the backend and
-frontend once we enter the shell to invoke hot reloads.

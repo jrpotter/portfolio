@@ -1,12 +1,12 @@
-{ miso ? import ./miso, compiler ? "ghc865" }:
+{ miso ? import ./miso, ghc ? "ghc865", ghcjs ? "ghcjs86", js ? "jsaddle" }:
 with miso.pkgs;
 let
-  shells = (import ./default.nix { inherit miso compiler; });
+  shells = (import ./default.nix { inherit miso ghc ghcjs js; });
   # Reference to a version of ghcide that matches our compiler. Note the
   # latest version will have issues with mismatched GLIBC versions.
   rev = "0ae8d9869ace81c4efaa279379c5a716280cb2b7";
   link = "https://github.com/cachix/ghcide-nix/tarball/${rev}";
-  ghcide = (import (builtins.fetchTarball link) {})."ghcide-${compiler}";
+  ghcide = (import (builtins.fetchTarball link) {})."ghcide-${ghc}";
   # Wrapper to inject our development fields into our nested environments.
   wrapper = env: env.overrideAttrs (oldAttrs: {
     buildInputs = oldAttrs.buildInputs ++ [ ghcide ];

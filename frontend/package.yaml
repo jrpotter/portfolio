@@ -27,5 +27,3 @@ executables:
     source-dirs:
       - app
       - src
-    ghcjs-options:
-      - dedupe

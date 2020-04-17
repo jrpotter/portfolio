@@ -19,7 +19,6 @@ executable frontend
       app
       src
   default-extensions: NoImplicitPrelude
-  ghcjs-options: dedupe
   build-depends:
       aeson
     , base
