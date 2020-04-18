@@ -10,7 +10,8 @@ let
   # Include `ghcid` so we can hot reload when our code changes. Makes iterating
   # on frontend changes in particular much faster.
   reload = writeScriptBin "reload" ''
-    ${ghcid}/bin/ghcid -c '${cabal-install}/bin/cabal new-repl' -T 'Main.main'
+    ${ghcid}/bin/ghcid \
+      -c "${cabal-install}/bin/cabal new-repl $1" -T "Pages.$1.main"
   '';
 in
   default.shells.ghc.overrideAttrs (oldAttrs: {

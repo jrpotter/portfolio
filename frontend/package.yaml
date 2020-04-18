@@ -14,7 +14,7 @@ dependencies:
   - time
 
 executables:
-  frontend:
-    main: Main.hs
+  index:
+    main: Pages/Index.hs
     source-dirs:
       - src

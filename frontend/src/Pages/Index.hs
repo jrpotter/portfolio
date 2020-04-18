@@ -1,6 +1,5 @@
 {-# LANGUAGE NoImplicitPrelude #-}
 {-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE RecursiveDo #-}
 {-# LANGUAGE TypeFamilies #-}
 
 {-|
@@ -9,7 +8,7 @@ Primary entrypoint for our GHCJS frontend.
 
 -}
 
-module Main where
+module Pages.Index where
 
 --------------------------------------------------------------------------------
 import Portfolio.Env

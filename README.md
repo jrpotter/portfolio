@@ -78,7 +78,7 @@ My preference at this point is to use Visual Studio Code for development since
 it has nice integration with ghcide. Once installed, you can launch by running
 
 ```
-nix-shell --run "code [backend|frontend]"
+nix-shell --run "code ."
 ```
 
 in the root directory of this project. Of course, the above can be adapted to
