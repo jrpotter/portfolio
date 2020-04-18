@@ -21,7 +21,7 @@ here goes nothing.
 # Organization
 
 The `backend` subproject uses [servant](https://www.servant.dev/) to serve
-content. The `frontend` project uses [miso](https://github.com/dmjio/miso) (and
+content. The `frontend` project uses [reflex-frp](https://reflex-frp.org/) (and
 GHCJS under the hood) to compile Haskell to Javascript for SPA purposes. The
 `common` subproject will include code I look to share between the backend and
 frontend.
@@ -70,7 +70,7 @@ without it (order of hours).
 Once installed, run
 
 ```
-cachix use ghcide-nix haskell-miso
+cachix use ghcide-nix
 ```
 
 to indicate we want to use the binary cache when we choose to install this.
@@ -78,19 +78,8 @@ My preference at this point is to use Visual Studio Code for development since
 it has nice integration with ghcide. Once installed, you can launch by running
 
 ```
-nix-shell -A [backend|frontend] --run "code [backend|frontend]"
+nix-shell --run "code [backend|frontend]"
 ```
 
 in the root directory of this project. Of course, the above can be adapted to
 match your environment of choice.
-
-## Hoogle
-
-For Hoogle support, just run:
-
-```
-hoogle generate --database=hoogle/portfolio.foo
-```
-
-We point to this local directory to avoid any possible permission errors that
-may arise within our nix build.

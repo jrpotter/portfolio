@@ -1,3 +1,5 @@
+{-# LANGUAGE NoImplicitPrelude #-}
+
 module Portfolio.Env
 ( Env (..)
 ) where

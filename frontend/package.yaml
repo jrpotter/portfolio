@@ -1,29 +1,20 @@
 name:                   frontend
 version:                0.1.0.0
-default-extensions:     NoImplicitPrelude
 
 dependencies:
   - aeson
   - base
+  - bytestring
   - common
   - containers
-  - miso
+  - filepath
   - postlude
+  - reflex-dom
   - text
-
-when:
-  - condition: "!impl(ghcjs)"
-    dependencies:
-      - jsaddle
-      - jsaddle-dom
-      - jsaddle-warp
-      - transformers
-      - warp
-      - websockets
+  - time
 
 executables:
   frontend:
     main: Main.hs
     source-dirs:
-      - app
       - src

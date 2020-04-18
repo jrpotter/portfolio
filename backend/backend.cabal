@@ -1,10 +1,10 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.32.0.
+-- This file has been generated from package.yaml by hpack version 0.33.0.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 5f2dd0490bf71809ce370bb5df836a54c1202f428b0c392e7253c9b9bb0c0d14
+-- hash: 7ebdee8e3b2ac53ae2adf2295b8ee97d3bcac858a644e1c73722707255a70b7e
 
 name:                backend
 version:             0.1.0.0
@@ -20,9 +20,7 @@ executable backend
       Portfolio.Site.Static
       Paths_backend
   hs-source-dirs:
-      app
       src
-  default-extensions: NoImplicitPrelude
   build-depends:
       base
     , common
