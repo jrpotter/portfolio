@@ -11,9 +11,15 @@ let
   # on frontend changes in particular much faster.
   reload = writeScriptBin "reload" ''
     ${ghcid}/bin/ghcid \
-      -c "${cabal-install}/bin/cabal new-repl $1" -T "Pages.$1.main"
+      -c '${cabal-install}/bin/cabal new-repl' \
+      -T "Main.main"
+  '';
+  reload-page = writeScriptBin "reload-page" ''
+    ${ghcid}/bin/ghcid \
+      -c "${cabal-install}/bin/cabal new-repl $1" \
+      -T "Pages.$1.main"
   '';
 in
   default.shells.ghc.overrideAttrs (oldAttrs: {
-    buildInputs = oldAttrs.buildInputs ++ [ ghcide reload ];
+    buildInputs = oldAttrs.buildInputs ++ [ ghcide reload reload-page ];
   })
