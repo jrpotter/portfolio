@@ -1,0 +1,33 @@
+{
+  "name": "portfolio",
+  "version": "1.0.0",
+  "description": "",
+  "main": "webpack.common.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "purs-loader": "^3.7.1",
+    "webpack-cli": "^3.3.12",
+    "webpack-merge": "^5.1.3",
+    "webpack": "^4.44.1"
+  },
+  "devDependencies": {
+    "webpack-dev-server": "^3.11.0"
+  },
+  "scripts": {
+    "build": "webpack --config webpack.prod.js",
+    "start": "webpack-dev-server --open --config webpack.dev.js",
+    "test": "spago test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jrpotter/portfolio.git"
+  },
+  "author": "Joshua Potter",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jrpotter/portfolio/issues"
+  },
+  "homepage": "https://github.com/jrpotter/portfolio#readme"
+}
