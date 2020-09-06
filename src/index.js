@@ -1,7 +1,10 @@
 'use strict';
 
-require('./Main.purs').main();
+require('pure-css/index.js');
+
 require('./root.css');
+
+require('./Main.purs').main();
 
 if (module.hot) {
   module.hot.accept();
