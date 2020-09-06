@@ -13,7 +13,6 @@
     "autoprefixer": "^9.8.6",
     "css-loader": "^4.2.2",
     "postcss-loader": "^3.0.0",
-    "pure-css": "^1.0.4",
     "purescript-psa": "^0.7.3",
     "purs-loader": "^3.7.1",
     "style-loader": "^1.2.1",
