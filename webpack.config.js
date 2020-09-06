@@ -1,14 +1,11 @@
 'use strict';
 
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
-const webpack = require('webpack');
 
 module.exports = {
   devServer: {
     contentBase: path.resolve(__dirname, 'dist'),
     port: 8080,
-    stats: 'errors-only'
   },
   entry: './src/index.js',
   output: {
@@ -30,17 +27,21 @@ module.exports = {
           },
         ],
       },
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {importLoaders: 1}
+          },
+          'postcss-loader',
+        ],
+      },
     ],
   },
   resolve: {
     modules: ['node_modules'],
     extensions: ['.purs', '.js'],
   },
-  plugins: [
-    new HtmlWebpackPlugin({
-      title: 'portfolio',
-      template: 'dist/index.html',
-      inject: false,
-    }),
-  ],
 };

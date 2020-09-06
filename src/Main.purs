@@ -5,9 +5,9 @@ import Halogen.Aff as HA
 import Halogen.VDom.Driver (runUI)
 import Prelude
 
-import Component.PostList as PostList
+import Component.NavBar as NavBar
 
 main :: Effect Unit
 main = HA.runHalogenAff do
   body <- HA.awaitBody
-  runUI PostList.component unit body
+  runUI NavBar.component unit body
