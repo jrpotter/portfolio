@@ -38,6 +38,10 @@ module.exports = {
           'postcss-loader',
         ],
       },
+      {
+        test: /\.(svg|eot|woff|woff2|ttf)$/,
+        use: ['file-loader']
+      },
     ],
   },
   resolve: {

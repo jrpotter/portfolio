@@ -1,7 +1,26 @@
 :root {
-  --main-bg-color: brown;
+  --primary-color: #204051;
+  --secondary-color: #3B6978;
+  --tertiary-color: #84A9AC;
+  --quaternary-color: #E7DFD5;
+  --navbar-bg-color: var(--primary-color);
+  --navbar-text-color: var(--quaternary-color);
 }
 
 #navbar {
-  background-color: var(--main-bg-color);
+  background-color: var(--navbar-bg-color);
+  color: var(--navbar-text-color);
+  height: 300px;
+  text-align: center;
+  width: 100%;
+
+  & h1 {
+    margin: 0;
+    padding: 20px 0;
+  }
+
+  & img {
+    border: 2px solid white;
+    border-radius: 200px;
+  }
 }

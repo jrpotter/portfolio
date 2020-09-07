@@ -4,6 +4,7 @@ module Component.NavBar
 
 import Halogen as H
 import Halogen.HTML as HH
+import Halogen.HTML.Core (ClassName(..))
 import Halogen.HTML.Properties as HP
 import Prelude
 
@@ -20,9 +21,8 @@ component = H.mkComponent
 render :: forall m. State -> H.ComponentHTML Unit () m
 render state = HH.div
   [ HP.id_ "navbar" ]
-  [ HH.ul_
-    [ HH.li
-      [HP.id_ "nav-logo"]
-      [HH.text "FuzzyKayak"]
-    ]
+  [ HH.h1_
+    [ HH.text "FuzzyKayak" ]
+  , HH.img
+    [ HP.src "https://avatars2.githubusercontent.com/u/3267697?s=180&v=4" ]
   ]
