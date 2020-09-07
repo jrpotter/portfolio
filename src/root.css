@@ -11,8 +11,17 @@
   background-color: var(--navbar-bg-color);
   color: var(--navbar-text-color);
   height: 300px;
+  position: absolute;
   text-align: center;
   width: 100%;
+
+  & canvas {
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
 
   & h1 {
     margin: 0;
