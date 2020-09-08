@@ -15,7 +15,7 @@ require('@fortawesome/fontawesome-free/js/solid.js');
 FontAwesomeConfig.autoReplaceSvg = "nest";
 
 // Custom CSS
-require('./root.css');
+require('./css/root.css');
 
 // Purescript
 require('./Main.purs').main();
