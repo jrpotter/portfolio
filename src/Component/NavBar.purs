@@ -35,6 +35,15 @@ navbarId = "navbar"
 canvasId :: String
 canvasId = "navbar-canvas"
 
+gridDimen :: Int
+gridDimen = 12
+
+gridStrokeColor :: String
+gridStrokeColor = "#298794"
+
+gridFillColor :: String
+gridFillColor = "#6CBCC8"
+
 -- =============================================================================
 -- Component
 -- =============================================================================
@@ -74,17 +83,17 @@ render state = HH.div
 -- Canvas
 -- =============================================================================
 
-gridLines :: Int -> Int -> Array Int
-gridLines d n = map (\g -> g * d) (1 .. (n / d))
+gridLines :: Int -> Array Int
+gridLines n = map (\g -> g * gridDimen) (1 .. (n / gridDimen))
 
-colorRect :: GC.Context2D -> Int -> Number -> Number -> Effect Unit
-colorRect ctx d w h = do
+colorRect :: GC.Context2D -> Number -> Number -> Effect Unit
+colorRect ctx w h = do
   uniform <- random
-  let d' = toNumber d
+  let d = toNumber gridDimen
   let pos = uniform * w * h
   let row = pos / w
   let col = pos % w
-  let r = { x: col - (col % d'), y: row - (row % d'), width: d', height: d' }
+  let r = { x: col - (col % d), y: row - (row % d), width: d, height: d }
   GC.fillPath ctx $ GC.rect ctx r
 
 strokeRect :: GC.Context2D -> GC.Rectangle -> Effect Unit
@@ -119,16 +128,15 @@ handleAction Generate = void $ runMaybeT do
   let width' = floor width
   H.modify_ _ { navbarHeight = height', navbarWidth = width' }
 
-  let delta = 12
   H.liftEffect $ do
     -- Can now clear our canvas context and re-draw our state.
     ctx <- GC.getContext2D canvas
     GC.clearRect ctx { x: 0.0, y: 0.0, width, height }
-    GC.setStrokeStyle ctx "#FFF"
-    let gx = map toNumber $ gridLines delta width'
-    let gy = map toNumber $ gridLines delta height'
+    GC.setStrokeStyle ctx gridStrokeColor
+    let gx = map toNumber $ gridLines width'
+    let gy = map toNumber $ gridLines height'
     void $ for gx (\x -> strokeRect ctx { x, y: 0.0, width: x, height })
     void $ for gy (\y -> strokeRect ctx { x: 0.0, y, width, height: y })
     -- Randomly decide which squares we want to color in our grid.
-    GC.setFillStyle ctx "#84A9AC"
-    void $ for (1 .. 60) (\_ -> colorRect ctx delta width height)
+    GC.setFillStyle ctx gridFillColor
+    void $ for (1 .. 80) (\_ -> colorRect ctx width height)

@@ -1,10 +1,15 @@
 :root {
-  --primary-color: #204051;
-  --secondary-color: #3B6978;
-  --tertiary-color: #84A9AC;
-  --quaternary-color: #E7DFD5;
+  --primary-color: #449DAA;
+  --primary-darker-color: #298794;
+  --primary-lighter-color: #6CBCC8;
+  --secondary-color: #546DB8;
+  --secondary-darker-color: #3953A3;
+  --secondary-lighter-color: #7A90D1;
+  --tertiary-color: #4FCC65;
+  --tertiary-darker-color: #31B949;
+  --tertiary-lighter-color: #76DE88;
   --navbar-bg-color: var(--primary-color);
-  --navbar-text-color: var(--quaternary-color);
+  --navbar-text-color: white;
 }
 
 html, body {
