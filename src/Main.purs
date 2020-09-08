@@ -11,12 +11,12 @@ import Prelude
 import Web.DOM.ParentNode (QuerySelector(..))
 import Web.HTML.HTMLElement (HTMLElement)
 
-import Component.NavBar as NavBar
+import Component.HomePage as HomePage
 
 main :: Effect Unit
 main = HA.runHalogenAff do
   app <- awaitApp
-  runUI NavBar.component unit app
+  runUI HomePage.component unit app
 
 awaitApp :: Aff HTMLElement
 awaitApp = do

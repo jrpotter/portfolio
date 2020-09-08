@@ -2,7 +2,7 @@
   background-color: var(--navbar-bg-color);
   color: var(--navbar-text-color);
   height: 250px;
-  position: absolute;
+  position: relative;
   text-align: center;
   width: 100%;
 

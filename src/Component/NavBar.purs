@@ -121,7 +121,7 @@ strokeRect ctx r = GC.strokePath ctx $ do
 -- Action
 -- =============================================================================
 
-data Action = Initialize | Generate
+data Action = Initialize | Randomize
 
 handleAction :: forall output m. MonadAff m
              => Action -> H.HalogenM State Action () output m Unit
@@ -129,10 +129,10 @@ handleAction :: forall output m. MonadAff m
 handleAction Initialize = do
   window' <- H.liftEffect window
   H.subscribe' \sid -> eventListenerEventSource
-    (EventType "resize") (toEventTarget window') (\_ -> Just Generate)
-  handleAction Generate
+    (EventType "resize") (toEventTarget window') (\_ -> Just Randomize)
+  handleAction Randomize
 
-handleAction Generate = void $ runMaybeT do
+handleAction Randomize = void $ runMaybeT do
   let query = QuerySelector $ "#" <> navbarId
   navbar <- MaybeT $ H.liftAff $ HA.selectElement query
   canvas <- MaybeT $ H.liftEffect $ GC.getCanvasElementById canvasId
