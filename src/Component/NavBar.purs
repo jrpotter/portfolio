@@ -14,6 +14,7 @@ import Graphics.Canvas as GC
 import Halogen as H
 import Halogen.Aff as HA
 import Halogen.HTML as HH
+import Halogen.HTML.Core (ClassName(..))
 import Halogen.HTML.Properties as HP
 import Halogen.Query.EventSource (eventListenerEventSource)
 import Math ((%))
@@ -74,9 +75,23 @@ render state = HH.div
     , HP.height state.navbarHeight
     , HP.width state.navbarWidth
     ]
-  , HH.h1_ [ HH.text "FuzzyKayak" ]
-  , HH.img
-    [ HP.src "https://avatars2.githubusercontent.com/u/3267697?s=180&v=4" ]
+  , HH.div
+    [ HP.id_ "logo-wrapper" ]
+    [ HH.h1_ [ HH.text "FuzzyKayak" ]
+    , HH.img
+      [ HP.src "https://avatars2.githubusercontent.com/u/3267697?s=300&v=4" ]
+    ]
+  , HH.div
+    [ HP.id_ "social-wrapper" ]
+    [ HH.a
+      [ HP.href "https://www.github.com/jrpotter/"
+      , HP.target "_blank"
+      ]
+      [ HH.i
+        [ HP.class_ (ClassName "fab fa-github fa-2x") ]
+        [ ]
+      ]
+    ]
   ]
 
 -- =============================================================================
