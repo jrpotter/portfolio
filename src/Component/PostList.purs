@@ -1,4 +1,4 @@
-module Component.HomePage
+module Component.PostList
 ( component
 ) where
 
@@ -8,21 +8,15 @@ import Halogen as H
 import Halogen.HTML as HH
 import Prelude
 
-import Component.NavBar as NavBar
-import Component.PostList as PostList
+import Component.PostCard as PostCard
 
 -- =============================================================================
 -- Slots
 -- =============================================================================
 
-type Slots =
-  ( navBar :: forall query. H.Slot query Void Int
-  , postList :: forall query. H.Slot query Void Int
-  )
+type Slots = ( post :: forall query. H.Slot query Void Int )
 
-navBarProxy = SProxy :: SProxy "navBar"
-
-postListProxy = SProxy :: SProxy "postList"
+postProxy = SProxy :: SProxy "post"
 
 -- =============================================================================
 -- Component
@@ -40,6 +34,4 @@ component = H.mkComponent
 
 render :: forall m. MonadAff m => State -> H.ComponentHTML Unit Slots m
 render state = HH.div_
-  [ HH.slot navBarProxy 0 NavBar.component absurd absurd
-  , HH.slot postListProxy 1 PostList.component absurd absurd
-  ]
+  [ HH.slot postProxy 0 PostCard.component absurd absurd ]

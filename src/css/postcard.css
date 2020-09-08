@@ -1,0 +1,21 @@
+.post-card {
+  border: 2px dashed black;
+  margin: 10px;
+  padding: 10px;
+
+  & .post-title {
+    text-decoration: underline;
+  }
+
+  & ul {
+    list-style-type: none;
+    overflow: hidden;
+    padding: 0;
+
+    & li {
+      display: block;
+      float: left;
+      padding: 4px;
+    }
+  }
+}
