@@ -6,6 +6,7 @@ import Data.Symbol (SProxy(..))
 import Effect.Aff.Class (class MonadAff)
 import Halogen as H
 import Halogen.HTML as HH
+import Halogen.HTML.Properties as HP
 import Prelude
 
 import Component.PostCard as PostCard
@@ -33,5 +34,8 @@ component = H.mkComponent
   }
 
 render :: forall m. MonadAff m => State -> H.ComponentHTML Unit Slots m
-render state = HH.div_
-  [ HH.slot postProxy 0 PostCard.component absurd absurd ]
+render state = HH.div
+  [ HP.id_ "post-list" ]
+  [ HH.slot postProxy 0 PostCard.component absurd absurd
+  , HH.slot postProxy 0 PostCard.component absurd absurd
+  ]

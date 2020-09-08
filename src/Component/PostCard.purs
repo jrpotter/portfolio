@@ -32,8 +32,4 @@ render state = HH.div
   , HH.p
     [ HP.class_ (ClassName "post-preview") ]
     [ HH.text "Post context" ]
-  , HH.ul_
-    [ HH.li [ HP.class_ (ClassName "tag-math") ] [ HH.text "math" ]
-    , HH.li [ HP.class_ (ClassName "tag-math") ] [ HH.text "math" ]
-    ]
   ]

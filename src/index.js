@@ -17,6 +17,7 @@ FontAwesomeConfig.autoReplaceSvg = "nest";
 // Custom CSS
 require('./css/root.css');
 require('./css/navbar.css');
+require('./css/postlist.css');
 require('./css/postcard.css');
 
 // Purescript
