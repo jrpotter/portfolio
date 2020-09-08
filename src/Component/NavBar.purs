@@ -2,25 +2,54 @@ module Component.NavBar
 ( component
 ) where
 
+import Control.Monad.Maybe.Trans (MaybeT(..), runMaybeT)
+import Data.Array ((..))
+import Data.Int (floor, toNumber)
 import Data.Maybe (Maybe(..))
-import Effect.Class (class MonadEffect)
+import Data.Traversable (for)
+import Effect (Effect)
+import Effect.Aff.Class (class MonadAff)
+import Effect.Random (random)
 import Graphics.Canvas as GC
 import Halogen as H
+import Halogen.Aff as HA
 import Halogen.HTML as HH
-import Halogen.HTML.Events (onResize)
 import Halogen.HTML.Properties as HP
 import Halogen.Query.EventSource (eventListenerEventSource)
+import Math ((%))
 import Prelude
-import Web.HTML.HTMLDocument as HTMLDocument
+import Web.DOM.Element (clientHeight, clientWidth)
+import Web.DOM.ParentNode (QuerySelector(..))
+import Web.Event.Event (EventType(..))
+import Web.HTML (window)
+import Web.HTML.HTMLElement (toElement)
+import Web.HTML.Window (toEventTarget)
 
-type State = Unit
+-- =============================================================================
+-- Constants
+-- =============================================================================
 
-data Action = Initialize | Generate
+navbarId :: String
+navbarId = "navbar"
 
-component :: forall query input output m. MonadEffect m
+canvasId :: String
+canvasId = "navbar-canvas"
+
+-- =============================================================================
+-- Component
+-- =============================================================================
+
+type State =
+  { -- | Width of our navigation div.
+    navbarWidth :: Int
+  , -- | Height of our navigation div.
+    navbarHeight :: Int
+  }
+
+component :: forall query input output m. MonadAff m
           => H.Component HH.HTML query input output m
 component = H.mkComponent
-  { initialState
+  { initialState: \_ -> { navbarWidth: 0, navbarHeight: 0 }
   , render
   , eval: H.mkEval $ H.defaultEval
     { handleAction = handleAction
@@ -28,33 +57,78 @@ component = H.mkComponent
     }
   }
 
-initialState :: forall input. input -> State
-initialState _ = unit
-
 render :: forall m. State -> H.ComponentHTML Action () m
 render state = HH.div
-  [ HP.id_ "navbar" ]
+  [ HP.id_ navbarId ]
   [ HH.canvas
-    [ HP.id_ "navbar-canvas" ]
-  , HH.h1_
-    [ HH.text "FuzzyKayak" ]
+    [ HP.id_ canvasId
+    , HP.height state.navbarHeight
+    , HP.width state.navbarWidth
+    ]
+  , HH.h1_ [ HH.text "FuzzyKayak" ]
   , HH.img
     [ HP.src "https://avatars2.githubusercontent.com/u/3267697?s=180&v=4" ]
   ]
 
-handleAction :: forall output m. MonadEffect m
+-- =============================================================================
+-- Canvas
+-- =============================================================================
+
+gridLines :: Int -> Int -> Array Int
+gridLines d n = map (\g -> g * d) (1 .. (n / d))
+
+colorRect :: GC.Context2D -> Int -> Number -> Number -> Effect Unit
+colorRect ctx d w h = do
+  uniform <- random
+  let d' = toNumber d
+  let pos = uniform * w * h
+  let row = pos / w
+  let col = pos % w
+  let r = { x: col - (col % d'), y: row - (row % d'), width: d', height: d' }
+  GC.fillPath ctx $ GC.rect ctx r
+
+strokeRect :: GC.Context2D -> GC.Rectangle -> Effect Unit
+strokeRect ctx r = GC.strokePath ctx $ do
+  GC.moveTo ctx r.x r.y
+  GC.lineTo ctx r.width r.height
+  GC.closePath ctx
+
+-- =============================================================================
+-- Action
+-- =============================================================================
+
+data Action = Initialize | Generate
+
+handleAction :: forall output m. MonadAff m
              => Action -> H.HalogenM State Action () output m Unit
+
 handleAction Initialize = do
-  canvas <- H.liftEffect $ GC.getCanvasElementById "navbar-canvas"
-  case canvas of
-    Just x -> H.liftEffect $ do
-       ctx <- GC.getContext2D x
-       GC.setFillStyle ctx "#00F"
-       GC.fillPath ctx $ GC.rect ctx
-         { x: 250.0
-         , y: 250.0
-         , width: 100.0
-         , height: 100.0
-         }
-    _ -> pure unit
-handleAction _ = pure unit
+  window' <- H.liftEffect window
+  H.subscribe' \sid -> eventListenerEventSource
+    (EventType "resize") (toEventTarget window') (\_ -> Just Generate)
+  handleAction Generate
+
+handleAction Generate = void $ runMaybeT do
+  let query = QuerySelector $ "#" <> navbarId
+  navbar <- MaybeT $ H.liftAff $ HA.selectElement query
+  canvas <- MaybeT $ H.liftEffect $ GC.getCanvasElementById canvasId
+
+  height <- H.liftEffect $ clientHeight $ toElement navbar
+  let height' = floor height
+  width <- H.liftEffect $ clientWidth $ toElement navbar
+  let width' = floor width
+  H.modify_ _ { navbarHeight = height', navbarWidth = width' }
+
+  let delta = 12
+  H.liftEffect $ do
+    -- Can now clear our canvas context and re-draw our state.
+    ctx <- GC.getContext2D canvas
+    GC.clearRect ctx { x: 0.0, y: 0.0, width, height }
+    GC.setStrokeStyle ctx "#FFF"
+    let gx = map toNumber $ gridLines delta width'
+    let gy = map toNumber $ gridLines delta height'
+    void $ for gx (\x -> strokeRect ctx { x, y: 0.0, width: x, height })
+    void $ for gy (\y -> strokeRect ctx { x: 0.0, y, width, height: y })
+    -- Randomly decide which squares we want to color in our grid.
+    GC.setFillStyle ctx "#84A9AC"
+    void $ for (1 .. 60) (\_ -> colorRect ctx delta width height)

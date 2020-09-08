@@ -12,6 +12,7 @@ You can edit this file as you like.
   , "halogen"
   , "lists"
   , "psci-support"
+  , "random"
   ]
 , packages = ./packages.dhall
 , sources = [ "src/**/*.purs", "test/**/*.purs" ]

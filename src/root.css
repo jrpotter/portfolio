@@ -7,6 +7,16 @@
   --navbar-text-color: var(--quaternary-color);
 }
 
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
+#app {
+  height: 100%;
+  width: 100%;
+}
+
 #navbar {
   background-color: var(--navbar-bg-color);
   color: var(--navbar-text-color);
@@ -21,15 +31,20 @@
     position: absolute;
     top: 0;
     width: 100%;
+    z-index: 0;
   }
 
   & h1 {
     margin: 0;
     padding: 20px 0;
+    position: relative;
+    z-index: 1;
   }
 
   & img {
     border: 2px solid white;
     border-radius: 200px;
+    position: relative;
+    z-index: 1;
   }
 }
