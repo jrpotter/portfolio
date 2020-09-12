@@ -9,10 +9,11 @@ module.exports = {
     contentBase: path.resolve(__dirname, output),
     port: 8080,
   },
-  entry: './src/index.js',
-  output: {
-    path: path.resolve(__dirname, output),
-    filename: 'bundle.js',
+  entry: {
+    common: {
+      import: './src/common.js',
+      filename: path.join('..', output, 'common.js'),
+    },
   },
   module: {
     rules: [
