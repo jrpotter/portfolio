@@ -16,7 +16,7 @@ import qualified Network.Wai.Middleware.Static as M
 import qualified Web.Scotty as WS
 
 policy :: M.Policy
-policy = M.policy rewrite >-> M.addBase "static"
+policy = M.policy rewrite >-> M.addBase "dist"
   where
     rewrite :: String -> Maybe String
     rewrite "" = Just "index.html"

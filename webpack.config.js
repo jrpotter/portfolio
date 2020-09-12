@@ -2,17 +2,15 @@
 
 const path = require('path');
 
-const output = '../static';
-
 module.exports = {
   devServer: {
-    contentBase: path.resolve(__dirname, output),
+    contentBase: path.resolve(__dirname),
     port: 8080,
   },
   entry: {
     common: {
       import: './src/common.js',
-      filename: path.join('..', output, 'common.js'),
+      filename: 'common.js',
     },
   },
   module: {

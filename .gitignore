@@ -1,3 +1,15 @@
+# Purescript
+.psa*
+.psc*
+.psc-package/
+.pulp-cache/
+.purs*
+.spago
+bower_components/
+generated-docs/
+node_modules/
+output/
+# Haskell
 *.aux
 *.chi
 *.chs.h
@@ -22,3 +34,5 @@ cabal.sandbox.config
 dist
 dist-*
 result
+# Static files
+!dist/index.html
