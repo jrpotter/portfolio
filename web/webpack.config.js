@@ -2,14 +2,16 @@
 
 const path = require('path');
 
+const output = '../static';
+
 module.exports = {
   devServer: {
-    contentBase: path.resolve(__dirname, 'dist'),
+    contentBase: path.resolve(__dirname, output),
     port: 8080,
   },
   entry: './src/index.js',
   output: {
-    path: path.resolve(__dirname, '../static'),
+    path: path.resolve(__dirname, output),
     filename: 'bundle.js',
   },
   module: {
