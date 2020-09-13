@@ -4,12 +4,15 @@ You can edit this file as you like.
 -}
 { name = "portfolio"
 , dependencies =
-  [ "assert"
+  [ "affjax"
+  , "argonaut"
+  , "assert"
   , "canvas"
   , "console"
   , "datetime"
   , "effect"
   , "halogen"
+  , "js-date"
   , "lists"
   , "psci-support"
   , "random"

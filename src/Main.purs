@@ -1,5 +1,6 @@
 module Main where
 
+import Component.HomePage as HomePage
 import Control.Monad.Error.Class (throwError)
 import Data.Maybe (maybe)
 import Effect (Effect)
@@ -10,8 +11,6 @@ import Halogen.VDom.Driver (runUI)
 import Prelude
 import Web.DOM.ParentNode (QuerySelector(..))
 import Web.HTML.HTMLElement (HTMLElement)
-
-import Component.HomePage as HomePage
 
 main :: Effect Unit
 main = HA.runHalogenAff do

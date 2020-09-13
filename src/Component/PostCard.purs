@@ -1,7 +1,9 @@
 module Component.PostCard
-( component
+( PostCard
+, component
 ) where
 
+import Data.DateTime (DateTime)
 import Effect.Aff.Class (class MonadAff)
 import Halogen as H
 import Halogen.HTML as HH
@@ -10,26 +12,43 @@ import Halogen.HTML.Properties as HP
 import Prelude
 
 -- =============================================================================
+-- Model
+-- =============================================================================
+
+type PostCard =
+  { title :: String
+  , description :: String
+  , createdAt :: DateTime
+  , updatedAt :: DateTime
+  , slug :: String
+  }
+
+-- =============================================================================
 -- Component
 -- =============================================================================
 
-type State = Unit
+type Input = PostCard
 
-component :: forall query input output m. MonadAff m
-          => H.Component HH.HTML query input output m
+type State = PostCard
+
+component :: forall query output m. MonadAff m
+          => H.Component HH.HTML query Input output m
 component = H.mkComponent
-  { initialState: \_ -> unit
+  { initialState
   , render
   , eval: H.mkEval H.defaultEval
   }
 
-render :: forall m. State -> H.ComponentHTML Unit () m
+initialState :: Input -> State
+initialState input = input
+
+render :: forall action m. State -> H.ComponentHTML Unit action m
 render state = HH.div
   [ HP.class_ (ClassName "post-card") ]
   [ HH.h2
     [ HP.class_ (ClassName "post-title") ]
-    [ HH.text "Post sample" ]
+    [ HH.text state.title ]
   , HH.p
-    [ HP.class_ (ClassName "post-preview") ]
-    [ HH.text "Post context" ]
+    [ HP.class_ (ClassName "post-description") ]
+    [ HH.text state.description ]
   ]
