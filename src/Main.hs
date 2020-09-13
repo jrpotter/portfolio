@@ -6,11 +6,17 @@ module Main
 ( main
 ) where
 
+import Control.Applicative ((<*>))
+import Control.Monad (return)
 import Control.Monad.IO.Class (MonadIO, liftIO)
 import Control.Monad.Reader (MonadReader, ask, runReaderT)
+import Data.Int (Int)
 import Data.Function (($))
+import Data.Functor ((<$>))
 import Data.Maybe (Maybe(Just))
 import Data.String (String)
+import Data.Text (Text)
+import Data.Time.Clock (UTCTime)
 import Network.Wai.Middleware.Static ((>->))
 import System.IO (IO)
 
@@ -27,6 +33,19 @@ data Config = Config { _configConnection :: Simple.Connection }
 databaseName :: String
 databaseName = "db/portfolio.db"
 
+data PostField = PostField
+  Int      -- ^ id
+  UTCTime  -- ^ created_at
+  UTCTime  -- ^ updated_at
+  Text     -- ^ slug
+
+instance Simple.FromRow PostField where
+  fromRow = PostField
+    <$> Simple.field
+    <*> Simple.field
+    <*> Simple.field
+    <*> Simple.field
+
 initialize :: (MonadReader Config m, MonadIO m) => m ()
 initialize = do
   config <- ask
@@ -38,6 +57,13 @@ initialize = do
     \ , updated_at TEXT               \
     \ , slug TEXT                     \
     \ );                              "
+
+getPosts :: (MonadReader Config m, MonadIO m) => m ()
+getPosts = do
+  config <- ask
+  let conn = _configConnection config
+  posts <- liftIO (Simple.query_ conn "SELECT * FROM Post" :: IO [PostField])
+  return ()
 
 -- =============================================================================
 -- Server

@@ -9,6 +9,8 @@ executable portfolio
                        , mtl
                        , scotty
                        , sqlite-simple
+                       , text
+                       , time
                        , transformers
                        , wai-middleware-static
   hs-source-dirs:      src
