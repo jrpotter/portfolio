@@ -15,10 +15,10 @@ require('@fortawesome/fontawesome-free/js/solid.js');
 FontAwesomeConfig.autoReplaceSvg = "nest";
 
 // Custom CSS
-require('./css/root.css');
-require('./css/navbar.css');
-require('./css/postlist.css');
-require('./css/postcard.css');
+require('static/css/root.css');
+require('static/css/navbar.css');
+require('static/css/postlist.css');
+require('static/css/postcard.css');
 
 // Purescript
-require('./Main.purs').main();
+require('src/Main.purs').main();

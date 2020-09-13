@@ -9,7 +9,7 @@ module.exports = {
   },
   entry: {
     common: {
-      import: './src/common.js',
+      import: 'static/js/common.js',
       filename: 'common.js',
     },
   },
@@ -46,7 +46,11 @@ module.exports = {
     ],
   },
   resolve: {
-    modules: ['node_modules'],
+    alias: {
+      src: path.resolve(__dirname, 'src'),
+      static: path.resolve(__dirname, 'static'),
+    },
     extensions: ['.purs', '.js'],
+    modules: ['node_modules'],
   },
 };
