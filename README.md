@@ -1,5 +1,7 @@
 # portfolio
 
+## Setup
+
 There are a couple of different components combined to get this project working
 correctly. In particular, you need to install the following:
 
@@ -34,3 +36,15 @@ nix-build
 # Lastly run our backend and view served files on the exposed port.
 result/bin/portfolio
 ```
+
+## Database
+
+Because of the simplicity of our site, we avoid dealing with any production
+ready database in favor of SQLite. Instead of modifying our SQL with Haskell
+(I used to play around with the great Opaleye library but its a lot of
+machinery), here we favor only committing idempotent SQL operations on startup.
+
+Migrations, updates to our table, etc. will be done through the SQLite CLI with
+the only record being the committed `.db` instance. I may eventually look into
+instead committing exported CSV files describing the Schema and contents but
+this seems like a bit more work than necessary as of now.
