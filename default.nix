@@ -1,2 +1,2 @@
-{ nixpkgs ? import <nixpkgs> { } }:
-nixpkgs.haskellPackages.callCabal2nix "portfolio" ./. { }
+{ pkgs ? import <nixpkgs> {} }:
+pkgs.haskellPackages.callCabal2nix "portfolio" ./. {}

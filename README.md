@@ -48,3 +48,27 @@ Migrations, updates to our table, etc. will be done through the SQLite CLI with
 the only record being the committed `.db` instance. I may eventually look into
 instead committing exported CSV files describing the Schema and contents but
 this seems like a bit more work than necessary as of now.
+
+To access the database, you can run the following from the root directory:
+
+```
+nix-shell
+sqlite3 db/portfolio.db
+```
+
+From there, entering a new Post value may look like:
+```
+INSERT INTO Post
+( title
+, description
+, created_at
+, updated_at
+, slug
+) VALUES
+( 'Spot It'
+, 'This is about the board game Spot It.'
+, DATETIME('now')
+, DATETIME('now')
+, 'spot-it'
+);
+```

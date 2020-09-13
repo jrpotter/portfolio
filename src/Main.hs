@@ -22,7 +22,7 @@ import Data.Text.Lazy (Text)
 import Data.Time.Clock (UTCTime)
 import Network.Wai.Middleware.Static ((>->))
 import System.IO (IO)
-import Web.Scotty.Trans (ScottyT, scottyOptsT)
+import Web.Scotty.Trans (ActionT, ScottyT, scottyOptsT)
 
 import qualified Database.SQLite.Simple as Simple
 import qualified Network.Wai.Middleware.Static as Static
@@ -47,6 +47,8 @@ databaseName = "db/portfolio.db"
 
 data PostField = PostField
   Int      -- ^ id
+  Text     -- ^ title
+  Text     -- ^ description
   UTCTime  -- ^ created_at
   UTCTime  -- ^ updated_at
   Text     -- ^ slug
@@ -57,13 +59,17 @@ instance Simple.FromRow PostField where
     <*> Simple.field
     <*> Simple.field
     <*> Simple.field
+    <*> Simple.field
+    <*> Simple.field
 
 instance ToJSON PostField where
-  toJSON (PostField a b c d) = object
+  toJSON (PostField a b c d e f) = object
     [ "id" .= a
-    , "created_at" .= b
-    , "updated_at" .= c
-    , "slug" .= d
+    , "title" .= b
+    , "description" .= c
+    , "created_at" .= d
+    , "updated_at" .= e
+    , "slug" .= f
     ]
 
 initialize :: (MonadReader Config m, MonadIO m) => m ()
@@ -73,16 +79,27 @@ initialize = do
   liftIO $ Simple.execute_ conn "     \
     \ CREATE TABLE IF NOT EXISTS Post \
     \ ( id INTEGER PRIMARY KEY        \
+    \ , title TEXT                    \
+    \ , description TEXT              \
     \ , created_at TEXT               \
     \ , updated_at TEXT               \
-    \ , slug TEXT                     \
+    \ , slug TEXT UNIQUE              \
     \ );                              "
+
+-- =============================================================================
+-- Actions
+-- =============================================================================
 
 getPostList :: (MonadReader Config m, MonadIO m) => m [PostField]
 getPostList = do
   config <- ask
   let conn = _configConnection config
   liftIO (Simple.query_ conn "SELECT * FROM Post" :: IO [PostField])
+
+getPostList' :: (MonadReader Config m, MonadIO m) => ActionT Text m ()
+getPostList' = do
+  posts <- getPostList
+  Scotty.json posts
 
 -- =============================================================================
 -- Server
@@ -95,14 +112,21 @@ policy = Static.policy rewrite >-> Static.addBase "dist"
     rewrite "" = Just "index.html"
     rewrite p = Just p
 
-configure :: ConfigM a -> IO a
-configure m = do
-  connection <- Simple.open databaseName
-  let config = Config { _configConnection = connection }
-  runReaderT (runConfigM m) config
+-- | Allow passing in the config throughout our various Scotty actions.
+--
+-- Example pulled from:
+-- https://github.com/scotty-web/scotty/blob/master/examples/reader.hs
+configure :: Config -> ConfigM a -> IO a
+configure c m = runReaderT (runConfigM m) c
 
 main :: IO ()
-main = scottyOptsT def configure $ do
-  let options = Static.defaultOptions
-  Scotty.middleware $ Static.staticPolicyWithOptions options policy
-  return ()
+main = do
+  conn <- Simple.open databaseName
+  let config = Config { _configConnection = conn }
+  -- Initialize our database before running the Scotty app to avoid this
+  -- being hit everytime we process an action.
+  runReaderT initialize config
+  scottyOptsT def (configure config) $ do
+    let options = Static.defaultOptions
+    Scotty.middleware $ Static.staticPolicyWithOptions options policy
+    Scotty.get "/api/posts/" getPostList'
