@@ -34,13 +34,10 @@ type State = PostCard
 component :: forall query output m. MonadAff m
           => H.Component HH.HTML query Input output m
 component = H.mkComponent
-  { initialState
+  { initialState: identity
   , render
   , eval: H.mkEval H.defaultEval
   }
-
-initialState :: Input -> State
-initialState input = input
 
 render :: forall action m. State -> H.ComponentHTML Unit action m
 render state = HH.div
