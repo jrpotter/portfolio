@@ -1,4 +1,5 @@
 {-# LANGUAGE FlexibleContexts #-}
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE NoImplicitPrelude #-}
 {-# LANGUAGE OverloadedStrings #-}
 
@@ -6,25 +7,36 @@ module Main
 ( main
 ) where
 
-import Control.Applicative ((<*>))
-import Control.Monad (return)
+import Control.Applicative ((<*>), Applicative)
+import Control.Monad (Monad, return)
 import Control.Monad.IO.Class (MonadIO, liftIO)
-import Control.Monad.Reader (MonadReader, ask, runReaderT)
-import Data.Int (Int)
+import Control.Monad.Reader (MonadReader, ReaderT, ask, runReaderT)
+import Data.Aeson ((.=), ToJSON, object, toJSON)
+import Data.Default.Class (def)
 import Data.Function (($))
-import Data.Functor ((<$>))
+import Data.Functor ((<$>), Functor)
+import Data.Int (Int)
 import Data.Maybe (Maybe(Just))
 import Data.String (String)
-import Data.Text (Text)
+import Data.Text.Lazy (Text)
 import Data.Time.Clock (UTCTime)
 import Network.Wai.Middleware.Static ((>->))
 import System.IO (IO)
+import Web.Scotty.Trans (ScottyT, scottyOptsT)
 
 import qualified Database.SQLite.Simple as Simple
 import qualified Network.Wai.Middleware.Static as Static
-import qualified Web.Scotty as Scotty
+import qualified Web.Scotty.Trans as Scotty
+
+-- =============================================================================
+-- Config
+-- =============================================================================
 
 data Config = Config { _configConnection :: Simple.Connection }
+
+newtype ConfigM a = ConfigM
+  { runConfigM :: ReaderT Config IO a }
+  deriving (Applicative, Functor, Monad, MonadIO, MonadReader Config)
 
 -- =============================================================================
 -- Database
@@ -46,6 +58,14 @@ instance Simple.FromRow PostField where
     <*> Simple.field
     <*> Simple.field
 
+instance ToJSON PostField where
+  toJSON (PostField a b c d) = object
+    [ "id" .= a
+    , "created_at" .= b
+    , "updated_at" .= c
+    , "slug" .= d
+    ]
+
 initialize :: (MonadReader Config m, MonadIO m) => m ()
 initialize = do
   config <- ask
@@ -58,12 +78,11 @@ initialize = do
     \ , slug TEXT                     \
     \ );                              "
 
-getPosts :: (MonadReader Config m, MonadIO m) => m ()
-getPosts = do
+getPostList :: (MonadReader Config m, MonadIO m) => m [PostField]
+getPostList = do
   config <- ask
   let conn = _configConnection config
-  posts <- liftIO (Simple.query_ conn "SELECT * FROM Post" :: IO [PostField])
-  return ()
+  liftIO (Simple.query_ conn "SELECT * FROM Post" :: IO [PostField])
 
 -- =============================================================================
 -- Server
@@ -76,11 +95,14 @@ policy = Static.policy rewrite >-> Static.addBase "dist"
     rewrite "" = Just "index.html"
     rewrite p = Just p
 
-main :: IO ()
-main = do
+configure :: ConfigM a -> IO a
+configure m = do
   connection <- Simple.open databaseName
   let config = Config { _configConnection = connection }
-  runReaderT initialize config
-  Scotty.scotty 3000 $ do
-    let options = Static.defaultOptions
-    Scotty.middleware $ Static.staticPolicyWithOptions options policy
+  runReaderT (runConfigM m) config
+
+main :: IO ()
+main = scottyOptsT def configure $ do
+  let options = Static.defaultOptions
+  Scotty.middleware $ Static.staticPolicyWithOptions options policy
+  return ()

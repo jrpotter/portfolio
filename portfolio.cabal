@@ -5,7 +5,9 @@ version:             0.1.0.0
 
 executable portfolio
   main-is:             Main.hs
-  build-depends:         base
+  build-depends:         aeson
+                       , base
+                       , data-default-class
                        , mtl
                        , scotty
                        , sqlite-simple
