@@ -42,9 +42,11 @@ component = H.mkComponent
 render :: forall action m. State -> H.ComponentHTML Unit action m
 render state = HH.div
   [ HP.class_ (ClassName "post-card") ]
-  [ HH.h2
-    [ HP.class_ (ClassName "post-title") ]
-    [ HH.text state.title ]
+  [ HH.a
+    [ HP.class_ (ClassName "post-title")
+    , HP.href $ "/post/" <> state.slug <> "/"
+    ]
+    [ HH.h2_ [ HH.text state.title ] ]
   , HH.p
     [ HP.class_ (ClassName "post-description") ]
     [ HH.text state.description ]

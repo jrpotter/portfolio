@@ -116,8 +116,8 @@ parse dt = do
 -- | Utility method to try and convert a raw `PostCard` to a real one.
 readRaw :: forall m. MonadAff m => PostCardR -> ExceptT String m PC.PostCard
 readRaw (PostCardR { title, description, createdAt, updatedAt, slug }) = do
-  a <- convert createdAt
-  b <- convert updatedAt
+  a <- parse createdAt
+  b <- parse updatedAt
   let rec = { title, description, createdAt: a, updatedAt: b, slug }
   ExceptT $ pure $ Right rec
 

@@ -3,10 +3,6 @@
 const path = require('path');
 
 module.exports = {
-  devServer: {
-    contentBase: path.resolve(__dirname),
-    port: 8080,
-  },
   entry: {
     common: {
       import: 'static/js/common.js',

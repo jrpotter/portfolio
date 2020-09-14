@@ -27,8 +27,8 @@
     "xhr2": "^0.2.0"
   },
   "scripts": {
-    "build": "webpack",
-    "local": "webpack-dev-server --progress --inline --hot --open",
+    "build": "webpack --config webpack.prod.js",
+    "local": "webpack-dev-server --progress --hot --config webpack.dev.js",
     "test": "spago test"
   },
   "repository": {
