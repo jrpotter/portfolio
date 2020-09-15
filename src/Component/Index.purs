@@ -1,4 +1,4 @@
-module Component.HomePage
+module Component.Index
 ( component
 ) where
 

@@ -1,3 +1,3 @@
 require('static/js/common.js');
 
-require('src/Main.purs').main();
+require('src/Page/Index.purs').page();
