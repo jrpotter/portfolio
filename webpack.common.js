@@ -5,9 +5,9 @@ const path = require('path');
 
 module.exports = {
   entry: {
-    common: {
-      import: 'static/js/common.js',
-      filename: 'common.js',
+    index: {
+      import: 'static/js/index.js',
+      filename: 'index.js',
     },
   },
   plugins: [

@@ -19,6 +19,3 @@ require('static/css/root.css');
 require('static/css/navbar.css');
 require('static/css/postlist.css');
 require('static/css/postcard.css');
-
-// Purescript
-require('src/Main.purs').main();

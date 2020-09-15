@@ -11,4 +11,7 @@ module.exports = merge(common, {
     contentBase: path.resolve(__dirname),
     port: 8080,
   },
+  optimization: {
+    minimize: false,
+  },
 });

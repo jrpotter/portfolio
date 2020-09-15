@@ -131,7 +131,7 @@ startServer template = do
     Scotty.middleware $ Static.staticPolicyWithOptions options policy
     -- Return our homepage and specifically our homepage result.
     Scotty.get "" $ do
-      Scotty.html $ fromStrict $ substitute template (Script "home")
+      Scotty.html $ fromStrict $ substitute template (Script "index")
     -- Retrieve a list of all of our posts.
     Scotty.get "/posts" getPostList'
     -- Pull in a specific HTML file containing our post.
