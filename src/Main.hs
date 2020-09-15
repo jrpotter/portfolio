@@ -11,21 +11,26 @@ import Control.Applicative ((<*>), Applicative)
 import Control.Monad (Monad, return)
 import Control.Monad.IO.Class (MonadIO, liftIO)
 import Control.Monad.Reader (MonadReader, ReaderT, ask, runReaderT)
-import Data.Aeson ((.=), ToJSON, object, toJSON)
+import Data.Aeson ((.=), ToJSON, toJSON)
 import Data.Default.Class (def)
+import Data.Either (Either(..))
 import Data.Function (($))
 import Data.Functor ((<$>), Functor)
 import Data.Int (Int)
 import Data.Maybe (Maybe(Just))
 import Data.String (String)
-import Data.Text.Lazy (Text)
+import Data.Text.Lazy (Text, fromStrict)
 import Data.Time.Clock (UTCTime)
 import Network.Wai.Middleware.Static ((>->))
-import System.IO (IO)
+import System.IO (IO, putStrLn)
+import Text.Mustache ((~>), Template, ToMustache, automaticCompile, substitute)
+import Text.Show (show)
 import Web.Scotty.Trans (ActionT, ScottyT, scottyOptsT)
 
+import qualified Data.Aeson as Aeson
 import qualified Database.SQLite.Simple as Simple
 import qualified Network.Wai.Middleware.Static as Static
+import qualified Text.Mustache as Mustache
 import qualified Web.Scotty.Trans as Scotty
 
 -- =============================================================================
@@ -63,7 +68,7 @@ instance Simple.FromRow PostField where
     <*> Simple.field
 
 instance ToJSON PostField where
-  toJSON (PostField a b c d e f) = object
+  toJSON (PostField a b c d e f) = Aeson.object
     [ "id" .= a
     , "title" .= b
     , "description" .= c
@@ -105,28 +110,43 @@ getPostList' = do
 -- Server
 -- =============================================================================
 
-policy :: Static.Policy
-policy = Static.policy rewrite >-> Static.addBase "dist"
-  where
-    rewrite :: String -> Maybe String
-    rewrite "" = Just "index.html"
-    rewrite p = Just p
+newtype Script = Script { runScript :: String }
 
--- | Allow passing in the config throughout our various Scotty actions.
---
--- Example pulled from:
--- https://github.com/scotty-web/scotty/blob/master/examples/reader.hs
-configure :: Config -> ConfigM a -> IO a
-configure c m = runReaderT (runConfigM m) c
+instance ToMustache Script where
+  toMustache (Script value) = Mustache.object ["script" ~> value]
 
-main :: IO ()
-main = do
+startServer :: Template -> IO ()
+startServer template = do
   conn <- Simple.open databaseName
   let config = Config { _configConnection = conn }
   -- Initialize our database before running the Scotty app to avoid this
   -- being hit everytime we process an action.
   runReaderT initialize config
-  scottyOptsT def (configure config) $ do
+  -- Allow passing in the config throughout our various Scotty actions. Example
+  -- pulled from:
+  -- https://github.com/scotty-web/scotty/blob/master/examples/reader.hs
+  scottyOptsT def (\m -> runReaderT (runConfigM m) config) $ do
     let options = Static.defaultOptions
+    let policy = Static.addBase "dist"
     Scotty.middleware $ Static.staticPolicyWithOptions options policy
-    Scotty.get "/api/posts/" getPostList'
+    -- Return our homepage and specifically our homepage result.
+    Scotty.get "" $ do
+      Scotty.html $ fromStrict $ substitute template (Script "home")
+    -- Retrieve a list of all of our posts.
+    Scotty.get "/posts" getPostList'
+    -- Pull in a specific HTML file containing our post.
+    Scotty.get "/post/:slug" $ do
+      slug <- Scotty.param "slug"
+      Scotty.html $ fromStrict $ substitute template (Script slug)
+
+main :: IO ()
+main = do
+  -- Compile our Mustache template and cache the result for use across requests.
+  -- We only have the one template as of now that consists of a custom script
+  -- we can load. This way, we can include javascript/CSS specific to a given
+  -- `Post` instead of including all post-specific code across all pages
+  -- unnecessarily.
+  compiled <- automaticCompile [".", "./dist"] "index.html"
+  case compiled of
+    Left err -> putStrLn $ show err
+    Right template -> startServer template

@@ -9,6 +9,7 @@ executable portfolio
                        , base
                        , data-default-class
                        , mtl
+                       , mustache
                        , scotty
                        , sqlite-simple
                        , text
