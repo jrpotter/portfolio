@@ -1,5 +1,6 @@
 'use strict';
 
+const CopyPlugin = require('copy-webpack-plugin');
 const path = require('path');
 
 module.exports = {
@@ -9,6 +10,13 @@ module.exports = {
       filename: 'common.js',
     },
   },
+  plugins: [
+    new CopyPlugin({
+      patterns: [
+        { from: 'static/index.html', to: 'index.html' },
+      ],
+    }),
+  ],
   module: {
     rules: [
       {

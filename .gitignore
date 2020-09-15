@@ -34,5 +34,3 @@ cabal.sandbox.config
 dist/*
 dist-*
 result
-# Static files
-!dist/index.html
