@@ -1,3 +1,6 @@
 require('static/js/common.js');
 
-require('src/Page/Index.purs').page();
+require('static/css/postlist.css');
+require('static/css/postcard.css');
+
+require('src/Page/Index.purs').main();

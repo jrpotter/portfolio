@@ -9,6 +9,10 @@ module.exports = {
       import: 'static/js/index.js',
       filename: 'index.js',
     },
+    'spot-it': {
+      import: 'static/js/spot-it.js',
+      filename: 'spot-it.js',
+    },
   },
   plugins: [
     new CopyPlugin({
@@ -45,7 +49,14 @@ module.exports = {
       },
       {
         test: /\.(svg|eot|otf|woff|woff2|ttf)$/,
-        use: ['file-loader']
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              publicPath: '/',
+            },
+          },
+        ],
       },
     ],
   },
