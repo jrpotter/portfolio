@@ -75,11 +75,14 @@ render state = HH.div
     , HP.height state.navbarHeight
     , HP.width state.navbarWidth
     ]
-  , HH.div
-    [ HP.id_ "logo-wrapper" ]
-    [ HH.h1_ [ HH.text "FuzzyKayak" ]
-    , HH.img
-      [ HP.src "https://avatars2.githubusercontent.com/u/3267697?s=300&v=4" ]
+  , HH.a
+    [ HP.href "/" ]
+    [ HH.div
+      [ HP.id_ "logo-wrapper" ]
+      [ HH.h1_ [ HH.text "FuzzyKayak" ]
+      , HH.img
+        [ HP.src "https://avatars2.githubusercontent.com/u/3267697?s=300&v=4" ]
+      ]
     ]
   , HH.div
     [ HP.id_ "social-wrapper" ]

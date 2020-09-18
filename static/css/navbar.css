@@ -1,5 +1,6 @@
 #navbar {
   background-color: var(--navbar-bg-color);
+  border-bottom: 3px solid black;
   color: var(--navbar-text-color);
   height: 250px;
   position: relative;
@@ -29,6 +30,7 @@
   }
 
   & h1 {
+    color: white;
     font-family: republiko;
     margin: 0;
     padding: 20px 0;
