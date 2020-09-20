@@ -15,6 +15,7 @@ import Halogen as H
 import Halogen.Aff as HA
 import Halogen.HTML as HH
 import Halogen.HTML.Core (ClassName(..))
+import Halogen.HTML.Events as HE
 import Halogen.HTML.Properties as HP
 import Halogen.Query.EventSource (eventListenerEventSource)
 import Math ((%))
@@ -24,7 +25,8 @@ import Web.DOM.ParentNode (QuerySelector(..))
 import Web.Event.Event (EventType(..))
 import Web.HTML (window)
 import Web.HTML.HTMLElement (toElement)
-import Web.HTML.Window (toEventTarget)
+import Web.HTML.Location (assign)
+import Web.HTML.Window (location, toEventTarget)
 
 -- =============================================================================
 -- Constants
@@ -75,14 +77,11 @@ render state = HH.div
     , HP.height state.navbarHeight
     , HP.width state.navbarWidth
     ]
-  , HH.a
-    [ HP.href "/" ]
-    [ HH.div
-      [ HP.id_ "logo-wrapper" ]
-      [ HH.h1_ [ HH.text "FuzzyKayak" ]
-      , HH.img
-        [ HP.src "https://avatars2.githubusercontent.com/u/3267697?s=300&v=4" ]
-      ]
+  , HH.div
+    [ HP.id_ "logo-wrapper", HE.onClick \_ -> Just Redirect ]
+    [ HH.h1_ [ HH.text "FuzzyKayak" ]
+    , HH.img
+      [ HP.src "https://avatars2.githubusercontent.com/u/3267697?s=300&v=4" ]
     ]
   , HH.div
     [ HP.id_ "social-wrapper" ]
@@ -124,7 +123,7 @@ strokeRect ctx r = GC.strokePath ctx $ do
 -- Action
 -- =============================================================================
 
-data Action = Initialize | Randomize
+data Action = Initialize | Randomize | Redirect
 
 handleAction :: forall output m. MonadAff m
              => Action -> H.HalogenM State Action () output m Unit
@@ -158,3 +157,8 @@ handleAction Randomize = void $ runMaybeT do
     -- Randomly decide which squares we want to color in our grid.
     GC.setFillStyle ctx gridFillColor
     void $ for (1 .. 80) (\_ -> colorRect ctx width height)
+
+handleAction Redirect = H.liftEffect $ do
+  w <- window
+  loc <- location w
+  assign "/" loc
