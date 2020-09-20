@@ -17,10 +17,11 @@ import Data.Either (Either(..))
 import Data.Function (($))
 import Data.Functor ((<$>), Functor)
 import Data.Int (Int)
-import Data.Maybe (Maybe(Just))
+import Data.Maybe (Maybe(..), listToMaybe)
 import Data.String (String)
 import Data.Text.Lazy (Text, fromStrict)
 import Data.Time.Clock (UTCTime)
+import Network.HTTP.Types.Status (status404)
 import Network.Wai.Middleware.Static ((>->))
 import System.IO (IO, putStrLn)
 import Text.Mustache ((~>), Template, ToMustache, automaticCompile, substitute)
@@ -95,12 +96,32 @@ initialize = do
 -- Actions
 -- =============================================================================
 
+getPost :: (MonadReader Config m, MonadIO m) => String -> m (Maybe PostField)
+getPost slug = do
+  config <- ask
+  let conn = _configConnection config
+  results <- liftIO $ query conn slug
+  return $ listToMaybe results
+  where
+    query :: Simple.Connection -> String -> IO [PostField]
+    query c slug =
+      Simple.query c "SELECT * FROM POST WHERE slug = ?" (Simple.Only slug)
+
+getPost' :: (MonadReader Config m, MonadIO m) => String -> ActionT Text m ()
+getPost' slug = do
+  post <- getPost slug
+  case post of
+    Just r -> Scotty.json r
+    Nothing -> Scotty.status status404
+
 getPostList :: (MonadReader Config m, MonadIO m) => m [PostField]
 getPostList = do
   config <- ask
   let conn = _configConnection config
-  liftIO (Simple.query_
-    conn "SELECT * FROM Post ORDER BY created_at DESC" :: IO [PostField])
+  liftIO $ query conn
+  where
+    query :: Simple.Connection -> IO [PostField]
+    query c = Simple.query_ c "SELECT * FROM Post ORDER BY created_at DESC"
 
 getPostList' :: (MonadReader Config m, MonadIO m) => ActionT Text m ()
 getPostList' = do
@@ -133,8 +154,11 @@ startServer template = do
     -- Return our homepage and specifically our homepage result.
     Scotty.get "" $ do
       Scotty.html $ fromStrict $ substitute template (Script "index")
-    -- Retrieve a list of all of our posts.
-    Scotty.get "/posts" getPostList'
+    -- Retrieve a single post or a list of all posts.
+    Scotty.get "/api/post/:slug" $ do
+      slug <- Scotty.param "slug"
+      getPost' slug
+    Scotty.get "/api/posts" getPostList'
     -- Pull in a specific HTML file containing our post.
     Scotty.get "/post/:slug" $ do
       slug <- Scotty.param "slug"

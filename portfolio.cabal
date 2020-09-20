@@ -8,6 +8,7 @@ executable portfolio
   build-depends:         aeson
                        , base
                        , data-default-class
+                       , http-types
                        , mtl
                        , mustache
                        , scotty

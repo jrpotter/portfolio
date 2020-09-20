@@ -123,7 +123,7 @@ readRaw (PostCardR { title, description, createdAt, updatedAt, slug }) = do
 
 postListRequest :: AX.Request DA.Json
 postListRequest = AX.defaultRequest
-  { url = "/posts"
+  { url = "/api/posts"
   , method = Left GET
   , responseFormat = ResponseFormat.json
   }
