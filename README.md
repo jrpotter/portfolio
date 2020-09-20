@@ -54,6 +54,7 @@ To access the database, you can run the following from the root directory:
 ```
 nix-shell
 sqlite3 db/portfolio.db
+sqlite3 db/portfolio.db < db/posts.sql
 ```
 
 From there, entering a new Post value may look like:

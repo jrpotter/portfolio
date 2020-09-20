@@ -4,11 +4,14 @@ module Component.PostCard
 ) where
 
 import Data.DateTime (DateTime)
+import Data.Formatter.DateTime (FormatterCommand(..), format)
+import Data.List.Types ((:), List(..))
 import Effect.Aff.Class (class MonadAff)
 import Halogen as H
 import Halogen.HTML as HH
 import Halogen.HTML.Core (ClassName(..))
 import Halogen.HTML.Properties as HP
+import Html.Renderer.Halogen as RH
 import Prelude
 
 -- =============================================================================
@@ -47,7 +50,24 @@ render state = HH.div
     , HP.href $ "/post/" <> state.slug <> "/"
     ]
     [ HH.h2_ [ HH.text state.title ] ]
+  , HH.span
+    [ HP.class_ (ClassName "post-date") ]
+    [ HH.text $ format
+      ( MonthFull
+      : Placeholder " "
+      : DayOfMonthTwoDigits
+      : Placeholder ", "
+      : YearFull
+      : Placeholder " at "
+      : Hours12
+      : Placeholder ":"
+      : MinutesTwoDigits
+      : Placeholder " "
+      : Meridiem
+      : Nil
+      ) state.updatedAt
+    ]
   , HH.p
     [ HP.class_ (ClassName "post-description") ]
-    [ HH.text state.description ]
+    [ RH.render_ state.description ]
   ]
