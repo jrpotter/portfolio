@@ -99,7 +99,8 @@ getPostList :: (MonadReader Config m, MonadIO m) => m [PostField]
 getPostList = do
   config <- ask
   let conn = _configConnection config
-  liftIO (Simple.query_ conn "SELECT * FROM Post" :: IO [PostField])
+  liftIO (Simple.query_
+    conn "SELECT * FROM Post ORDER BY created_at DESC" :: IO [PostField])
 
 getPostList' :: (MonadReader Config m, MonadIO m) => ActionT Text m ()
 getPostList' = do

@@ -56,14 +56,8 @@ render state = HH.div
       ( MonthFull
       : Placeholder " "
       : DayOfMonthTwoDigits
-      : Placeholder ", "
-      : YearFull
-      : Placeholder " at "
-      : Hours12
-      : Placeholder ":"
-      : MinutesTwoDigits
       : Placeholder " "
-      : Meridiem
+      : YearFull
       : Nil
       ) state.updatedAt
     ]

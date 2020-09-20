@@ -3,6 +3,16 @@
   src: url(../fonts/republiko.otf);
 }
 
+@font-face {
+  font-family: uniform-bold;
+  src: url(../fonts/uniform-bold.otf);
+}
+
+@font-face {
+  font-family: uniform-light;
+  src: url(../fonts/uniform-light.otf);
+}
+
 :root {
   --primary-color: #449DAA;
   --primary-darker-color: #298794;

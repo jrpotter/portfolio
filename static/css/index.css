@@ -1,0 +1,43 @@
+#post-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.post-card {
+  margin: 10px;
+  padding: 20px;
+
+  & .post-title {
+    color: black;
+    font-family: uniform-bold;
+    font-size: 20pt;
+    text-decoration: none;
+    text-transform: uppercase;
+
+    & h2 {
+      margin: 8px 0;
+    }
+  }
+
+  & .post-date {
+    display: block;
+    font-family: uniform-light;
+    font-size: 10pt;
+  }
+
+  & .post-description {
+    border-top: 2px dashed black;
+    margin-top: 12px;
+    padding-top: 12px;
+
+    & a {
+      color: black;
+    }
+  }
+}
+
+@media (min-width: 576px) {
+  .post-card {
+    width: 45%;
+  }
+}
