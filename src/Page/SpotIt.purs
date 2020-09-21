@@ -80,4 +80,4 @@ handleAction Initialize = do
      P.readRaw decoded
   case result of
       Left err -> log $ "Could not get post: " <> err
-      Right pc -> H.put (Just pc)
+      Right post -> H.put (Just post)

@@ -4,7 +4,7 @@ module Component.PostList
 
 import Affjax as AX
 import Affjax.ResponseFormat as ResponseFormat
-import Component.PostCard as PC
+import Component.PostPreview as PP
 import Control.Monad.Except.Trans (ExceptT(..), runExceptT)
 import Data.Argonaut as DA
 import Data.Either (Either(..))
@@ -48,7 +48,7 @@ component = H.mkComponent
 
 render :: forall m. MonadAff m => State -> H.ComponentHTML Action Slots m
 render state = HH.div [ HP.id_ "post-list" ] $
-  map (\p -> HH.slot postProxy 0 PC.component p absurd) state
+  map (\p -> HH.slot postProxy 0 PP.component p absurd) state
 
 -- =============================================================================
 -- Action
@@ -72,4 +72,4 @@ handleAction Initialize = do
      for decoded P.readRaw
   case result of
       Left err -> log $ "Could not get posts: " <> err
-      Right pc -> H.put pc
+      Right posts -> H.put posts

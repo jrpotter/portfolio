@@ -1,9 +1,7 @@
-module Component.PostCard
-( PostCard
-, component
+module Component.PostPreview
+( component
 ) where
 
-import Data.DateTime (DateTime)
 import Data.Formatter.DateTime (FormatterCommand(..), format)
 import Data.List.Types ((:), List(..))
 import Effect.Aff.Class (class MonadAff)
@@ -12,27 +10,16 @@ import Halogen.HTML as HH
 import Halogen.HTML.Core (ClassName(..))
 import Halogen.HTML.Properties as HP
 import Html.Renderer.Halogen as RH
+import Model.Post as P
 import Prelude
-
--- =============================================================================
--- Model
--- =============================================================================
-
-type PostCard =
-  { title :: String
-  , description :: String
-  , createdAt :: DateTime
-  , updatedAt :: DateTime
-  , slug :: String
-  }
 
 -- =============================================================================
 -- Component
 -- =============================================================================
 
-type Input = PostCard
+type Input = P.Post
 
-type State = PostCard
+type State = P.Post
 
 component :: forall query output m. MonadAff m
           => H.Component HH.HTML query Input output m
