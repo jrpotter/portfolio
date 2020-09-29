@@ -1,15 +1,14 @@
-module Component.PostPreview
+module Component.PostHeader
 ( component
 ) where
 
-import Component.PostHeader as PH
-import Data.Symbol (SProxy(..))
+import Data.Formatter.DateTime (FormatterCommand(..), format)
+import Data.List.Types ((:), List(..))
 import Effect.Aff.Class (class MonadAff)
 import Halogen as H
 import Halogen.HTML as HH
 import Halogen.HTML.Core (ClassName(..))
 import Halogen.HTML.Properties as HP
-import Html.Renderer.Halogen as RH
 import Model.Post as P
 import Prelude
 
@@ -23,9 +22,7 @@ type State = P.Post
 
 type Action = Unit
 
-type Slots = ( postHeader :: forall query. H.Slot query Void Int )
-
-postHeaderProxy = SProxy :: SProxy "postHeader"
+type Slots = ()
 
 -- =============================================================================
 -- Component
@@ -40,10 +37,21 @@ component = H.mkComponent
   }
 
 render :: forall m. MonadAff m => State -> H.ComponentHTML Action Slots m
-render state = HH.div
-  [ HP.class_ (ClassName "post-preview") ]
-  [ HH.slot postHeaderProxy 0 PH.component state absurd
-  , HH.p
-    [ HP.class_ (ClassName "post-description") ]
-    [ RH.render_ state.description ]
+render state = HH.div_
+  [ HH.a
+    [ HP.class_ (ClassName "post-title")
+    , HP.href $ "/post/" <> state.slug <> "/"
+    ]
+    [ HH.h2_ [ HH.text state.title ] ]
+  , HH.span
+    [ HP.class_ (ClassName "post-date") ]
+    [ HH.text $ format
+      ( MonthFull
+      : Placeholder " "
+      : DayOfMonthTwoDigits
+      : Placeholder " "
+      : YearFull
+      : Nil
+      ) state.updatedAt
+    ]
   ]

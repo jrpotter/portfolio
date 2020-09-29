@@ -22,8 +22,12 @@ import Network.Request (decodeJson', request')
 import Prelude
 
 -- =============================================================================
--- Slots
+-- Types
 -- =============================================================================
+
+type State = Array P.Post
+
+data Action = Initialize
 
 type Slots = ( post :: forall query. H.Slot query Void Int )
 
@@ -32,8 +36,6 @@ postProxy = SProxy :: SProxy "post"
 -- =============================================================================
 -- Component
 -- =============================================================================
-
-type State = Array P.Post
 
 component :: forall query input output m. MonadAff m
           => H.Component HH.HTML query input output m
@@ -49,12 +51,6 @@ component = H.mkComponent
 render :: forall m. MonadAff m => State -> H.ComponentHTML Action Slots m
 render state = HH.div [ HP.id_ "post-list" ] $
   map (\p -> HH.slot postProxy 0 PP.component p absurd) state
-
--- =============================================================================
--- Action
--- =============================================================================
-
-data Action = Initialize
 
 postListRequest :: AX.Request DA.Json
 postListRequest = AX.defaultRequest

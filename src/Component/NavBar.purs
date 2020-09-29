@@ -29,6 +29,21 @@ import Web.HTML.Location (assign)
 import Web.HTML.Window (location, toEventTarget)
 
 -- =============================================================================
+-- Types
+-- =============================================================================
+
+type State =
+  { -- | Width of our navigation div.
+    navbarWidth :: Int
+  , -- | Height of our navigation div.
+    navbarHeight :: Int
+  }
+
+data Action = Initialize | Randomize | Redirect
+
+type Slots = ()
+
+-- =============================================================================
 -- Constants
 -- =============================================================================
 
@@ -51,13 +66,6 @@ gridFillColor = "#6CBCC8"
 -- Component
 -- =============================================================================
 
-type State =
-  { -- | Width of our navigation div.
-    navbarWidth :: Int
-  , -- | Height of our navigation div.
-    navbarHeight :: Int
-  }
-
 component :: forall query input output m. MonadAff m
           => H.Component HH.HTML query input output m
 component = H.mkComponent
@@ -69,7 +77,7 @@ component = H.mkComponent
     }
   }
 
-render :: forall m. State -> H.ComponentHTML Action () m
+render :: forall m. State -> H.ComponentHTML Action Slots m
 render state = HH.div
   [ HP.id_ navbarId ]
   [ HH.canvas
@@ -123,10 +131,8 @@ strokeRect ctx r = GC.strokePath ctx $ do
 -- Action
 -- =============================================================================
 
-data Action = Initialize | Randomize | Redirect
-
 handleAction :: forall output m. MonadAff m
-             => Action -> H.HalogenM State Action () output m Unit
+             => Action -> H.HalogenM State Action Slots output m Unit
 
 handleAction Initialize = do
   window' <- H.liftEffect window

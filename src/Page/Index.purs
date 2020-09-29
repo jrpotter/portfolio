@@ -2,7 +2,7 @@ module Page.Index
 ( main
 ) where
 
-import Component.NavBar as NavBar
+import Component.NavBar as NB
 import Component.PostList as PostList
 import Data.Symbol (SProxy(..))
 import Effect (Effect)
@@ -48,6 +48,6 @@ component = H.mkComponent
 
 render :: forall m. MonadAff m => State -> H.ComponentHTML Unit Slots m
 render state = HH.div_
-  [ HH.slot navBarProxy 0 NavBar.component absurd absurd
+  [ HH.slot navBarProxy 0 NB.component absurd absurd
   , HH.slot postListProxy 1 PostList.component absurd absurd
   ]
