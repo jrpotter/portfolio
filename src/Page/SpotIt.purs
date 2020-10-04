@@ -70,6 +70,29 @@ render (Just state) = HH.div_
   , HH.div
     [ HP.class_ (ClassName "post-body") ]
     [ HH.slot postHeaderProxy 1 PH.component state absurd
+    -- -------------------------------------------------------------------------
+    -- Introduction
+    -- -------------------------------------------------------------------------
+    , HH.h2_ [ HH.text "Introduction" ]
+    , HH.p_ 
+      [ HH.text """
+        Spot it! is a party game consisting of 55 cards, each with a variety of
+        different symbols, consisting of just a single matching symbol between
+        any pair. For example, there exists just one common symbol on each pair
+        of cards below:
+        """
+      ]
+    , HH.div [ HP.id_ "intro-cards" ] (map introCard [1, 2, 3])
+    , HH.p_
+      [ HH.text """
+        Between cards (1) and (2) we see the orangish treble clef; between cards
+        (2) and (3) we see the word "ART"; between cards (1) and (3) we see the
+        water drop. Between each of these pairs, there will be no other match.
+        This holds true across all 55 cards included in Spot it! and how this
+        holds true as well as how we can automate finding these matches will be
+        the topic of this post.
+        """
+      ]
     ]
   ]
 
@@ -90,3 +113,19 @@ handleAction Initialize = do
   case result of
       Left err -> log $ "Could not get post: " <> err
       Right post -> H.put (Just post)
+
+
+-- =============================================================================
+-- Introduction
+-- =============================================================================
+
+introCard :: forall w i. Int -> HH.HTML w i
+introCard num =
+  let path = show num
+      prefix = "https://portfolio-static.s3.amazonaws.com/spot-it/cards/"
+   in
+      HH.div
+      [ HP.class_ (ClassName "intro-card") ]
+      [ HH.img [ HP.src $ prefix <> path <> ".png" ]
+      , HH.p_ [ HH.text $ "(" <> path <> ")" ]
+      ]

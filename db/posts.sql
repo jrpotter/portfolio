@@ -8,7 +8,7 @@ INSERT OR REPLACE INTO Post
 ) VALUES
 ( (SELECT id FROM Post WHERE slug = 'spot-it')
 , 'Spotting It'
-, '<a href="https://en.wikipedia.org/wiki/Dobble" target="_blank">Spot It!</a>
+, '<a href="https://en.wikipedia.org/wiki/Dobble" target="_blank">Spot it!</a>
 is a party game consisting of 55 cards, each with a variety of different
 symbols, consisting of just a single matching symbol between any pair. The goal
 of the game (across the various game modes described by the "Spot it!"

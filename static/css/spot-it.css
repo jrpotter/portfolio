@@ -1,0 +1,21 @@
+#intro-cards {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.intro-card {
+  margin: 0 auto;
+  max-width: 33%;
+  width: 250px;
+
+  & img {
+    height: auto;
+    width: 100%;
+  }
+
+  & p {
+    padding-top: 5px;
+    text-align: center;
+  }
+}
