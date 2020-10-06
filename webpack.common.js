@@ -18,6 +18,13 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         { from: 'static/index.html', to: 'index.html' },
+        // We copy MathJax fonts over from `node_modules` into our static
+        // folder. The MathJax lib expects this to exist in a certain path
+        // though, which we configure here.
+        {
+          from: 'static/fonts/MathJax_*',
+          to: 'output/chtml/fonts/woff-v2/[name].[ext]',
+        },
       ],
     }),
   ],

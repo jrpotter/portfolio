@@ -21,6 +21,7 @@ import Halogen.HTML as HH
 import Halogen.HTML.Core (ClassName(..))
 import Halogen.HTML.Properties as HP
 import Halogen.VDom.Driver (runUI)
+import MathJax.StartUp (startUp)
 import Model.Post as P
 import Network.Request (decodeJson', request')
 import Prelude
@@ -76,10 +77,14 @@ render (Just state) = HH.div_
     , HH.h2_ [ HH.text "Introduction" ]
     , HH.p_ 
       [ HH.text """
-        Spot it! is a party game consisting of 55 cards, each with a variety of
-        different symbols, consisting of just a single matching symbol between
-        any pair. For example, there exists just one common symbol on each pair
-        of cards below:
+        In light of Covid-19, my girlfriend and I have had to find different
+        ways to keep ourselves preoccupied. When we aren't playing Animal
+        Crossing or watching Community (or just need a break from screens in
+        general), we've been playing a card game called "Spot it!". "Spot it!"
+        is a party game consisting of 55 cards, each with a variety of different
+        symbols, consisting of just a single matching symbol between any pair.
+        For example, there exists just one common symbol on each pair of cards
+        below:
         """
       ]
     , HH.div [ HP.id_ "intro-cards" ] (map introCard [1, 2, 3])
@@ -87,12 +92,18 @@ render (Just state) = HH.div_
       [ HH.text """
         Between cards (1) and (2) we see the orangish treble clef; between cards
         (2) and (3) we see the word "ART"; between cards (1) and (3) we see the
-        water drop. Between each of these pairs, there will be no other match.
-        This holds true across all 55 cards included in Spot it! and how this
-        holds true as well as how we can automate finding these matches will be
-        the topic of this post.
+        water drop. Furthermore, on careful inspection, we'll see that these are
+        the only matches for these pairs. These cards are 3 of the 55 cards
+        included in the "Spot it!" game but this property holds between any of
+        the \(\binom{55}{2}\) possible pairs. This post will briefly touch on
+        the math explaining how this property holds and will then look at how we
+        can automate finding these matches.
         """
       ]
+    -- -------------------------------------------------------------------------
+    -- Mathematics
+    -- -------------------------------------------------------------------------
+    , HH.h2_ [ HH.text "Mathematics" ]
     ]
   ]
 
@@ -112,7 +123,10 @@ handleAction Initialize = do
      P.readRaw decoded
   case result of
       Left err -> log $ "Could not get post: " <> err
-      Right post -> H.put (Just post)
+      Right post -> do
+        H.put (Just post)
+        -- Initialize MathJAX after first render request is finished.
+        H.liftEffect startUp
 
 
 -- =============================================================================
