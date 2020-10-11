@@ -35,3 +35,5 @@ cabal.sandbox.config
 dist/*
 dist-*
 result
+# IHaskell
+**/.ipynb_checkpoints/

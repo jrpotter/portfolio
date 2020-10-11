@@ -101,8 +101,6 @@ coding with. Getting this running just requires the following:
 ```
 # Run our shell from the root directory of this project.
 nix-shell
-# Switch over to notebooks directory to keep things clean.
-cd notebooks
 # Run a binary copied over from the IHaskell nix project. This will load a
 # Jupyter lab that is able to run both Python and Haskell.
 ihaskell-lab
