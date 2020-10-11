@@ -16,6 +16,10 @@ npm install -g spago
 # Install Nix which will be used to include fixed versions of our Haskell
 # packages.
 curl -L https://nixos.org/nix/install | sh
+# Update your nix config file to allow broken packages; not all packages are as
+# up to date as we'd like.
+mkdir -p ~/.config/nixpkgs
+echo '{ allowBroken: true; }' >> ~/.config/nixpkgs/config.nix
 ```
 
 Afterward we use the above toolchains to consolidate everything together. When

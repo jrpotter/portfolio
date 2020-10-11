@@ -1,7 +1,7 @@
-{ pkgs ? import <nixpkgs> {} }:
+{ pkgs ? import ./nixpkgs {} }:
 let
-  default = import ./default.nix {};
-in
+  default = import ./default.nix { inherit pkgs; };
+ in
   pkgs.mkShell {
     inputsFrom = [ default ];
     buildInputs = [ pkgs.sqlite ];
