@@ -9,9 +9,6 @@ executable portfolio
                        , base
                        , data-default-class
                        , http-types
-                       , ihaskell
-                       , ihaskell-blaze
-                       , ihaskell-charts
                        , mtl
                        , mustache
                        , scotty
