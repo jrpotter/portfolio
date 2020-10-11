@@ -7,7 +7,7 @@ let
     buildInputs = [ pkgs.sqlite ];
     shellHook = ''
     mkdir -p $out/bin
-    ln -s "${default.ihaskell.out}/bin/ihaskell-lab" $out/bin
+    ln -sf "${default.ihaskell.out}/bin/ihaskell-lab" $out/bin
     PATH=$PATH:$out/bin
     '';
   }
