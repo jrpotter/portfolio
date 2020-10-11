@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+case "$1" in
+  build)
+    webpack --config webpack.$2.js
+    ;;
+  *)
+    echo "Unknown command."
+    exit 1
+    ;;
+esac 

@@ -28,8 +28,7 @@
     "xhr2": "^0.2.0"
   },
   "scripts": {
-    "build-prod": "webpack --config webpack.prod.js",
-    "build-dev": "webpack --config webpack.dev.js",
+    "build": "./package build",
     "test": "spago test"
   },
   "repository": {
