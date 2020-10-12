@@ -19,3 +19,31 @@
     text-align: center;
   }
 }
+
+.notebook {
+  bottom: 0;
+  position: fixed;
+  top: 0;
+  width: 400px;
+}
+
+#fab-notebook {
+  background-color: var(--secondary-darker-color);
+  border-radius: 40px;
+  border: 1px solid black;
+  bottom: 20px;
+  color: white;
+  cursor: pointer;
+  height: 40px;
+  position: fixed;
+  right: 20px;
+  width: 40px;
+
+  & .fab-icon {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    line-height: 40px;
+    padding-top: 2px;
+  }
+}
