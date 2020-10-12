@@ -5,6 +5,7 @@ module Page.SpotIt
 import Affjax as AX
 import Affjax.ResponseFormat as ResponseFormat
 import Component.NavBar as NB
+import Component.Notebook as N
 import Component.PostHeader as PH
 import Control.Monad.Except.Trans (ExceptT(..), runExceptT)
 import Data.Argonaut as DA
@@ -43,11 +44,14 @@ data Action = Initialize
 type Slots =
   ( navBar :: forall query. H.Slot query Void Int
   , postHeader :: forall query. H.Slot query Void Int
+  , notebook :: forall query. H.Slot query Void Int
   )
 
 navBarProxy = SProxy :: SProxy "navBar"
 
 postHeaderProxy = SProxy :: SProxy "postHeader"
+
+notebookProxy = SProxy :: SProxy "notebook"
 
 -- =============================================================================
 -- Component
@@ -104,6 +108,7 @@ render (Just state) = HH.div_
     -- Mathematics
     -- -------------------------------------------------------------------------
     , HH.h2_ [ HH.text "Mathematics" ]
+    , HH.slot notebookProxy 2 N.component unit absurd
     ]
   ]
 

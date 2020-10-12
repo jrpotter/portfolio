@@ -61,7 +61,7 @@ curl -L https://nixos.org/nix/install | sh
 mkdir -p ~/.config/nixpkgs
 echo '{ allowBroken: true; }' >> ~/.config/nixpkgs/config.nix
 # Build our backend using Nix to pull in dependencies listed in our cabal file.
-nix-build
+nix-build -A portfolio
 # Lastly run our backend and view served files on the exposed port.
 result/bin/portfolio
 ```
