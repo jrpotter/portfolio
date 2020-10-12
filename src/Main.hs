@@ -12,17 +12,20 @@ import Control.Monad (Monad, return)
 import Control.Monad.IO.Class (MonadIO, liftIO)
 import Control.Monad.Reader (MonadReader, ReaderT, ask, runReaderT)
 import Data.Aeson ((.=), ToJSON, toJSON)
+import Data.Char (toLower, toUpper)
 import Data.Default.Class (def)
 import Data.Either (Either(..))
 import Data.Function (($))
-import Data.Functor ((<$>), Functor)
+import Data.Functor ((<$>), Functor, fmap)
 import Data.Int (Int)
-import Data.Maybe (Maybe(..), listToMaybe)
+import Data.List ((++))
+import Data.Maybe (Maybe(..), fromJust, listToMaybe)
 import Data.String (String)
 import Data.Text.Lazy (Text, fromStrict)
 import Data.Time.Clock (UTCTime)
 import Network.HTTP.Types.Status (status404)
 import Network.Wai.Middleware.Static ((>->))
+import Prelude (error)
 import System.IO (IO, putStrLn)
 import Text.Mustache ((~>), Template, ToMustache, automaticCompile, substitute)
 import Text.Show (show)
@@ -93,6 +96,17 @@ initialize = do
     \ );                              "
 
 -- =============================================================================
+-- Verbs
+-- =============================================================================
+
+-- | Specify types here for error message type resolution.
+get :: (MonadIO m)
+    => Scotty.RoutePattern
+    -> Scotty.ActionT Text m ()
+    -> Scotty.ScottyT Text m ()
+get = Scotty.get
+
+-- =============================================================================
 -- Actions
 -- =============================================================================
 
@@ -107,13 +121,6 @@ getPost slug = do
     query c slug =
       Simple.query c "SELECT * FROM POST WHERE slug = ?" (Simple.Only slug)
 
-getPost' :: (MonadReader Config m, MonadIO m) => String -> ActionT Text m ()
-getPost' slug = do
-  post <- getPost slug
-  case post of
-    Just r -> Scotty.json r
-    Nothing -> Scotty.status status404
-
 getPostList :: (MonadReader Config m, MonadIO m) => m [PostField]
 getPostList = do
   config <- ask
@@ -122,11 +129,6 @@ getPostList = do
   where
     query :: Simple.Connection -> IO [PostField]
     query c = Simple.query_ c "SELECT * FROM Post ORDER BY created_at DESC"
-
-getPostList' :: (MonadReader Config m, MonadIO m) => ActionT Text m ()
-getPostList' = do
-  posts <- getPostList
-  Scotty.json posts
 
 -- =============================================================================
 -- Server
@@ -137,41 +139,50 @@ newtype Script = Script { runScript :: String }
 instance ToMustache Script where
   toMustache (Script value) = Mustache.object ["script" ~> value]
 
-startServer :: Template -> IO ()
-startServer template = do
-  conn <- Simple.open databaseName
-  let config = Config { _configConnection = conn }
+-- | Compile various mustache file.
+--
+-- Should avoid using this in any dynamic sense - compilation is slow.
+loadHTML :: String -> IO (Maybe Template)
+loadHTML filename = do
+  compiled <- automaticCompile [".", "./dist"] filename
+  return $ case compiled of
+    Left err -> Nothing
+    Right template -> Just template
+
+main :: IO ()
+main = do
+  -- Because this would mean our site wouldn't load, try loading our index file
+  -- before we bother starting up the server at all. Force unwrap to raise an
+  -- error if it cannot be found.
+  indexTemplate <- loadHTML "index.html"
+  let index = fromJust indexTemplate
   -- Initialize our database before running the Scotty app to avoid this
   -- being hit everytime we process an action.
+  conn <- Simple.open databaseName
+  let config = Config { _configConnection = conn }
   runReaderT initialize config
   -- Allow passing in the config throughout our various Scotty actions. Example
   -- pulled from:
   -- https://github.com/scotty-web/scotty/blob/master/examples/reader.hs
   scottyOptsT def (\m -> runReaderT (runConfigM m) config) $ do
-    let options = Static.defaultOptions
-    let policy = Static.addBase "dist"
-    Scotty.middleware $ Static.staticPolicyWithOptions options policy
-    -- Return our homepage and specifically our homepage result.
-    Scotty.get "" $ do
-      Scotty.html $ fromStrict $ substitute template (Script "index")
-    -- Retrieve a single post or a list of all posts.
-    Scotty.get "/api/post/:slug" $ do
+    Scotty.middleware $ Static.staticPolicyWithOptions
+      Static.defaultOptions $ Static.addBase "dist"
+    -- Retrieve HTML of our index page.
+    get "" $ do
+      Scotty.html $ fromStrict $ substitute index (Script "index")
+    -- Retrieve HTML of a specific post.
+    get "/post/:slug" $ do
       slug <- Scotty.param "slug"
-      getPost' slug
-    Scotty.get "/api/posts" getPostList'
-    -- Pull in a specific HTML file containing our post.
-    Scotty.get "/post/:slug" $ do
+      Scotty.html $ fromStrict $ substitute index (Script slug)
+    -- Retrieve a list of all posts currently on our blog. This is used within
+    -- our homepage.
+    get "/api/posts" $ do
+      posts <- getPostList
+      Scotty.json posts
+    -- Retrieve details of a specific post.
+    get "/api/post/:slug" $ do
       slug <- Scotty.param "slug"
-      Scotty.html $ fromStrict $ substitute template (Script slug)
-
-main :: IO ()
-main = do
-  -- Compile our Mustache template and cache the result for use across requests.
-  -- We only have the one template as of now that consists of a custom script
-  -- we can load. This way, we can include javascript/CSS specific to a given
-  -- `Post` instead of including all post-specific code across all pages
-  -- unnecessarily.
-  compiled <- automaticCompile [".", "./dist"] "index.html"
-  case compiled of
-    Left err -> putStrLn $ show err
-    Right template -> startServer template
+      post <- getPost slug
+      case post of
+        Just r -> Scotty.json r
+        Nothing -> Scotty.status status404

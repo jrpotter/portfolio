@@ -8,6 +8,7 @@ let
     shellHook = ''
     mkdir -p $out/bin
     ln -sf "${default.ihaskell.out}/bin/ihaskell-lab" $out/bin
+    ln -sf "${default.ihaskell.out}/bin/ihaskell-nbconvert" $out/bin
     PATH=$PATH:$out/bin
     '';
   }

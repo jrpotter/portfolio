@@ -98,7 +98,7 @@ render (Just state) = HH.div_
         (2) and (3) we see the word "ART"; between cards (1) and (3) we see the
         water drop. Furthermore, on careful inspection, we'll see that these are
         the only matches for these pairs. These cards are 3 of the 55 cards
-        included in the "Spot it!" game but this property holds between any of
+        included in the "Spot it!" game but this property is true between any of
         the \(\binom{55}{2}\) possible pairs. This post will briefly touch on
         the math explaining how this property holds and will then look at how we
         can automate finding these matches.
@@ -108,7 +108,12 @@ render (Just state) = HH.div_
     -- Mathematics
     -- -------------------------------------------------------------------------
     , HH.h2_ [ HH.text "Mathematics" ]
-    , HH.slot notebookProxy 2 N.component unit absurd
+    -- -------------------------------------------------------------------------
+    -- Notebook
+    -- -------------------------------------------------------------------------
+    , HH.div
+      [ HP.id_ "post-notebook" ]
+      [ HH.slot notebookProxy 2 N.component "spot-it" absurd ]
     ]
   ]
 

@@ -13,9 +13,9 @@ import Prelude
 -- Types
 -- =============================================================================
 
-type Input = Unit
+type Input = String
 
-type State = Unit
+type State = String
 
 type Action = Unit
 
@@ -36,5 +36,5 @@ component = H.mkComponent
 render :: forall m. MonadAff m => State -> H.ComponentHTML Action Slots m
 render state = HH.iframe
   [ HP.class_ (ClassName "notebook")
-  , HP.src "https://nbviewer.jupyter.org/github/jrpotter/portfolio/blob/master/notebooks/Sample.ipynb"
+  , HP.src $ "/notebooks/" <> state <> ".html"
   ]
