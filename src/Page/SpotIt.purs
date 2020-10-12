@@ -4,8 +4,8 @@ module Page.SpotIt
 
 import Affjax as AX
 import Affjax.ResponseFormat as ResponseFormat
-import Component.FAB.Notebook as N
 import Component.NavBar as NB
+import Component.Notebook as N
 import Component.PostHeader as PH
 import Control.Monad.Except.Trans (ExceptT(..), runExceptT)
 import Data.Argonaut as DA
@@ -20,6 +20,7 @@ import Halogen as H
 import Halogen.Aff as HA
 import Halogen.HTML as HH
 import Halogen.HTML.Core (ClassName(..))
+import Halogen.HTML.Events as HE
 import Halogen.HTML.Properties as HP
 import Halogen.VDom.Driver (runUI)
 import MathJax.StartUp (startUp)
@@ -37,21 +38,26 @@ main = HA.runHalogenAff do
 -- Types
 -- =============================================================================
 
-type State = Maybe P.Post
+type State =
+  { -- | The post model representing this post.
+    post :: Maybe P.Post
+  , -- | Whether our notebook should be visible or not.
+    showNotebook :: Boolean
+  }
 
-data Action = Initialize
+data Action = Initialize | Toggle
 
 type Slots =
   ( navBar :: forall query. H.Slot query Void Int
   , postHeader :: forall query. H.Slot query Void Int
-  , fabNotebook :: forall query. H.Slot query Void Int
+  , notebook :: forall query. H.Slot query Void Int
   )
 
 navBarProxy = SProxy :: SProxy "navBar"
 
 postHeaderProxy = SProxy :: SProxy "postHeader"
 
-fabNotebookProxy = SProxy :: SProxy "fabNotebook"
+notebookProxy = SProxy :: SProxy "notebook"
 
 -- =============================================================================
 -- Component
@@ -60,7 +66,7 @@ fabNotebookProxy = SProxy :: SProxy "fabNotebook"
 component :: forall query input output m. MonadAff m
           => H.Component HH.HTML query input output m
 component = H.mkComponent
-  { initialState: \_ -> Nothing
+  { initialState: \_ -> { post: Nothing, showNotebook: false }
   , render
   , eval: H.mkEval $ H.defaultEval
     { handleAction = handleAction
@@ -68,13 +74,46 @@ component = H.mkComponent
     }
   }
 
+handleAction :: forall output m. MonadAff m
+             => Action -> H.HalogenM State Action Slots output m Unit
+
+handleAction Initialize = do
+  result <- runExceptT do
+     response <- ExceptT $ H.liftAff $ request' postRequest
+     decoded <- ExceptT $ pure $ decodeJson' response.body
+     P.readRaw decoded
+  case result of
+      Left err -> log $ "Could not get post: " <> err
+      Right post -> do
+        H.modify_ _ { post = Just post }
+        -- Initialize MathJAX after first render request is finished.
+        H.liftEffect startUp
+
+handleAction Toggle = H.modify_ \s -> s { showNotebook = not s.showNotebook }
+
+-- =============================================================================
+-- Render
+-- =============================================================================
+
+introCard :: forall w i. Int -> HH.HTML w i
+introCard num =
+  let path = show num
+      prefix = "https://portfolio-static.s3.amazonaws.com/spot-it/cards/"
+   in
+      HH.div
+      [ HP.class_ (ClassName "intro-card") ]
+      [ HH.img [ HP.src $ prefix <> path <> ".png" ]
+      , HH.p_ [ HH.text $ "(" <> path <> ")" ]
+      ]
+
 render :: forall m. MonadAff m => State -> H.ComponentHTML Action Slots m
-render Nothing = HH.slot navBarProxy 0 NB.component absurd absurd
-render (Just state) = HH.div_
+render { post: Nothing, showNotebook } =
+  HH.slot navBarProxy 0 NB.component absurd absurd
+render { post: Just post, showNotebook } = HH.div_
   [ HH.slot navBarProxy 0 NB.component absurd absurd
   , HH.div
     [ HP.class_ (ClassName "post-body") ]
-    [ HH.slot postHeaderProxy 1 PH.component state absurd
+    [ HH.slot postHeaderProxy 1 PH.component post absurd
     -- -------------------------------------------------------------------------
     -- Introduction
     -- -------------------------------------------------------------------------
@@ -112,10 +151,15 @@ render (Just state) = HH.div_
     -- Notebook
     -- -------------------------------------------------------------------------
     , HH.div
-      [ HP.id_ "post-notebook" ]
-      [ HH.slot fabNotebookProxy 2 N.component "spot-it" absurd ]
+      [ HP.id_ "fab-notebook", HE.onClick \_ -> Just Toggle ]
+      [ HH.i [ HP.class_ (ClassName "fas fa-book-open fa-lg") ] [ ]
+      ]
     ]
   ]
+
+-- =============================================================================
+-- Introduction
+-- =============================================================================
 
 postRequest :: AX.Request DA.Json
 postRequest = AX.defaultRequest
@@ -123,33 +167,3 @@ postRequest = AX.defaultRequest
   , method = Left GET
   , responseFormat = ResponseFormat.json
   }
-
-handleAction :: forall output m. MonadAff m
-             => Action -> H.HalogenM State Action Slots output m Unit
-handleAction Initialize = do
-  result <- runExceptT do
-     response <- ExceptT $ H.liftAff $ request' postRequest
-     decoded <- ExceptT $ pure $ decodeJson' response.body
-     P.readRaw decoded
-  case result of
-      Left err -> log $ "Could not get post: " <> err
-      Right post -> do
-        H.put (Just post)
-        -- Initialize MathJAX after first render request is finished.
-        H.liftEffect startUp
-
-
--- =============================================================================
--- Introduction
--- =============================================================================
-
-introCard :: forall w i. Int -> HH.HTML w i
-introCard num =
-  let path = show num
-      prefix = "https://portfolio-static.s3.amazonaws.com/spot-it/cards/"
-   in
-      HH.div
-      [ HP.class_ (ClassName "intro-card") ]
-      [ HH.img [ HP.src $ prefix <> path <> ".png" ]
-      , HH.p_ [ HH.text $ "(" <> path <> ")" ]
-      ]
