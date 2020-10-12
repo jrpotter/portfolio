@@ -106,47 +106,57 @@ introCard num =
       , HH.p_ [ HH.text $ "(" <> path <> ")" ]
       ]
 
+postContent :: forall m. MonadAff m
+            => Maybe P.Post -> H.ComponentHTML Action Slots m
+postContent Nothing = HH.div_ []
+postContent (Just post) = HH.div_
+  [ HH.slot postHeaderProxy 1 PH.component post absurd
+  -- -------------------------------------------------------------------------
+  -- Introduction
+  -- -------------------------------------------------------------------------
+  , HH.h2_ [ HH.text "Introduction" ]
+  , HH.p_ 
+    [ HH.text """
+      In light of Covid-19, my girlfriend and I have had to find different
+      ways to keep ourselves preoccupied. When we aren't playing Animal
+      Crossing or watching Community (or just need a break from screens in
+      general), we've been playing a card game called "Spot it!". "Spot it!"
+      is a party game consisting of 55 cards, each with a variety of different
+      symbols, consisting of just a single matching symbol between any pair.
+      For example, there exists just one common symbol on each pair of cards
+      below:
+      """
+    ]
+  , HH.div [ HP.id_ "intro-cards" ] (map introCard [1, 2, 3])
+  , HH.p_
+    [ HH.text """
+      Between cards (1) and (2) we see the orangish treble clef; between cards
+      (2) and (3) we see the word "ART"; between cards (1) and (3) we see the
+      water drop. Furthermore, on careful inspection, we'll see that these are
+      the only matches for these pairs. These cards are 3 of the 55 cards
+      included in the "Spot it!" game but this property is true between any of
+      the \(\binom{55}{2}\) possible pairs. This post will briefly touch on
+      the math explaining how this property holds and will then look at how we
+      can automate finding these matches.
+      """
+    ]
+  -- -------------------------------------------------------------------------
+  -- Mathematics
+  -- -------------------------------------------------------------------------
+  , HH.h2_ [ HH.text "Mathematics" ]
+  ]
+
 render :: forall m. MonadAff m => State -> H.ComponentHTML Action Slots m
-render { post: Nothing, showNotebook } =
-  HH.slot navBarProxy 0 NB.component absurd absurd
-render { post: Just post, showNotebook } = HH.div_
+render { post, showNotebook } = HH.div_
   [ HH.slot navBarProxy 0 NB.component absurd absurd
   , HH.div
     [ HP.class_ (ClassName "post-body") ]
-    [ HH.slot postHeaderProxy 1 PH.component post absurd
-    -- -------------------------------------------------------------------------
-    -- Introduction
-    -- -------------------------------------------------------------------------
-    , HH.h2_ [ HH.text "Introduction" ]
-    , HH.p_ 
-      [ HH.text """
-        In light of Covid-19, my girlfriend and I have had to find different
-        ways to keep ourselves preoccupied. When we aren't playing Animal
-        Crossing or watching Community (or just need a break from screens in
-        general), we've been playing a card game called "Spot it!". "Spot it!"
-        is a party game consisting of 55 cards, each with a variety of different
-        symbols, consisting of just a single matching symbol between any pair.
-        For example, there exists just one common symbol on each pair of cards
-        below:
-        """
-      ]
-    , HH.div [ HP.id_ "intro-cards" ] (map introCard [1, 2, 3])
-    , HH.p_
-      [ HH.text """
-        Between cards (1) and (2) we see the orangish treble clef; between cards
-        (2) and (3) we see the word "ART"; between cards (1) and (3) we see the
-        water drop. Furthermore, on careful inspection, we'll see that these are
-        the only matches for these pairs. These cards are 3 of the 55 cards
-        included in the "Spot it!" game but this property is true between any of
-        the \(\binom{55}{2}\) possible pairs. This post will briefly touch on
-        the math explaining how this property holds and will then look at how we
-        can automate finding these matches.
-        """
-      ]
-    -- -------------------------------------------------------------------------
-    -- Mathematics
-    -- -------------------------------------------------------------------------
-    , HH.h2_ [ HH.text "Mathematics" ]
+    [ HH.div
+      [ HP.class_ (ClassName $ if showNotebook then "invisible" else "") ]
+      [ postContent post ]
+    , HH.div
+      [ HP.class_ (ClassName $ if showNotebook then "" else "invisible") ]
+      [ HH.slot notebookProxy 2 N.component "example" absurd ]
     -- -------------------------------------------------------------------------
     -- Notebook
     -- -------------------------------------------------------------------------

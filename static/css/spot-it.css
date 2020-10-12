@@ -21,10 +21,9 @@
 }
 
 .notebook {
-  bottom: 0;
-  position: fixed;
-  top: 0;
-  width: 400px;
+  border: 0;
+  height: 100%;
+  width: 100%;
 }
 
 #fab-notebook {
