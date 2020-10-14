@@ -97,8 +97,8 @@ render state = HH.div
       [ HP.href "https://www.github.com/jrpotter/"
       , HP.target "_blank"
       ]
-      [ HH.i
-        [ HP.class_ (ClassName "fab fa-github fa-2x") ]
+      [ HH.span
+        [ HP.class_ (ClassName "icon-github") ]
         [ ]
       ]
     ]

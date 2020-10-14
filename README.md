@@ -89,7 +89,7 @@ npm install -g purescript
 npm install -g spago
 # Run custom NPM script to build the requisite files to be served by our
 # backend.
-npm run build [test|prod]
+npm run build --[development|production]
 ```
 
 ## Notebook

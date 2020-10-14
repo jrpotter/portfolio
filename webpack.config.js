@@ -4,6 +4,14 @@ const CopyPlugin = require('copy-webpack-plugin');
 const path = require('path');
 
 module.exports = {
+  devtool: 'inline-source-map',
+  devServer: {
+    contentBase: path.resolve(__dirname),
+    port: 8080,
+  },
+  optimization: {
+    minimize: process.env.NODE_ENV === 'production',
+  },
   entry: {
     'index': {
       import: 'static/js/index.js',
@@ -43,7 +51,6 @@ module.exports = {
             options: {
               src: ['src/**/*.purs'],
               spago: true,
-              pscIde: true,
             },
           },
         ],

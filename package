@@ -1,8 +1,13 @@
 #!/usr/bin/env bash
 
+MODE=$2
+if [ -z $MODE ]; then
+  MODE=development
+fi
+
 case "$1" in
   build)
-    webpack --config webpack.$2.js
+    webpack --config webpack.config.js --mode $MODE
     ;;
   *)
     echo "Unknown command."

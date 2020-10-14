@@ -1,0 +1,68 @@
+@font-face {
+  font-family: 'icomoon';
+  src: url('../fonts/icomoon.eot?moy0n9');
+  src: url('../fonts/icomoon.eot?moy0n9#iefix') format('embedded-opentype'),
+       url('../fonts/icomoon.ttf?moy0n9') format('truetype'),
+       url('../fonts/icomoon.woff?moy0n9') format('woff'),
+       url('../fonts/icomoon.svg?moy0n9#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: republiko;
+  src: url(../fonts/republiko.otf);
+}
+
+@font-face {
+  font-family: uniform-bold;
+  src: url(../fonts/uniform-bold.otf);
+}
+
+@font-face {
+  font-family: uniform-light;
+  src: url(../fonts/uniform-light.otf);
+}
+
+:root {
+  --primary-color: #449DAA;
+  --primary-darker-color: #298794;
+  --primary-lighter-color: #6CBCC8;
+  --secondary-color: #546DB8;
+  --secondary-darker-color: #3953A3;
+  --secondary-lighter-color: #7A90D1;
+  --tertiary-color: #4FCC65;
+  --tertiary-darker-color: #31B949;
+  --tertiary-lighter-color: #76DE88;
+  --navbar-bg-color: var(--primary-color);
+  --navbar-text-color: white;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
+#app {
+  height: 100%;
+  width: 100%;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with extensions that change fonts. */
+  font-family: 'icomoon' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-github:before {
+  content: "\eab0";
+}
