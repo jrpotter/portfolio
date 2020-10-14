@@ -5,7 +5,6 @@ module Page.SpotIt
 import Affjax as AX
 import Affjax.ResponseFormat as ResponseFormat
 import Component.NavBar as NB
-import Component.Notebook as N
 import Component.PostHeader as PH
 import Control.Monad.Except.Trans (ExceptT(..), runExceptT)
 import Data.Argonaut as DA
@@ -38,26 +37,18 @@ main = HA.runHalogenAff do
 -- Types
 -- =============================================================================
 
-type State =
-  { -- | The post model representing this post.
-    post :: Maybe P.Post
-  , -- | Whether our notebook should be visible or not.
-    showNotebook :: Boolean
-  }
+type State = Maybe P.Post
 
-data Action = Initialize | Toggle
+data Action = Initialize
 
 type Slots =
   ( navBar :: forall query. H.Slot query Void Int
   , postHeader :: forall query. H.Slot query Void Int
-  , notebook :: forall query. H.Slot query Void Int
   )
 
 navBarProxy = SProxy :: SProxy "navBar"
 
 postHeaderProxy = SProxy :: SProxy "postHeader"
-
-notebookProxy = SProxy :: SProxy "notebook"
 
 -- =============================================================================
 -- Component
@@ -66,7 +57,7 @@ notebookProxy = SProxy :: SProxy "notebook"
 component :: forall query input output m. MonadAff m
           => H.Component HH.HTML query input output m
 component = H.mkComponent
-  { initialState: \_ -> { post: Nothing, showNotebook: false }
+  { initialState: \_ -> Nothing
   , render
   , eval: H.mkEval $ H.defaultEval
     { handleAction = handleAction
@@ -85,11 +76,9 @@ handleAction Initialize = do
   case result of
       Left err -> log $ "Could not get post: " <> err
       Right post -> do
-        H.modify_ _ { post = Just post }
+        H.put $ Just post
         -- Initialize MathJAX after first render request is finished.
         H.liftEffect startUp
-
-handleAction Toggle = H.modify_ \s -> s { showNotebook = not s.showNotebook }
 
 -- =============================================================================
 -- Render
@@ -147,24 +136,11 @@ postContent (Just post) = HH.div_
   ]
 
 render :: forall m. MonadAff m => State -> H.ComponentHTML Action Slots m
-render { post, showNotebook } = HH.div_
+render post = HH.div_
   [ HH.slot navBarProxy 0 NB.component absurd absurd
   , HH.div
     [ HP.class_ (ClassName "post-body") ]
-    [ HH.div
-      [ HP.class_ (ClassName $ if showNotebook then "invisible" else "") ]
-      [ postContent post ]
-    , HH.div
-      [ HP.class_ (ClassName $ if showNotebook then "" else "invisible") ]
-      [ HH.slot notebookProxy 2 N.component "example" absurd ]
-    -- -------------------------------------------------------------------------
-    -- Notebook
-    -- -------------------------------------------------------------------------
-    , HH.div
-      [ HP.id_ "fab-notebook", HE.onClick \_ -> Just Toggle ]
-      [ HH.i [ HP.class_ (ClassName "fas fa-book-open fa-lg") ] [ ]
-      ]
-    ]
+    [ postContent post ]
   ]
 
 -- =============================================================================

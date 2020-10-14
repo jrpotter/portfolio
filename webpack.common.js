@@ -17,11 +17,6 @@ module.exports = {
   plugins: [
     new CopyPlugin({
       patterns: [
-        // HTML notebooks generated using nbconvert.
-        {
-          from: 'notebooks/*.html',
-          to: 'notebooks/[name].[ext]'
-        },
         // We copy MathJax fonts over from `node_modules` into our static
         // folder. The MathJax lib expects this to exist in a certain path
         // though, which we configure here.

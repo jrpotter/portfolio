@@ -19,30 +19,3 @@
     text-align: center;
   }
 }
-
-.notebook {
-  border: 0;
-  height: 100%;
-  width: 100%;
-}
-
-#fab-notebook {
-  background-color: var(--secondary-darker-color);
-  border-radius: 40px;
-  border: 1px solid black;
-  bottom: 20px;
-  color: white;
-  cursor: pointer;
-  height: 40px;
-  position: fixed;
-  right: 20px;
-  width: 40px;
-
-  & i {
-    align-items: center;
-    display: flex;
-    justify-content: center;
-    line-height: 40px;
-    padding-top: 9px;
-  }
-}

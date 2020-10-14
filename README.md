@@ -106,5 +106,7 @@ nix-shell
 ihaskell-lab
 ```
 
-Afterward the notebook can be embedded in any webpage via an iframe and the
-[Jupyter NBViewer](https://nbviewer.jupyter.org/).
+If looking to make the notebook viewable directly, can use the
+[Jupyter NBViewer](https://nbviewer.jupyter.org/). Alternatively, we expose
+`ihaskell-nbconvert` from the nix shell to convert an `.ipynb` file into an
+HTML one.
