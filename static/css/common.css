@@ -49,6 +49,8 @@ html, body {
   width: 100%;
 }
 
+/* MARK: Icons */
+
 [class^="icon-"], [class*=" icon-"] {
   /* use !important to prevent issues with extensions that change fonts. */
   font-family: 'icomoon' !important;
@@ -65,4 +67,12 @@ html, body {
 
 .icon-github:before {
   content: "\eab0";
+}
+
+/* MARK: Syntax Highlighting */
+
+pre code.hljs {
+  border: 1px solid black;
+  padding-bottom: 24px;
+  white-space: pre-line;
 }
