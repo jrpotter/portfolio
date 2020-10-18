@@ -23,7 +23,7 @@ type State = P.Post
 
 type Action = Unit
 
-type Slots = ( postHeader :: forall query. H.Slot query Void Int )
+type Slots = ( postHeader :: forall query. H.Slot query Void Unit )
 
 postHeaderProxy = SProxy :: SProxy "postHeader"
 
@@ -42,7 +42,7 @@ component = H.mkComponent
 render :: forall m. MonadAff m => State -> H.ComponentHTML Action Slots m
 render state = HH.div
   [ HP.class_ (ClassName "post-preview") ]
-  [ HH.slot postHeaderProxy 0 PH.component state absurd
+  [ HH.slot postHeaderProxy unit PH.component state absurd
   , HH.p
     [ HP.class_ (ClassName "post-description") ]
     [ RH.render_ state.description ]

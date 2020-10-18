@@ -29,7 +29,7 @@ type State = Array P.Post
 
 data Action = Initialize
 
-type Slots = ( post :: forall query. H.Slot query Void Int )
+type Slots = ( post :: forall query. H.Slot query Void Unit )
 
 postProxy = SProxy :: SProxy "post"
 
@@ -50,7 +50,7 @@ component = H.mkComponent
 
 render :: forall m. MonadAff m => State -> H.ComponentHTML Action Slots m
 render state = HH.div [ HP.id_ "post-list" ] $
-  map (\p -> HH.slot postProxy 0 PP.component p absurd) state
+  map (\p -> HH.slot postProxy unit PP.component p absurd) state
 
 postListRequest :: AX.Request DA.Json
 postListRequest = AX.defaultRequest

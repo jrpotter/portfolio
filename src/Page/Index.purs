@@ -24,8 +24,8 @@ main = HA.runHalogenAff do
 -- =============================================================================
 
 type Slots =
-  ( navBar :: forall query. H.Slot query Void Int
-  , postList :: forall query. H.Slot query Void Int
+  ( navBar :: forall query. H.Slot query Void Unit
+  , postList :: forall query. H.Slot query Void Unit
   )
 
 navBarProxy = SProxy :: SProxy "navBar"
@@ -48,6 +48,6 @@ component = H.mkComponent
 
 render :: forall m. MonadAff m => State -> H.ComponentHTML Unit Slots m
 render state = HH.div_
-  [ HH.slot navBarProxy 0 NB.component absurd absurd
-  , HH.slot postListProxy 1 PostList.component absurd absurd
+  [ HH.slot navBarProxy unit NB.component absurd absurd
+  , HH.slot postListProxy unit PostList.component absurd absurd
   ]

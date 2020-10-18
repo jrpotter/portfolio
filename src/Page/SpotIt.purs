@@ -44,8 +44,8 @@ data Action = Initialize | Load
 
 type Slots =
   ( codeBlock :: forall query. H.Slot query Void Int
-  , navBar :: forall query. H.Slot query Void Int
-  , postHeader :: forall query. H.Slot query Void Int
+  , navBar :: forall query. H.Slot query Void Unit
+  , postHeader :: forall query. H.Slot query Void Unit
   )
 
 codeBlockProxy = SProxy :: SProxy "codeBlock"
@@ -104,10 +104,10 @@ introCard num =
 render :: forall m. MonadAff m => State -> H.ComponentHTML Action Slots m
 render Nothing = HH.div_ []
 render (Just post) = HH.div_
-  [ HH.slot navBarProxy 0 NB.component absurd absurd
+  [ HH.slot navBarProxy unit NB.component absurd absurd
   , HH.div
     [ HP.class_ (ClassName "post-body") ]
-    [ HH.slot postHeaderProxy 1 PH.component post absurd
+    [ HH.slot postHeaderProxy unit PH.component post absurd
     -- -------------------------------------------------------------------------
     -- Introduction
     -- -------------------------------------------------------------------------
@@ -141,7 +141,7 @@ render (Just post) = HH.div_
     -- Mathematics
     -- -------------------------------------------------------------------------
     , HH.h2_ [ HH.text "Mathematics" ]
-    , HH.slot codeBlockProxy 2 CB.component
+    , HH.slot codeBlockProxy 0 CB.component
        { code: """
          data Dog = Apple | Banana
          print "1 + 1"
