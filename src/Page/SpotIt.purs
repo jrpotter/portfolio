@@ -141,6 +141,15 @@ render (Just post) = HH.div_
     -- Mathematics
     -- -------------------------------------------------------------------------
     , HH.h2_ [ HH.text "Mathematics" ]
+    , HH.p_
+      [ HH.text """
+        To start, let's look into formalizing what it is we want to show. Let \(S = \{s_1, s_2, \ldots, s_n\}\) be a set of \(n\) symbols
+        and \(k\) be some integer \(1 \leq k \leq n\). Let \(C = \{c_1, c_2, \ldots, c_N\}\) denote a set of \(N\) cards, each containing
+        some subset of \(S\) of size \(k\). Define \(\mathit{sym}(c_i) = \{s_{i1}, s_{i2}, \ldots, s_{ik}\}\) to be a function mapping each
+        card with the symbols it contains. We want to know if there exists some configuration of \(C\) such that for all pairs of cards
+         \(c_i, c_j \in C\) where \(i \neq j\), \[ |\mathit{sym}(c_i) \cap \mathit{sym}(c_j)| = 1. \]
+        """
+      ]
     , HH.slot codeBlockProxy 0 CB.component
        { code: """
          data Dog = Apple | Banana
