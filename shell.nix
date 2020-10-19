@@ -1,9 +1,8 @@
 { pkgs ? import ./nixpkgs {} }:
 let
   default = import ./default.nix { inherit pkgs; };
-  # We pull in IHaskell manually to ensure compiler matching. We don't bother
-  # including in our portfolio package - we'll be using an iframe with the
-  # nbviewer utility provided by Jupyter to load in any notebooks on a post.
+  # We pull in IHaskell manually since the version of nixpkgs we use has a
+  # broken package.
   ihaskell = import ./ihaskell {
     compiler = "ghc884";
     nixpkgs = pkgs;
@@ -12,6 +11,10 @@ let
       ihaskell-blaze
       ihaskell-charts
       ihaskell-diagrams
+      ihaskell-graphviz
+    ];
+    systemPackages = self: with self; [
+      graphviz
     ];
   };
  in

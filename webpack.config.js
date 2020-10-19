@@ -32,8 +32,17 @@ module.exports = {
           from: 'static/fonts/MathJax_*',
           to: 'output/chtml/fonts/woff-v2/[name].[ext]',
         },
+        // Move images over without the static prefix.
+        {
+          from: 'static/imgs/**',
+          to: '[path][name].[ext]',
+          transformPath(targetPath, absolutePath) {
+            return targetPath.substring(targetPath.indexOf('/') + 1);
+          },
+        },
         // This is the mustache template we swap some Javascript file (those
-        // listed in `entry` above) into.
+        // listed in `entry` above) into. Copy directly over without the static
+        // prefix.
         {
           from: 'static/index.html',
           to: 'index.html',

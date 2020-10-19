@@ -19,3 +19,32 @@
     text-align: center;
   }
 }
+
+#table-conf {
+  & {
+    margin: 0 auto;
+    width: 33%;
+  }
+
+  &, & th, & td {
+    border-collapse: collapse;
+    border: 1px solid black;
+    height: 18px;
+    line-height: 18px;
+    vertical-align: center;
+    width: 50%;
+  }
+
+  & td[colspan="2"] {
+    font-weight: bold;
+  }
+
+  & td {
+    text-align: center;
+  }
+}
+
+#group-example {
+  display: block;
+  margin: 0 auto;
+}

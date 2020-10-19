@@ -143,13 +143,84 @@ render (Just post) = HH.div_
     , HH.h2_ [ HH.text "Mathematics" ]
     , HH.p_
       [ HH.text """
-        To start, let's look into formalizing what it is we want to show. Let \(S = \{s_1, s_2, \ldots, s_n\}\) be a set of \(n\) symbols
-        and \(k\) be some integer \(1 \leq k \leq n\). Let \(C = \{c_1, c_2, \ldots, c_N\}\) denote a set of \(N\) cards, each containing
-        some subset of \(S\) of size \(k\). Define \(\mathit{sym}(c_i) = \{s_{i1}, s_{i2}, \ldots, s_{ik}\}\) to be a function mapping each
-        card with the symbols it contains. We want to know if there exists some configuration of \(C\) such that for all pairs of cards
-         \(c_i, c_j \in C\) where \(i \neq j\), \[ |\mathit{sym}(c_i) \cap \mathit{sym}(c_j)| = 1. \]
+        To start, let's look into formalizing what it is we want to show. Let
+        \(S = \{s_1, s_2, \ldots, s_n\}\) be a finite set of \(n\) symbols and
+        \(C = \{c_1, c_2, \ldots, c_N\}\) be a finite set of \(N\) cards, each
+        containing some subset of \(S\) of size \(k\) such that \(1 \leq k \leq
+        n\). Let \(\mathit{sym}: C \rightarrow P(S)\) be a function such that
+        for all \(1 \leq i \leq N\),
+
+        \[ \mathit{sym}(c_i) = \{s_{i_1}, s_{i_2}, \ldots, s_{i_k}\}, \]
+
+        where \(P\) denotes the powerset operation. That is, \(\mathit{sym}\)
+        denotes the \(k\) symbols on card \(c_i\). We want to know if there
+        exists some configuration of \(C\) such that for all pairs of cards
+        \(c_i, c_j \in C\) where \(i \neq j\),
+
+        \[ |\mathit{sym}(c_i) \cap \mathit{sym}(c_j)| = 1. \]
         """
       ]
+    , HH.p_
+      [ HH.text "As a starting point, let's consider some trivial examples." ]
+    , HH.table
+      [ HP.id_ "table-conf" ]
+      [ HH.tr_
+        [ HH.th_ [ HH.text """\(S\)""" ]
+        , HH.th_ [ HH.text """\(C\)""" ]
+        ]
+      , HH.tr_
+        [ HH.td
+          [ HP.colSpan 2 ]
+          [ HH.text "No Configuration" ]
+        ]
+      , HH.tr_
+        [ HH.td_ [ HH.text """\(\{\}\)""" ]
+        , HH.td_ [ HH.text """\(\{\}\)""" ]
+        ]
+      , HH.tr_
+        [ HH.td_ [ HH.text """\(\{s_1\}\)""" ]
+        , HH.td_ [ HH.text """\(\{\}\)""" ]
+        ]
+      , HH.tr_
+        [ HH.td_ [ HH.text """\(\{\}\)""" ]
+        , HH.td_ [ HH.text """\(\{c_1, c_2\}\)""" ]
+        ]
+      , HH.tr_
+        [ HH.td
+          [ HP.colSpan 2 ]
+          [ HH.text "One Configuration" ]
+        ]
+      , HH.tr_
+        [ HH.td_ [ HH.text """\(\{\}\)""" ]
+        , HH.td_ [ HH.text """\(\{c_1\}\)""" ]
+        ]
+      , HH.tr_
+        [ HH.td_ [ HH.text """\(\{s_1\}\)""" ]
+        , HH.td_ [ HH.text """\(\{c_1, c_2\}\)""" ]
+        ]
+      ]
+    , HH.p_
+      [ HH.text """
+        Here we are stating that for e.g. \(S = \{\}, C = \{\}\), there exists
+        no configuration of cards satisfying our desired property. Similarly,
+        for \(S = \{s_1\}, C = \{c_1, c_2\}\), there exists one configuration.
+        Before diving further into this, let's look at a more complicated
+        example:
+
+        \[ S = \{a, b, c, d\}, k = 2 \]
+        """
+      ]
+    , HH.img
+      [ HP.id_ "group-example"
+      , HP.src "/imgs/spot-it/group-example.svg"
+      ]
+    , HH.p
+      [ HH.text """
+        Here we see an interesting property manifest. What we have looks to be
+        similar to a Cayley graph of Factor Groups? Remind myself of how this
+        might fit but we have a series of permutations and we have potentially
+        some "subgroup" construction.
+        """
     , HH.slot codeBlockProxy 0 CB.component
        { code: """
          data Dog = Apple | Banana
