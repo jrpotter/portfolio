@@ -26,15 +26,18 @@
             pname = "portfolio";
             version = "0.1.0";
             src = ./.;
-            npmDepsHash = "sha256-eGfiDf/BKQcGhwGvmqpHTQNkAfiKSSPIfrmrPsGyOHw=";
+            npmDepsHash = "sha256-Vx9NOJfk4sF2MMy/x0mJ0SINqWgx5oKmc8XOhi2vu6I";
+            forceEmptyCache = true;
 
             # Needed to properly invoke npm run build.
-            nativeBuildInputs = [ pkgs.typescript ];
+            nativeBuildInputs = with pkgs; [
+              nodePackages.tailwindcss
+              typescript
+            ];
 
             installPhase = ''
               mkdir $out
-              cp src/index.html $out
-              cp dist/main.js $out
+              cp -a dist/* $out
             '';
           };
 
@@ -45,6 +48,7 @@
           packages = with pkgs; [
             nodePackages.prettier
             nodePackages.typescript-language-server
+            nodePackages.tailwindcss
             nodejs
             prefetch-npm-deps
             typescript

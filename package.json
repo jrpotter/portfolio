@@ -4,14 +4,11 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && tailwindcss -i ./src/main.css -o ./dist/main.css && cp ./src/index.html ./dist/index.html",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "lodash": "^4.17.21"
-  }
+  "license": "ISC"
 }
