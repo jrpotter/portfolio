@@ -1,0 +1,11 @@
+# Directory used by `direnv` to hold `use flake`-generated profiles.
+/.direnv/
+
+# The directory containing all build outputs.
+/dist/
+
+# A symlink produced by default when running `nix build`.
+/result
+
+# The NodeJS dependency directory.
+/node_modules/
