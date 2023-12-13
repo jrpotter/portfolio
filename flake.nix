@@ -29,6 +29,8 @@
             npmDepsHash = "sha256-Vx9NOJfk4sF2MMy/x0mJ0SINqWgx5oKmc8XOhi2vu6I";
             forceEmptyCache = true;
 
+            buildPhase = "bash ${./build.sh}";
+
             # Needed to properly invoke npm run build.
             nativeBuildInputs = with pkgs; [
               nodePackages.tailwindcss

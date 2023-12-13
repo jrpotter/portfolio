@@ -4,7 +4,7 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "build": "tsc && tailwindcss -i ./src/main.css -o ./dist/main.css && cp ./src/index.html ./dist/index.html && cp ./src/*.svg ./dist/*.svg",
+    "build": "./build.sh",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
