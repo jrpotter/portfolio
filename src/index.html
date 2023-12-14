@@ -1,15 +1,16 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <meta charset="utf-8" />
     <meta name="description" content="Joshua Potter portfolio" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link phx-track-static rel="stylesheet" href="./main.css" />
-    <script defer type="text/javascript" src="./main.js">
-    </script>
+    <script defer type="text/javascript" src="./main.js"></script>
   </head>
   <body class="bg-primary">
-    <div class="bg-secondary border-b-2 border-zinc-200 flex items-center gap-x-4 p-6 text-zinc-200">
+    <div
+      class="bg-secondary border-b-2 border-zinc-200 flex items-center gap-x-4 p-6 text-zinc-200"
+    >
       <header class="grow flex items-center gap-5">
         <img
           class="rounded-full w-28 h-28 border-2 border-black"
@@ -19,29 +20,105 @@
       </header>
       <div class="flex flex-col gap-6">
         <a href="https://github.com/jrpotter/" target="_blank">
-          <image class="w-6 h-6" src="./github.svg" />
+          <image class="w-6 h-6" src="./imgs/github.svg" />
         </a>
         <a href="https://www.linkedin.com/in/jrpotter2112/" target="_blank">
-          <image class="w-6 h-6" src="./linkedin.svg" />
+          <image class="w-6 h-6" src="./imgs/linkedin.svg" />
         </a>
         <a href="https://www.zotero.org/jrpotter2112/library" target="_blank">
-          <image class="w-6 h-6" src="./zotero.svg" />
+          <image class="w-6 h-6" src="./imgs/zotero.svg" />
         </a>
       </div>
     </div>
     <main class="mx-auto p-8">
-      <section class="pb-12">
-        <h2 class="text-xl underline pb-6">Hosting</h2>
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-12">
-          <a href="https://blog.jrpotter.com" target="_blank">
-            Blog
+      <section class="flex flex-col gap-10 pb-12">
+        <div class="flex items-center">
+          <div>
+            <h2 class="text-xl pb-2">Hosting</h2>
+            <p class="text-sm grow">
+              The following websites are served from
+              <a href="https://nixos.org/" target="_blank" class="underline"
+                >NixOS</a
+              >
+              machines hosted on
+              <a
+                href="https://www.digitalocean.com/"
+                target="_blank"
+                class="underline"
+                >Digital Ocean</a
+              >. If interested in starting a similar hosting solution, consider
+              getting a $200 credit using my
+              <a href="https://m.do.co/c/c65b89434c1b" class="underline"
+                >referral link</a
+              >. Configuration files for each of my machines can be found
+              <a
+                href="https://github.com/jrpotter/nixos-configuration"
+                target="_blank"
+                class="underline"
+                >here</a
+              >.
+            </p>
+          </div>
+          <a
+            href="https://www.digitalocean.com/?refcode=c65b89434c1b&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge"
+            ><img
+              src="https://web-platforms.sfo2.cdn.digitaloceanspaces.com/WWW/Badge%202.svg"
+              alt="DigitalOcean Referral Badge"
+              class="w-60 max-w-none"
+          /></a>
+        </div>
+        <div class="flex gap-8">
+          <a href="https://blog.jrpotter.com" target="_blank" class="w-32 h-32 flex-none bg-[#343433] rounded-full">
+            <img class="p-4 mx-auto" src="./imgs/jekyll.png" alt="blog" />
           </a>
-          <a href="https://bookshelf.jrpotter.com" target="_blank">
-            Bookshelf
+          <div class="grow">
+            <a
+              href="https://blog.jrpotter.com"
+              target="_blank"
+              class="underline font-bold"
+              >Blog</a
+            >
+            <p class="text-sm">My blog is a jekyll project</p>
+          </div>
+        </div>
+        <div class="flex gap-8">
+          <a
+            href="https://bookshelf.jrpotter.com"
+            target="_blank"
+            class="w-32 h-32 flex-none"
+          >
+            <img
+              class="mx-auto"
+              src="./imgs/lean.png"
+              alt="bookshelf"
+            />
           </a>
-          <a href="https://www.boardwise.gg" target="_blank">
-            <img class="w-40 h-40 mx-auto" src="./boardwise.svg" alt="boardwise" />
+          <div class="grow">
+            <a
+              href="https://bookshelf.jrpotter.com"
+              target="_blank"
+              class="underline font-bold"
+              >Bookshelf</a
+            >
+            <p class="text-sm">Bookshelf...</p>
+          </div>
+        </div>
+        <div class="flex gap-8">
+          <a href="https://www.boardwise.gg" target="_blank" class="flex-none w-32 h-32">
+            <img
+              src="./imgs/boardwise.svg"
+              alt="boardwise"
+            />
           </a>
+          <div class="grow">
+            <a
+              href="https://www.boardwise.gg"
+              target="_blank"
+              class="underline font-bold"
+              >BoardWise</a
+            >
+            <p class="text-sm">BoardWise is a Phoenix project...</p>
+          </div>
         </div>
       </section>
       <section>

@@ -3,4 +3,4 @@
 tsc
 tailwindcss -i ./src/main.css -o ./dist/main.css
 cp ./src/index.html ./dist/index.html
-cp ./img/* ./dist
+cp -a ./imgs ./dist
