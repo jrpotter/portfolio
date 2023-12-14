@@ -31,54 +31,51 @@
       </div>
     </div>
     <main class="mx-auto p-8">
-      <section class="flex flex-col gap-10 pb-12">
-        <div class="flex items-center">
-          <div>
-            <h2 class="text-xl pb-2">Hosting</h2>
-            <p class="text-sm grow">
-              The following websites are served from
-              <a href="https://nixos.org/" target="_blank" class="underline"
-                >NixOS</a
-              >
-              machines hosted on
-              <a
-                href="https://www.digitalocean.com/"
-                target="_blank"
-                class="underline"
-                >Digital Ocean</a
-              >. If interested in starting a similar hosting solution, consider
-              getting a $200 credit using my
-              <a href="https://m.do.co/c/c65b89434c1b" class="underline"
-                >referral link</a
-              >. Configuration files for each of my machines can be found
-              <a
-                href="https://github.com/jrpotter/nixos-configuration"
-                target="_blank"
-                class="underline"
-                >here</a
-              >.
-            </p>
-          </div>
-          <a
-            href="https://www.digitalocean.com/?refcode=c65b89434c1b&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge"
-            ><img
-              src="https://web-platforms.sfo2.cdn.digitaloceanspaces.com/WWW/Badge%202.svg"
-              alt="DigitalOcean Referral Badge"
-              class="w-60 max-w-none"
-          /></a>
+      <section class="grid grid-cols-1 lg:grid-cols-2 gap-10 pb-12">
+        <div class="col-span-1 lg:col-span-2">
+          <h2 class="text-xl pb-2">Hosting</h2>
+          <p class="text-sm grow">
+            The following websites are served from
+            <a href="https://nixos.org/" target="_blank">NixOS</a>
+            machines hosted on
+            <a href="https://www.digitalocean.com/" target="_blank"
+              >Digital Ocean</a
+            >. Configuration files for each of my machines can be found
+            <a
+              href="https://github.com/jrpotter/nixos-configuration"
+              target="_blank"
+              >here</a
+            >. If interested in starting a similar hosting solution, consider
+            getting a $200 credit using my
+            <a href="https://m.do.co/c/c65b89434c1b">referral link</a>.
+          </p>
         </div>
         <div class="flex gap-8">
-          <a href="https://blog.jrpotter.com" target="_blank" class="w-32 h-32 flex-none bg-[#343433] rounded-full">
+          <a
+            href="https://blog.jrpotter.com"
+            target="_blank"
+            class="w-32 h-32 flex-none bg-[#343433] rounded-full"
+          >
             <img class="p-4 mx-auto" src="./imgs/jekyll.png" alt="blog" />
           </a>
           <div class="grow">
             <a
               href="https://blog.jrpotter.com"
               target="_blank"
-              class="underline font-bold"
+              class="font-bold grow"
               >Blog</a
             >
-            <p class="text-sm">My blog is a jekyll project</p>
+            <p class="text-sm pt-2">
+              I occasionally write about (usually) technical concepts in my
+              blog. Originally powered by Github Pages, I've since moved the
+              <a href="https://jekyllrb.com/" target="_blank">Jekyll</a>-based
+              project to a self-hosting solution. Theming is provided by
+              <a
+                href="https://github.com/cotes2020/jekyll-theme-chirpy"
+                target="_blank"
+                >Chirpy</a
+              >.
+            </p>
           </div>
         </div>
         <div class="flex gap-8">
@@ -87,42 +84,60 @@
             target="_blank"
             class="w-32 h-32 flex-none"
           >
-            <img
-              class="mx-auto"
-              src="./imgs/lean.png"
-              alt="bookshelf"
-            />
+            <img class="mx-auto" src="./imgs/lean.png" alt="bookshelf" />
           </a>
           <div class="grow">
             <a
               href="https://bookshelf.jrpotter.com"
               target="_blank"
-              class="underline font-bold"
+              class="font-bold"
               >Bookshelf</a
             >
-            <p class="text-sm">Bookshelf...</p>
+            <p class="text-sm pt-2">
+              A collection of books I am actively studying. Usually mathematics
+              or computer-science based. I aim to prove concepts as I encounter
+              them using the
+              <a href="https://lean-lang.org/" target="_blank">Lean</a>
+              interactive theorem prover. All proofs are also available in
+              <a href="https://www.latex-project.org/" target="_blank">LaTeX</a
+              >.
+            </p>
           </div>
         </div>
         <div class="flex gap-8">
-          <a href="https://www.boardwise.gg" target="_blank" class="flex-none w-32 h-32">
-            <img
-              src="./imgs/boardwise.svg"
-              alt="boardwise"
-            />
+          <a
+            href="https://www.boardwise.gg"
+            target="_blank"
+            class="flex-none w-32 h-32"
+          >
+            <img src="./imgs/boardwise.svg" alt="boardwise" />
           </a>
           <div class="grow">
-            <a
-              href="https://www.boardwise.gg"
-              target="_blank"
-              class="underline font-bold"
+            <a href="https://www.boardwise.gg" target="_blank" class="font-bold"
               >BoardWise</a
             >
-            <p class="text-sm">BoardWise is a Phoenix project...</p>
+            <p class="text-sm pt-2">
+              A
+              <a href="https://www.phoenixframework.org/" target="_blank"
+                >Phoenix</a
+              >- and
+              <a href="https://react.dev/" target="_blank">React</a>-based
+              project that provides an interface for finding chess coaches. This
+              serves as an alternative to those found on
+              <a href="https://lichess.org/coach" target="_blank">Lichess</a>
+              and
+              <a href="https://chess.com/coaches" target="_blank">Chess.com</a>.
+              Based on the
+              <a href="https://tailwindui.com/templates/studio" target="_blank"
+                >Tailwind Studio</a
+              >
+              theme.
+            </p>
           </div>
         </div>
       </section>
       <section>
-        <h2 class="text-xl underline pb-6">Projects</h2>
+        <h2 class="text-xl pb-2">Projects</h2>
         <ul>
           <li>Bootstrap</li>
           <li>Anki Synonyms</li>
@@ -130,5 +145,17 @@
         </ul>
       </section>
     </main>
+    <footer
+      class="h-24 px-4 lg:px-8 bg-secondary border-t-2 border-zinc-200 flex items-center"
+    >
+      <div class="grow">© 2023 Joshua Potter</div>
+      <a
+        href="https://www.digitalocean.com/?refcode=c65b89434c1b&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge"
+        ><img
+          src="https://web-platforms.sfo2.cdn.digitaloceanspaces.com/WWW/Badge%201.svg"
+          alt="DigitalOcean Referral Badge"
+          class="w-40 max-w-none"
+      /></a>
+    </footer>
   </body>
 </html>
