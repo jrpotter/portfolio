@@ -22,7 +22,7 @@
       in
       {
         packages = {
-          lib = pkgs.buildNpmPackage {
+          app = pkgs.buildNpmPackage {
             pname = "portfolio";
             version = "0.1.0";
             src = ./.;
@@ -43,7 +43,7 @@
             '';
           };
 
-          default = self.packages.${system}.lib;
+          default = self.packages.${system}.app;
         };
 
         devShells.default = pkgs.mkShell {
