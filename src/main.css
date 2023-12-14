@@ -5,3 +5,11 @@
 a {
   text-decoration: underline;
 }
+
+a:hover {
+  color: #0056b2;
+}
+
+.link:hover {
+  filter: invert(19%) sepia(98%) saturate(2006%) hue-rotate(198deg) brightness(98%) contrast(101%);
+}
