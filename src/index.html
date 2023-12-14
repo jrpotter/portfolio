@@ -9,7 +9,7 @@
   </head>
   <body class="bg-primary">
     <div
-      class="bg-secondary border-b-2 border-zinc-200 flex items-center gap-x-4 p-6 text-zinc-200"
+      class="bg-secondary border-b-2 border-zinc-200 flex items-center gap-4 p-6 text-zinc-200"
     >
       <header class="grow flex items-center gap-5">
         <img
@@ -31,7 +31,7 @@
       </div>
     </div>
     <main class="mx-auto p-8">
-      <section class="grid grid-cols-1 lg:grid-cols-2 gap-10 pb-12">
+      <section class="grid grid-cols-1 lg:grid-cols-2 gap-10 pb-16">
         <div class="col-span-1 lg:col-span-2">
           <h2 class="text-xl pb-2">Hosting</h2>
           <p class="text-sm grow">
@@ -137,12 +137,58 @@
         </div>
       </section>
       <section>
-        <h2 class="text-xl pb-2">Projects</h2>
-        <ul>
-          <li>Bootstrap</li>
-          <li>Anki Synonyms</li>
-          <li>Homesync</li>
-        </ul>
+        <h2 class="text-xl pb-4">Projects</h2>
+        <div class="grid grid-cols-1 gap-6">
+          <div>
+            <a
+              href="https://github.com/jrpotter/bootstrap"
+              target="_blank"
+              class="font-bold"
+              >Bootstrap</a
+            >
+            <p class="text-sm pt-2">
+              A C-based CLI for initializing projects in a flexible but
+              deterministic way. Originally motivated to serve as a better
+              alternative to
+              <a href="https://github.com/NixOS/templates" target="_blank"
+                >Nix flake templates</a
+              >, <code>bootstrap</code> allows you to provide different
+              parameters to custom initialization scripts akin to
+              <code>npm init</code>, <code>django-admin startproject</code>,
+              etc.
+            </p>
+          </div>
+          <div>
+            <a
+              href="https://github.com/jrpotter/anki-synonyms"
+              target="_blank"
+              class="font-bold"
+              >Anki Synonyms</a
+            >
+            <p class="text-sm pt-2">
+              An
+              <a href="https://apps.ankiweb.net/" target="_blank">Anki</a>
+              plugin for specifying synonyms within flashcard question and
+              answer prompts.
+            </p>
+          </div>
+          <div>
+            <a
+              href="https://github.com/jrpotter/homesync"
+              target="_blank"
+              class="font-bold"
+              >Homesync</a
+            >
+            <p class="text-sm pt-2">
+              An experimental Rust-based project for automatically syncing files
+              scross your desktop to a git repository. Allows upstream and
+              downstream syncing with a single command, without any need to copy
+              files manually to and from a git repository. Separately, a daemon
+              can be spawned that watches files for changes and pushes/pulls
+              them as they happen.
+            </p>
+          </div>
+        </div>
       </section>
     </main>
     <footer
