@@ -1,0 +1,18 @@
+menu:
+  - name: "Home"
+  - name: "Projects"
+    url: "projects.html"
+  - name: "Archive"
+    url: "archive.html"
+
+social:
+  - icon: "github"
+    link: "https://github.com/jrpotter"
+  - icon: "rss-square"
+    link: "https://blog.jrpotter.com"
+  - icon: "book"
+    link: "https://bookshelf.jrpotter.com"
+  - icon: "linkedin"
+    link: "https://www.linkedin.com/in/jrpotter2112/"
+  - icon: "hdd-o"
+    link: "https://www.zotero.org/jrpotter2112/library"

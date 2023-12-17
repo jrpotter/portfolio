@@ -81,6 +81,8 @@ PLATFORMS
 DEPENDENCIES
   jekyll (~> 4.3.2)
   jekyll-feed (~> 0.12)
+  jekyll-seo-tag (~> 2.8)
+  jekyll-sitemap (~> 1.4)
   lagrange (~> 4.0)
 
 BUNDLED WITH

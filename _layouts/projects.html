@@ -1,0 +1,22 @@
+---
+layout: default
+---
+
+{% for post in site.posts %} 
+{% if post.categories contains "project" %}
+  <div class="posts-container">
+    <h1>
+      <a href="{{ post.href }}" target="_blank">{{ post.title }}</a>
+    </h1>
+    {% if post.image %}
+      <div class="thumbnail-container">
+        <a href="{{ post.href }}" target="_blank"><img src="{{ site.github.url }}/assets/img/{{ post.image }}"></a>
+      </div>
+    {% endif %}
+    <p>
+      {{ post.content }}
+      <span class="post-date"><a href="{{ post.href }}" target="_blank">{{ post.href }}</a> - <i class="fa fa-calendar" aria-hidden="true"></i> {{ post.date | date_to_string }}</span>
+    </p>
+  </div>
+{% endif %}
+{% endfor %}
