@@ -1,11 +1,11 @@
 {
   description = ''
-    An opinionated nodejs flake.
+    An opinionated jekyll flake.
 
     To generate a copy of this template elsewhere, install
     [bootstrap](https://github.com/jrpotter/bootstrap) and run:
     ```bash
-    $ bootstrap nodejs
+    $ bootstrap jekyll
     ```
   '';
 
@@ -19,28 +19,20 @@
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
+        gems = pkgs.bundlerEnv {
+          name = "portfolio-gems";
+          gemdir = ./.;
+          ruby = pkgs.ruby_3_2;
+        };
       in
       {
         packages = {
-          app = pkgs.buildNpmPackage {
-            pname = "portfolio";
-            version = "0.1.0";
+          app = pkgs.stdenv.mkDerivation {
+            name = "portfolio";
+            buildInputs = [ gems gems.wrappedRuby ];
             src = ./.;
-            npmDepsHash = "sha256-Vx9NOJfk4sF2MMy/x0mJ0SINqWgx5oKmc8XOhi2vu6I";
-            forceEmptyCache = true;
-
-            buildPhase = "bash ${./build.sh}";
-
-            # Needed to properly invoke npm run build.
-            nativeBuildInputs = with pkgs; [
-              nodePackages.tailwindcss
-              typescript
-            ];
-
-            installPhase = ''
-              mkdir $out
-              cp -a dist/* $out
-            '';
+            version = "0.1.0";
+            installPhase = "jekyll b -d $out";
           };
 
           default = self.packages.${system}.app;
@@ -48,13 +40,11 @@
 
         devShells.default = pkgs.mkShell {
           packages = with pkgs; [
-            nodePackages.prettier
-            nodePackages.typescript-language-server
-            nodePackages.tailwindcss
-            nodejs
-            prefetch-npm-deps
-            typescript
+            bundix
+            gems
+            gems.wrappedRuby
           ];
         };
-      });
+      }
+    );
 }
