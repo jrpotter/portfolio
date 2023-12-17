@@ -6,16 +6,33 @@ layout: default
 {% if post.categories contains "project" %}
   <div class="posts-container">
     <h1>
+      {% if post.href %}
       <a href="{{ post.href }}" target="_blank">{{ post.title }}</a>
+      {% else %}
+      {{ post.title }}
+      {% endif %}
     </h1>
     {% if post.image %}
       <div class="thumbnail-container">
-        <a href="{{ post.href }}" target="_blank"><img src="{{ site.github.url }}/assets/img/{{ post.image }}"></a>
+        <a href="{{ post.href }}" target="_blank">
+          <img src="{{ site.github.url }}/assets/img/{{ post.image }}">
+        </a>
       </div>
     {% endif %}
     <p>
-      {{ post.content }}
-      <span class="post-date"><a href="{{ post.href }}" target="_blank">{{ post.href }}</a> - <i class="fa fa-calendar" aria-hidden="true"></i> {{ post.date | date_to_string }}</span>
+      <div class="post-tags">
+      {% for tag in post.tags %}
+        <div class="{{ tag }}">{{ tag }}</div>
+      {% endfor %}
+      </div>
+      <p>{{ post.content }}</p>
+      <span class="post-date">
+        {% if post.href %}
+        <a href="{{ post.href }}" target="_blank">{{ post.href }}</a> -
+        {% endif %}
+        <i class="fa fa-calendar" aria-hidden="true"></i>
+        {{ post.date | date_to_string }}
+      </span>
     </p>
   </div>
 {% endif %}

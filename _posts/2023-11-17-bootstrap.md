@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Boostrap
+title: Bootstrap
 categories: project
 tags: [c, nix]
 href: "https://github.com/jrpotter/bootstrap"

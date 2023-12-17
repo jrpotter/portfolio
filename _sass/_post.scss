@@ -7,13 +7,25 @@
   }
 }
 
+.post-tags {
+  display: flex;
+  gap: 8px;
+
+  div {
+    background: #e0e0e0;
+    border-radius: 999px;
+    padding: 2px 8px;
+    font-size: 16px;
+  }
+}
+
 .post-date {
   display: block;
-  margin-top:3px;
+  margin-top: 3px;
   margin-bottom: 1rem;
   color: $light-gray-color;
   font-family: $sans-serif-font-family;
-  font-size:0.8rem;
+  font-size: 0.8rem;
 }
 
 @media (max-width: $elements-responsive-width) {

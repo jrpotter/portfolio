@@ -3,7 +3,11 @@ layout: default
 ---
 
 <h1>
+  {% if page.href %}
   <a href="{{ page.href }}" target="_blank">{{ page.title }}</a>
+  {% else %}
+  {{ page.title }}
+  {% endif %}
 </h1>
 {% if page.image %}
   <div class="page-image-container">

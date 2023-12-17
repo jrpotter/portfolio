@@ -1,0 +1,12 @@
+---
+layout: post
+title: Highlight Plugin
+categories: project
+tags: [vim, vimscript]
+href: "https://github.com/jrpotter/vim-highlight"
+---
+
+A small Vim plugin that maintains a custom registry for manipulating highlights.
+This registry allows highlighting different keywords without overriding previous
+seaarches. Includes a small snippet for including the active highlight from
+within the statusline.
