@@ -1,0 +1,30 @@
+---
+layout: default
+---
+
+<p class="home-description">
+  The following websites are served from <a href="https://nixos.org/" target="_blank">NixOS</a>
+  machines hosted on <a href="https://www.digitalocean.com/" target="_blank">Digital Ocean</a>.
+  Configuration files for each of my machines can be found <a href="https://github.com/jrpotter/nixos-configuration" target="_blank">here</a>.
+  If interested in starting a similar hosting solution, consider getting a $200
+  credit using my <a href="https://m.do.co/c/c65b89434c1b" target="_blank">referral link</a>.
+</p>
+
+{% for post in site.posts %} 
+{% if post.categories contains "home" %}
+  <div class="posts-container">
+    <h1>
+      <a href="{{ post.href }}" target="_blank">{{ post.title }}</a>
+    </h1>
+    {% if post.image %}
+      <div class="thumbnail-container">
+        <a href="{{ post.href }}" target="_blank"><img src="{{ site.github.url }}/assets/img/{{ post.image }}"></a>
+      </div>
+    {% endif %}
+    <p>
+      {{ post.content }}
+      <span class="post-date"><i class="fa fa-calendar" aria-hidden="true"></i> {{ post.date | date_to_string }}</span>
+    </p>
+  </div>
+{% endif %}
+{% endfor %}

@@ -1,0 +1,8 @@
+menu:
+  - name: "Home"
+  - name: "About"
+    url: "about.html"
+
+social:
+  - icon: "github"
+    link: "https://github.com/jrpotter"
