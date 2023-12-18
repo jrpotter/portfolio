@@ -4,6 +4,7 @@ title: Bookshelf Doc Generator
 categories: project
 tags: [lean]
 href: "https://github.com/jrpotter/bookshelf-doc"
+image: lean.svg
 ---
 
 A fork of [doc-gen4](https://github.com/leanprover/doc-gen4){:target="_blank"}

@@ -2,6 +2,8 @@ menu:
   - name: "Home"
   - name: "Projects"
     url: "projects.html"
+  - name: "Other"
+    url: "other.html"
   - name: "Archive"
     url: "archive.html"
 

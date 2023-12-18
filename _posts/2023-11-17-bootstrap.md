@@ -4,6 +4,7 @@ title: Bootstrap
 categories: project
 tags: [c, nix]
 href: "https://github.com/jrpotter/bootstrap"
+image: shoelaces.jpg
 ---
 
 A C-based CLI for initializing projects in a flexible but deterministic way.
