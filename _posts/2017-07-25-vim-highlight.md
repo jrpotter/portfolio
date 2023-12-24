@@ -2,8 +2,8 @@
 layout: post
 title: Highlight Plugin
 categories: project
-tags: [vim, vimscript]
-href: "https://github.com/jrpotter/vim-highlight"
+tags: [vim]
+href: "https://git.jrpotter.com/r/vim-highlight"
 image: vim.png
 ---
 

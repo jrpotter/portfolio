@@ -2,7 +2,7 @@
 layout: post
 title: Bookshelf
 categories: home
-tags: [lean, latex, nix]
+tags: [latex, lean, nix]
 href: "https://bookshelf.jrpotter.com"
 image: lean.svg
 ---

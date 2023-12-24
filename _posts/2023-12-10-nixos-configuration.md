@@ -2,8 +2,8 @@
 layout: post
 title: NixOS Configuration
 categories: project
-tags: [nix]
-href: "https://github.com/jrpotter/nixos-configuration"
+tags: [lua, nix]
+href: "https://git.jrpotter.com/r/nixos-configuration"
 image: nix.png
 ---
 

@@ -3,7 +3,7 @@ layout: post
 title: Bootstrap
 categories: project
 tags: [c, nix]
-href: "https://github.com/jrpotter/bootstrap"
+href: "https://git.jrpotter.com/r/bootstrap"
 image: shoelaces.jpg
 ---
 

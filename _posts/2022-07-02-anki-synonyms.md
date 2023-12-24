@@ -2,8 +2,8 @@
 layout: post
 title: Anki Synonyms
 categories: project
-tags: [python, anki]
-href: "https://github.com/jrpotter/anki-synonyms"
+tags: [anki, python]
+href: "https://git.jrpotter.com/r/anki-synonyms"
 image: anki.png
 ---
 
