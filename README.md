@@ -1,9 +1,9 @@
 # Jekyll Flake Template
 
 This is a template for bootstrapping a [Jekyll](https://jekyllrb.com/)-based
-project (version 4.3.2) with the [minima](https://github.com/jekyll/minima)
-theme (version 2.5.1). [direnv](https://direnv.net/) can be used to launch a
-dev shell upon entering this directory (refer to `.envrc`). Otherwise run via:
+project (version 4.3.2) with the [lagrange](https://github.com/LeNPaul/Lagrange)
+theme (version 4.0). [direnv](https://direnv.net/) can be used to launch a dev
+shell upon entering this directory (refer to `.envrc`). Otherwise run via:
 ```bash
 $ nix develop
 ```

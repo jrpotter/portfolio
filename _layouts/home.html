@@ -10,8 +10,7 @@ layout: default
   credit using my <a href="https://m.do.co/c/c65b89434c1b" target="_blank">referral link</a>.
 </p>
 
-{% for post in site.posts %} 
-{% if post.categories contains "home" %}
+{% for post in paginator.posts %}
   <div class="posts-container">
     <h1>
       <a href="{{ post.href }}" target="_blank">{{ post.title }}</a>
@@ -39,5 +38,6 @@ layout: default
       </span>
     </p>
   </div>
-{% endif %}
 {% endfor %}
+
+{% include post-paginator.html %}

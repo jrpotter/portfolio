@@ -23,12 +23,20 @@ description: My portfolio
 author: Joshua Potter
 github_username:  jrpotter
 
-# Build settings
 theme: lagrange
 plugins:
   - jekyll-feed
+  - jekyll-paginate-v2
   - jekyll-seo-tag
   - jekyll-sitemap
+
+pagination:
+  enabled: true
+  per_page: 10
+  permalink: '/page/:num/'
+  limit: 0
+  sort_field: 'date'
+  sort_reverse: true
 
 markdown: kramdown
 highlighter: route

@@ -2,8 +2,7 @@
 layout: default
 ---
 
-{% for post in site.posts %} 
-{% if post.categories contains "project" %}
+{% for post in paginator.posts %} 
   <div class="posts-container">
     <h1>
       {% if post.href %}
@@ -35,5 +34,6 @@ layout: default
       </span>
     </p>
   </div>
-{% endif %}
 {% endfor %}
+
+{% include post-paginator.html %}
