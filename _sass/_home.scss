@@ -10,3 +10,24 @@
     max-height: 220px;
   }
 }
+
+ul.pagination {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+  padding: 0;
+  margin-bottom: 0;
+  justify-content: center;
+
+  li.disabled {
+    opacity: 0.5;
+
+    .page-link i {
+      cursor: not-allowed;
+    }
+  }
+
+  .page-link i {
+    font-size: 1.75rem;
+  }
+}
