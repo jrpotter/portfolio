@@ -7,7 +7,7 @@ href: "https://gusvieweg.bandcamp.com/track/were-the-crew"
 image: smash-rap.jpg
 ---
 
-A Smash Bros. Ultimate rap made in collaboration with my
-friend [Gus](https://www.gusvieweg.com/){:target="_blank"} and fiancée Brittany.
+A Smash Bros. Ultimate rap made in collaboration with my friend
+[Gus](https://www.gusvieweg.com/) and fiancée Brittany.
 
 

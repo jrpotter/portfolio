@@ -7,6 +7,6 @@ href: "https://git.jrpotter.com/r/nixos-configuration"
 image: nix.png
 ---
 
-The [nix](https://nixos.org){:target="_blank"} configuration files used to
-declaratively describe my local and remote machines. The site you are on now is
-declared within this project!
+The [nix](https://nixos.org) configuration files used to declaratively describe
+my local and remote machines. The site you are on now is declared within this
+project!

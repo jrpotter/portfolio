@@ -4,14 +4,14 @@ layout: default
 
 <h1>
   {% if page.href %}
-  <a href="{{ page.href }}" target="_blank">{{ page.title }}</a>
+  <a href="{{ page.href }}">{{ page.title }}</a>
   {% else %}
   {{ page.title }}
   {% endif %}
 </h1>
 {% if page.image %}
   <div class="page-image-container">
-    <a href="{{ page.href }}" target="_blank">
+    <a href="{{ page.href }}">
       <img src="{{ site.github.url }}/assets/img/{{ page.image }}">
     </a>
   </div>

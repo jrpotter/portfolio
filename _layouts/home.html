@@ -4,22 +4,22 @@ layout: default
 
 {% if paginator.page_path contains "index" %}
 <p class="home-description">
-  Most applications listed below are served from <a href="https://nixos.org/" target="_blank">NixOS</a>
-  machines hosted on <a href="https://www.digitalocean.com/" target="_blank">Digital Ocean</a>.
-  Configuration files for each of my machines can be found <a href="https://git.jrpotter.com/r/nixos-configuration" target="_blank">here</a>.
+  Most applications listed below are served from <a href="https://nixos.org/">NixOS</a>
+  machines hosted on <a href="https://www.digitalocean.com/">Digital Ocean</a>.
+  Configuration files for each of my machines can be found <a href="https://git.jrpotter.com/r/nixos-configuration">here</a>.
   If interested in starting a similar hosting solution, consider getting a $200
-  credit using my <a href="https://m.do.co/c/c65b89434c1b" target="_blank">referral link</a>.
+  credit using my <a href="https://m.do.co/c/c65b89434c1b">referral link</a>.
 </p>
 {% endif %}
 
 {% for post in paginator.posts %}
   <div class="posts-container">
     <h1>
-      <a href="{{ post.href }}" target="_blank">{{ post.title }}</a>
+      <a href="{{ post.href }}">{{ post.title }}</a>
     </h1>
     {% if post.image %}
       <div class="thumbnail-container">
-        <a href="{{ post.href }}" target="_blank">
+        <a href="{{ post.href }}">
           <img src="{{ site.github.url }}/assets/img/{{ post.image }}">
         </a>
       </div>
@@ -33,7 +33,7 @@ layout: default
       <p>{{ post.content }}</p>
       <span class="post-date">
         {% if post.href %}
-        <a href="{{ post.href }}" target="_blank">{{ post.href }}</a> -
+        <a href="{{ post.href }}">{{ post.href }}</a> -
         {% endif %}
         <i class="fa fa-calendar" aria-hidden="true"></i>
         {{ post.date | date_to_string }}
