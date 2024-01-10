@@ -32,7 +32,7 @@
             buildInputs = [ gems gems.wrappedRuby ];
             src = ./.;
             version = "0.1.0";
-            installPhase = "jekyll b -d $out";
+            installPhase = "JEKYLL_ENV=production jekyll b -d $out";
           };
 
           default = self.packages.${system}.app;
